@@ -18,7 +18,8 @@ namespace LingoBingoGenerator
 
             string[] emcommLingo = { "Wavelength", "Dipole", "Vertical", "Frequency", "FM", "ARES", "RACES", "Beacon",
                                     "Repeater", "Simplex", "ACS", "Exercise", "ICS", "Forms", "J-Pole", "Agency Served",
-                                    "Tactical", "Call Sign", "Identify", "Pro Words", "I Spell", "Mixed Group", "EMCOMM", "Activation"};
+                                    "Tactical", "Call Sign", "Identify", "Pro Words", "I Spell", "Mixed Group", "EMCOMM", "Activation",
+                                    "Operational Period", "ICP", "Field Agent", "Oregon ACES"};
 
             string[] lingoArray = emcommLingo;
             List<string> lingoList = new List<string> ();
@@ -33,7 +34,7 @@ namespace LingoBingoGenerator
             BingoBoard alpha = new BingoBoard(lingoArray);
             
             // send the array to a static function that will "draw" the board
-            Console.WriteLine(alpha.GetBoard());
+            Console.WriteLine(alpha.MakeBoard());
             
             // Pause output before exiting program
             _ = Console.ReadLine();

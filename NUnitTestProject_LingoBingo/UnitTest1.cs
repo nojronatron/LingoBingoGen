@@ -51,7 +51,7 @@ namespace LingoBingoTests
             Assert.Fail();
         }
         [Test]
-        public void Test_GetBoard()
+        public void Test_MakeBoard()
         {
             Assert.Fail();
         }
