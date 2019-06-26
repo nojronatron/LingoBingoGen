@@ -21,10 +21,10 @@ When the user selects Publish, the output is shown/printed.
 After Publishing the user is presented with options to save the list, make a new list, or exit the program.
 
 Development Expectations:
-Code will be written within the bounds of my experience, knowledge, and current training topic(s).
-All code will be of my own creation, barring publicly available examples or common methodoloies.
-Ripping code from other projects or sources does not conform with the spirit of this project (learning and growing dev skills).
-Methods, components, etc will be built one-by-one, refactored, removed, etc, as part of the learning processes.
+Code will be written within the bounds of my experience, knowledge, and gleaned from my current training topics.
+All code will be of my own creation, barring publicly available examples or common coding methodologies.
+Ripping code from other projects or sources does not conform with the spirit of this project; learning and growing dev skills does.
+Methods, components, etc will be built one-by-one, refactored, removed, etc, as part of the learning process.
 Solution will be coded per my current skill level.
 Code will be updated, refactored, and so-on as I have time and inspiration to do so.
 
