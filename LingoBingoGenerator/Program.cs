@@ -28,10 +28,10 @@ namespace LingoBingoGenerator
                 "Agenda", "Exercise", "RACES", "Meeting", "Frequency/ies",
                 "Lead", "Committee", "Drill", "Presentation", "Training",
                 "Event(s)", "Calendar", "Repeater", "Antenna", "Field Day",
-                "Plan", "Messages", "Feedback", "Report", "ICS",
-                "Organization", "Message", "Formal", "Form", "Net",
-                "WinLink", "Kenmore", "Lake Forest Park", "LFP", "NUD",
-                "FS51", "Fire Station", "District", "Utility", "Credential",
+                "Plan", "Message(s)", "Feedback", "Report", "ICS",
+                "Organization", "Formal", "Form", "Net",
+                "WinLink", "Kenmore", "Lake Forest Park", "NUD",
+                "FS51", "District", "Utility", "Credential",
                 "NEMCo"
             };
 
@@ -39,16 +39,16 @@ namespace LingoBingoGenerator
             BingoBoard alpha = new BingoBoard(nemcoLeadershipLingo);
 
             // set the Console Window size
-            int windowX = alpha.GetHorizontalFrameLength();
+            int windowX = alpha.HorizontalFrameLength;
             Console.SetWindowSize(windowX + 1, 26); // might as well set WindowSize
 
             try
             {
                 // Ask user for number of boards to generate
-                Console.WriteLine($"Enter the number of boards you want to create (up to {(int)alpha.Phrases.Length}): ");
+                Console.WriteLine($"Enter the number of boards you want to create (up to {(int)alpha.PhraseCount}): ");
                 int numBoards = int.Parse(Console.ReadLine());
                 if (numBoards < 1) { numBoards = 1; }
-                if (numBoards > (int)alpha.Phrases.Length) { numBoards = (int)alpha.Phrases.Length; }
+                if (numBoards > (int)alpha.PhraseCount) { numBoards = (int)alpha.PhraseCount; }
                 Console.Clear();
 
                 // send the array to a static function that will "draw" the board

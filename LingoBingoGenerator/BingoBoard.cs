@@ -9,8 +9,10 @@ namespace LingoBingoGenerator
         // Fields
         private string _longestWord;  // longword.Length() can NO LONGER be discovered by the caller must use LongestWordLen
         private const int boardHeight = 21; // one-space buffer rows above and below each word in each box plus 6 horiz seperator lines
-        private int _longestWordLen;
         private int _arraySize;
+        private int[] rowsWithAllDashes = { 1, 5, 9, 13, 17, 21 }; // rows with all horizontal dashes
+        private int[] rowsWithOnlyBars = { 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 }; // rows with vertical bars
+        private int[] rowsWithWordsAndBars = { 3, 7, 11, 15, 19 }; // rows with words but not dashes
         // Constructors
         public BingoBoard() { }
         public BingoBoard(string[] stringArray)
@@ -25,26 +27,19 @@ namespace LingoBingoGenerator
                     _longestWord = word;
                 }
             }
-            _longestWordLen = _longestWord.Length;
+            LongestWordLen = _longestWord.Length;
             _arraySize = stringArray.Count();
         }
         // Properties
-        public int Seed { get; set; }
-        public string[] Phrases { get; set; }
-        public string[] RandomizedPhrases { get; set; }
-        public string[] FreeSpacedRandPhrases { get; set; }
-        public string LongestWord { get { return this._longestWord; } }
-        public int LongestWordLen { get { return this._longestWordLen; } }
+        private string[] Phrases { get; set; } // TODO: Store as a Generic List<T>
+        public int PhraseCount { get { return Phrases.Length; } } // for the caller
+        private string[] RandomizedPhrases { get; set; } // TODO: Store as a Generic List<T>
+        private string[] FreeSpacedRandPhrases { get; set; } // TODO: Store as a Generic List<T>
+        private int LongestWordLen { get; set; }
+        public int TileWidth { get { return (LongestWordLen + 2); } }
+        public int HorizontalFrameLength { get { return (TileWidth * 5) + 6; } } // for the caller and needed internally
         // Methods
-        public int GetTileWidth()
-        {
-            return (LongestWordLen + 2); // longest word length plus a 1-space buffer on either side of each word
-        }
-        public int GetHorizontalFrameLength()
-        {
-            return (GetTileWidth() * 5) + 6; // five word boxes in each row plus 6 vertical seperators between word boxes
-        }
-        public string[] SetFreeSpace()
+        private string[] SetFreeSpace()
         {
             List<string> result = new List<string>();
             int wordNum = 1;
@@ -66,37 +61,32 @@ namespace LingoBingoGenerator
             RandomizedPhrases = (string[])Randomizer(Lingo.ToArray()); // force the array into a Type string[]
             FreeSpacedRandPhrases = SetFreeSpace(); // insert the FREE space in the middle of the board
             string board = "";
-            string lingoWord; // NOTE: Unassigned until rowsWithWordsAndBars containment comparison is done
+            string lingoWord;
             int lingoIndex = 0; // manage indexing through the array of lingo terms
-            int[] rowsWithAllDashes = { 1, 5, 9, 13, 17, 21 }; // rows with all horizontal dashes
-            int[] rowsWithOnlyBars = { 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 }; // rows with vertical bars
-            int[] rowsWithWordsAndBars = { 3, 7, 11, 15, 19 }; // rows with words but not dashes
-            int maxWordLenBuf = (1 + GetTileWidth());
+            int maxWordLenBuf = (1 + TileWidth);
             int[] barPositions = { 1, (maxWordLenBuf +1), ((maxWordLenBuf * 2)+1),
                 ((maxWordLenBuf * 3)+1), ((maxWordLenBuf * 4)+1), ((maxWordLenBuf * 5)+1)};
-            int numCols = GetHorizontalFrameLength(); // total cols to cycle thru for each row
             for (int row = 1; row <= boardHeight; row++) // rows
             {
-                for (int col = 1; col <= numCols; col++) // cols
+                for (int col = 1; col <= HorizontalFrameLength; col++) // cols
                 {
-                    if ((col) == numCols)
+                    if ((col) == HorizontalFrameLength)
                     {
                         board += "|"; // draw a bar on the last col and force next row to start
-                        col = numCols + 1;
+                        col = HorizontalFrameLength + 1;
                     }
                     else if (rowsWithAllDashes.Contains(row))
                     { // if the row is all dashes just draw them and move to the next row
-                        for (int i = 1; i <= numCols; i++)
+                        for (int i = 1; i <= HorizontalFrameLength; i++)
                         {
                             board += "-";
                         }
-                        col += numCols;
+                        col += HorizontalFrameLength;
                     }
                     else if (rowsWithOnlyBars.Contains(row))
                     {
                         if (barPositions.Contains(col)) { board += "|"; }
                         else { board += " "; }
-                        // col++; //this DOES NOT FIX the offset issue
                     }
                     else if (rowsWithWordsAndBars.Contains(row))
                     { // maxWordLenWithBuffer added... MINUS the current word length to fill tile space
@@ -114,7 +104,7 @@ namespace LingoBingoGenerator
             }
             return board;
         }
-        public Array Randomizer(Array lingo)
+        private Array Randomizer(Array lingo)
         {   // DONE: rewrite this to allow it to randomly stuff all Lingo words (at least 24) into a new String[] 
             Random rand = new Random(); // see: https://docs.microsoft.com/en-us/dotnet/api/system.random?view=netframework-4.8
             int[] order = new int[_arraySize];
