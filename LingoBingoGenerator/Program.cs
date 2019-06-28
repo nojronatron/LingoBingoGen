@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic; //TODO: Use Generic Collections rather than simple Arrays
-
 
 namespace LingoBingoGenerator
 {
