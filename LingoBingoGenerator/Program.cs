@@ -5,13 +5,13 @@ namespace LingoBingoGenerator
     class Program
     {
         static void Main(string[] args)
-        {
-            // minimum 24 items
+        { // minimum 24 items (enforced in BingoBoard object)
             string[] csharpLingo = {
                 "method", "inheritance", "class", "object", "instance", "property", "field", "constructor",
                 "dot net", "array", "main", "curly brace", "string", "boolean", "semicolon", "parse",
                 "try catch", "partial", "return", "call", "override", "keyword", "get or set", "static",
-                "interface", "base", "virtual", "object", "abstract", "tryparse"
+                "interface", "base", "virtual", "object", "abstract", "tryparse", "encapsulation", "ADO.NET",
+                "Entity Framework"
             };
 
             string[] emcommLingo = {
@@ -21,9 +21,9 @@ namespace LingoBingoGenerator
                 "Activation", "Operational Period", "ICP", "Field Agent", "Oregon ACES"
             };
 
-            string[] nemcoLeadershipLingo = {
+            string[] nemcoLingo = {
                 "Traffic", "Data", "Participate", "Agency Served",
-                "Agenda", "Exercise", "RACES", "Meeting", "Frequency/ies",
+                "Agenda", "Exercise", "RACES", "Meeting", "Frequency",
                 "Lead", "Committee", "Drill", "Presentation", "Training",
                 "Event(s)", "Calendar", "Repeater", "Antenna", "Field Day",
                 "Plan", "Message(s)", "Feedback", "Report", "ICS",
@@ -34,12 +34,15 @@ namespace LingoBingoGenerator
             };
 
             // Instantiate BingoBoard using an Array of lingo
-            BingoBoard alpha = new BingoBoard(nemcoLeadershipLingo);
+            BingoBoard alpha = new BingoBoard(emcommLingo);
 
             // set the Console Window size
             int windowX = alpha.HorizontalFrameLength;
             Console.SetWindowSize(windowX + 1, 26); // might as well set WindowSize
 
+            Console.WriteLine($"Longest Word: {alpha.LongestWord}\n" + 
+                          $"Total Phrases: {alpha.PhraseCount}\n" + 
+                          $"Horizontal Frame Width: {alpha.HorizontalFrameLength}");
             try
             {
                 // Ask user for number of boards to generate
@@ -54,7 +57,7 @@ namespace LingoBingoGenerator
                 {
                     Console.BackgroundColor = ConsoleColor.White;
                     Console.ForegroundColor = ConsoleColor.Black;
-                    Console.WriteLine(alpha.MakeBoard());
+                    Console.WriteLine(alpha.MakeGuiBoard());
                     Console.ResetColor();
                     Console.Write("Press <Enter> key to continue. . .");
                     _ = Console.ReadLine();
