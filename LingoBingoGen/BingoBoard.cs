@@ -2,43 +2,58 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LingoBingoGenerator
+namespace LingoBingoGen
 {
-    public class BingoBoard
+    class BingoBoard
     {
         // Fields
-        private string _longestWord;  // longword.Length() can NO LONGER be discovered by the caller must use LongestWordLen
-        private const int boardHeight = 21; // one-space buffer rows above and below each word in each box plus 6 horiz seperator lines
+        private string[] _phrases;
+        private string _longestWord;  // longword.Length() can be discovered by the caller
+        private const int _boardHeight = 21; // one-space buffer rows above and below each word in each box plus 6 horiz seperator lines
         private int _longestWordLen;
-        private int _arraySize;
         // Constructors
         public BingoBoard() { }
         public BingoBoard(string[] stringArray)
         {
-            Phrases = stringArray;
-            int longWrdLen = stringArray[0].Length;
-            foreach (string word in Phrases)
-            {
-                if (word.Length > longWrdLen)
-                {
-                    longWrdLen = word.Length;
-                    _longestWord = word;
-                }
-            }
-            _longestWordLen = _longestWord.Length;
-            _arraySize = stringArray.Count();
+            _phrases = stringArray;
         }
         // Properties
-        public int Seed { get; set; }
-        public string[] Phrases { get; set; }
-        public string[] RandomizedPhrases { get; set; }
-        public string[] FreeSpacedRandPhrases { get; set; }
-        public string LongestWord { get { return this._longestWord; } }
-        public int LongestWordLen { get { return this._longestWordLen; } }
+        public string[] Phrases
+        {
+            get { return _phrases; }
+            set { _phrases = value; }
+        }
+        public string LongestWord
+        {
+            get
+            {
+                int longLen = 0;
+                foreach (string word in Phrases)
+                {
+                    if (word.Length > longLen)
+                    {
+                        _longestWord = word; // just set the Field
+                        longLen = word.Length;
+                    }
+                }
+                _longestWordLen = _longestWord.Length;
+                return _longestWord;
+            }
+            set
+            {
+                foreach (string word in Phrases)
+                {
+                    if (word.Length > _longestWord.Length)
+                    {
+                        _longestWord = word;
+                    }
+                };
+            }
+        }
         // Methods
         public int GetTileWidth()
         {
-            return (LongestWordLen + 2); // longest word length plus a 1-space buffer on either side of each word
+            return LongestWord.Length + 2; // longest word length plus a 1-space buffer on either side of each word
         }
         public int GetHorizontalFrameLength()
         {
@@ -46,9 +61,10 @@ namespace LingoBingoGenerator
         }
         public string[] SetFreeSpace()
         {
+            // string[] result = { };
             List<string> result = new List<string>();
             int wordNum = 1;
-            foreach (string word in RandomizedPhrases)
+            foreach (string word in _phrases)
             {
                 if (wordNum == 13)
                 {
@@ -60,11 +76,12 @@ namespace LingoBingoGenerator
             }
             return result.ToArray();
         }
-        public string MakeBoard()
-        { // draws a board
+        public string GetBoard()
+        { // method() draws a board
             List<string> Lingo = new List<string>(Phrases);
-            RandomizedPhrases = (string[])Randomizer(Lingo.ToArray()); // force the array into a Type string[]
-            FreeSpacedRandPhrases = SetFreeSpace(); // insert the FREE space in the middle of the board
+            Phrases = (string[])Randomizer(Lingo.ToArray()); // force the array into a Type string[]
+            // TODO: Instead of storing this in _phrases use algo in here ( GetBoard() ) to JIT insert it in the correct spot
+            Phrases = SetFreeSpace(); // insert the FREE space in the middle of the board
             string board = "";
             string lingoWord; // NOTE: Unassigned until rowsWithWordsAndBars containment comparison is done
             int lingoIndex = 0; // manage indexing through the array of lingo terms
@@ -75,9 +92,11 @@ namespace LingoBingoGenerator
             int[] barPositions = { 1, (maxWordLenBuf +1), ((maxWordLenBuf * 2)+1),
                 ((maxWordLenBuf * 3)+1), ((maxWordLenBuf * 4)+1), ((maxWordLenBuf * 5)+1)};
             int numCols = GetHorizontalFrameLength(); // total cols to cycle thru for each row
-            for (int row = 1; row <= boardHeight; row++) // rows
+            // rows
+            for (int row = 1; row <= _boardHeight; row++)
             {
-                for (int col = 1; col <= numCols; col++) // cols
+                // cols
+                for (int col = 1; col <= numCols; col++)
                 {
                     if ((col) == numCols)
                     {
@@ -102,7 +121,7 @@ namespace LingoBingoGenerator
                     { // maxWordLenWithBuffer added... MINUS the current word length to fill tile space
                         if (barPositions.Contains(col) && lingoIndex < 25) // only 0-24 allowed on the board
                         {
-                            lingoWord = FreeSpacedRandPhrases[lingoIndex]; 
+                            lingoWord = Phrases[lingoIndex]; // TODO: after testing refactor this to be: board+=Phrases[lingoIndex]
                             board += $"| {lingoWord} ";
                             col += (lingoWord.Length + 2);
                             lingoIndex++;
@@ -115,12 +134,12 @@ namespace LingoBingoGenerator
             return board;
         }
         public Array Randomizer(Array lingo)
-        {   // DONE: rewrite this to allow it to randomly stuff all Lingo words (at least 24) into a new String[] 
+        {
             Random rand = new Random(); // see: https://docs.microsoft.com/en-us/dotnet/api/system.random?view=netframework-4.8
-            int[] order = new int[_arraySize];
-            for (int counter = 0; counter < _arraySize; counter++)
+            double[] order = new double[24];
+            for (int counter = 0; counter < 24; counter++)
             {
-                order[counter] = rand.Next();
+                order[counter] = rand.NextDouble();
             }
             Array.Sort(order, lingo);
             return lingo;
