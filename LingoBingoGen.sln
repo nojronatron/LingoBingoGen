@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29123.88
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LingoBingoGen", "LingoBingoGen\LingoBingoGen.csproj", "{5658B0CE-C003-4891-9550-F0154A341E23}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5658B0CE-C003-4891-9550-F0154A341E23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5658B0CE-C003-4891-9550-F0154A341E23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5658B0CE-C003-4891-9550-F0154A341E23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5658B0CE-C003-4891-9550-F0154A341E23}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F57CC7B2-D005-4DF4-8B6E-C4C9964584B5}
+	EndGlobalSection
+EndGlobal
