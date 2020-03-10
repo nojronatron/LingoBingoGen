@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{58E526A4-BC51-4433-9EAC-4E4BEB8243C0}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>BingoBoardAppUI</RootNamespace>
+    <AssemblyName>BingoBoardAppUI</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BoxOfDaubers\Outline.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LingoBingoGen\LingoBingoGen.csproj">
+      <Project>{5658b0ce-c003-4891-9550-f0154a341e23}</Project>
+      <Name>LingoBingoGen</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BoxOfDaubers\Blue Dauber.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BoxOfDaubers\Blue2 Dauber.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BoxOfDaubers\Brown Dauber.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BoxOfDaubers\Gold Dauber.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BoxOfDaubers\Green Dauber.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BoxOfDaubers\Grey Dauber.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BoxOfDaubers\Lavender Dauber.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BoxOfDaubers\Lime Dauber.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BoxOfDaubers\Orange Dauber.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BoxOfDaubers\Outline Grey.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BoxOfDaubers\Red Dauber.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BoxOfDaubers\Turquoise Dauber.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BoxOfDaubers\Violet Dauber.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BoxOfDaubers\Yellow Dauber.bmp" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

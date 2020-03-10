@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace LingoBingoGen
 {
-    class BingoBoard
+    public class BingoBoard
     {
         // Fields
         private string[] _phrases;

@@ -6,8 +6,9 @@ using System.Xml.Linq;
 
 namespace LingoBingoGen
 {
-    public class LingoDbInitializer : DropCreateDatabaseAlways<LingoContext>
-                                   // DropCreateDatabaseIfModelChanges<LingoContext>
+    public class LingoDbInitializer : DropCreateDatabaseIfModelChanges<LingoContext>
+    //  DropCreateDatabaseAlways<LingoContext>
+    //  DropCreateDatabaseIfModelChanges<LingoContext>
     {
         public override void InitializeDatabase(LingoContext context)
         {   // from https://stackoverflow.com/questions/7004701/cannot-drop-database-because-it-is-currently-in-use-how-to-fix
