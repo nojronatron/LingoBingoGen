@@ -14,55 +14,124 @@ namespace LingoBingoGenerator
         //  basic capabilities: accept list; randomize list; return properties of the list of phrases
 
         private List<string> _lingoWords = null;
+
         public LingoGenerator() { }
-        private string LongestWord { get; set; }
+
+        private string LongestWord { get; set; } = string.Empty;
         private int LongestWordLen { get; set; } = 0;
-        public void LingoWords(List<string> phrases)
+        public int Count
         {
-            //  takes input List<string> of phrases and stores them in this object instance
-            this._lingoWords = new List<string>(phrases);
-        }
-        public void LingoWords(string[] phrases)
-        {
-            //  overload for string[] array type input
-            this._lingoWords = new List<string>(phrases);
-        }
-        public string GetLongestWord()
-        {
-            if (_lingoWords.Capacity < 24)
+            get
             {
-                return string.Empty;
-            }
-            int longLen = 0;
-            string longestWord = string.Empty;
-            foreach (string word in _lingoWords)
-            {
-                if (word.Length > longLen)
+                if (_lingoWords != null)
                 {
-                    LongestWord = longestWord;
-                    longLen = word.Length;
+                    return _lingoWords.Count();
+                }
+                else
+                {
+                    return 0;
                 }
             }
-            this.LongestWordLen = longestWord.Length;
-            this.LongestWord = longestWord;
-            return this.LongestWord;
         }
+
+        public bool HasWords()
+        {
+            return (this.Count >= 1);
+        }
+
+        public bool SetLingoWords(List<string> wordList)
+        {
+            //  takes input List<string> of phrases and stores them in this object instance
+            if (wordList != null)
+            {
+                this._lingoWords = new List<string>(wordList);
+                if (_lingoWords.Capacity >= 24)
+                {
+                    int longLen = 0;
+                    string longestWord = string.Empty;
+                    //  sets the first occurance of a word with the longest length
+                    foreach (string word in _lingoWords)
+                    {
+                        if (word.Length > longLen)
+                        {
+                            longestWord = word;
+                            longLen = word.Length;
+                        }
+                    }
+                    this.LongestWordLen = longestWord.Length;
+                    this.LongestWord = longestWord;
+                }
+                return true;
+            }
+            return false;
+        }
+
+        public bool SetLingoWords(string[] wordList)
+        {
+            //  overload for string[] array type input
+            if (wordList != null)
+            {
+                this._lingoWords = new List<string>(wordList);
+                if (_lingoWords.Capacity >= 24)
+                {
+                    int longLen = 0;
+                    string longestWord = string.Empty;
+                    //  sets the first occurance of a word with the longest length
+                    foreach (string word in _lingoWords)
+                    {
+                        if (word.Length > longLen)
+                        {
+                            longestWord = word;
+                            longLen = word.Length;
+                        }
+                    }
+                    this.LongestWordLen = longestWord.Length;
+                    this.LongestWord = longestWord;
+                }
+                return true;
+            }
+            return false;
+        }
+
+        public List<string> GetLingoWords()
+        {
+            if (this.HasWords())
+            {
+                return this._lingoWords;
+            }
+            return null;
+        }
+        
+        public string GetLongestWord()
+        {
+            if (this.HasWords())
+            {
+                return this.LongestWord;
+            }
+            return string.Empty;
+        }
+        
         public int GetLongestWordLen()
         {
             return this.LongestWordLen;
         }
+
         public List<string> GetRandomizedList()
         {
             //  uses field this._phrases as input, returns _phrases as reordered List<string>
-            string[] arrResult = _lingoWords.ToArray();
-            Random rand = new Random(); // see: https://docs.microsoft.com/en-us/dotnet/api/system.random?view=netframework-4.8
-            double[] order = new double[24];
-            for (int counter = 0; counter < 24; counter++)
+            if (this.HasWords())
             {
-                order[counter] = rand.NextDouble();
+                string[] arrResult = _lingoWords.ToArray();
+                Random rand = new Random(); // see: https://docs.microsoft.com/en-us/dotnet/api/system.random?view=netframework-4.8
+                double[] order = new double[24];
+                for (int counter = 0; counter < 24; counter++)
+                {
+                    order[counter] = rand.NextDouble();
+                }
+                Array.Sort(order, arrResult);
+                return new List<string>(arrResult);
             }
-            Array.Sort(order, arrResult);
-            return new List<string>(arrResult);
+            return new List<string>(0);
         }
     }
 }

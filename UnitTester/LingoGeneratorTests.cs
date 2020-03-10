@@ -26,7 +26,6 @@ namespace LingoBingoGenerator.Tests
         };
 
 
-
         [TestMethod()]
         public void Test_LingoGenerator()
         {
@@ -36,33 +35,94 @@ namespace LingoBingoGenerator.Tests
         }
 
         [TestMethod()]
-        public void Test_LingoWords()
+        public void Test_Count_Null()
         {
-            Assert.Fail();
+            LingoGenerator lg = new LingoGenerator();
+            int expectedResult = 0;
+            int actualResult = lg.Count;
+            Assert.AreEqual(expectedResult, actualResult);
         }
 
         [TestMethod()]
-        public void Test_LingoWords1()
+        public void Test_Count_Valid()
         {
-            Assert.Fail();
+            LingoGenerator lg = new LingoGenerator();
+            lg.SetLingoWords(ArrayWords26);
+            int expectedResult = ArrayWords26.Length;
+            int actualResult = lg.Count;
+            Assert.AreEqual(expectedResult, actualResult);
         }
 
         [TestMethod()]
-        public void Test_GetLongestWord()
+        public void Test_LingoWords_Null()
         {
-            Assert.Fail();
+            LingoGenerator lg = new LingoGenerator();
+            List<string> actualResult = lg.GetLingoWords();
+            List<string> expectedResult = null;
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+
+        [TestMethod()]
+        public void Test_LingoWords_Valid()
+        {
+            LingoGenerator lg = new LingoGenerator();
+            lg.SetLingoWords(ArrayWords26);
+            int actualResult = lg.GetLingoWords().Count;
+            int expectedResult = 26;
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        [TestMethod()]
+        public void Test_GetLongestWordNovember()
+        {
+            LingoGenerator lg = new LingoGenerator();
+            lg.SetLingoWords(ArrayWords26);
+            string actualResult = lg.GetLongestWord();
+            string expectedResult = "November";
+            Assert.AreEqual(expectedResult.ToUpper(), actualResult.ToUpper());
         }
 
         [TestMethod()]
         public void Test_GetLongestWordLen()
         {
-            Assert.Fail();
+            LingoGenerator lg = new LingoGenerator();
+            lg.SetLingoWords(ArrayWords26);
+            int actualResult = lg.GetLongestWordLen();
+            int expectedResult = 8;
+            Assert.AreEqual(expectedResult, actualResult);
         }
 
         [TestMethod()]
         public void Test_GetRandomizedList()
         {
-            Assert.Fail();
+            LingoGenerator lg = new LingoGenerator();
+            lg.SetLingoWords(ArrayWords26);
+            List<string> randomizedList = lg.GetRandomizedList();
+            List<string> originalList = ArrayWords26.ToList<string>();
+            int countOfNonMatches = 0;
+            int countOfMatches = 0;
+            for (int index=0; index <= originalList.Count - 1; index++)
+            {
+                if (randomizedList[index].ToUpper() != originalList[index].ToUpper())
+                {
+                    countOfNonMatches++;
+                }
+                else
+                {
+                    countOfMatches++;
+                }
+            }
+            double expectedResult = 0.99;
+            double actualResult = countOfMatches / countOfNonMatches;
+            Assert.IsTrue(expectedResult >= actualResult);
+        }
+
+        [TestMethod()]
+        public void Test_GetRandomizedEmpty_Fails()
+        {
+            LingoGenerator lg = new LingoGenerator();
+            Assert.IsTrue(lg.GetRandomizedList().Count == 0);
         }
     }
 }
