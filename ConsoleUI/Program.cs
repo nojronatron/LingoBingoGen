@@ -17,20 +17,26 @@ namespace ConsoleUI
         //  have an ability to generate multiple, randomized boards
         //  properly set the FREE space at index 11
         //  properly draw the ASCII board with one word 
-
-        static void Main(string[] args)
-        {
-            List<string> ListWords26 = new List<string>
+        public static List<string> ListWords26 = new List<string>
             {
             "alpha", "bravo", "charlie", "delta", "echo", "foxtrot", "golf", "hotel", "india",
             "juliet", "kilo", "lima", "mike", "november", "oscar", "papa", "quebec", "roger",
             "sierra", "tango", "uniform", "victor", "whiskey", "xray", "yankee", "zulu"
             };
 
+        static void Main(string[] args)
+        {
             DrawMenuSystem();
+
+            //Console.Write("\n\nPress <Enter> to Quit. . .");
+            //Console.ReadLine();
+        }
+        
+        static void DrawBoard(List<string> listWords)
+        {
             LingoGenerator Words = new LingoGenerator();
             List<string> randomWords = null;
-            Words.SetLingoWords(ListWords26);
+            Words.SetLingoWords(listWords);
             if (Words.RandomizeList())
             {
                 randomWords = Words.GetRandomList();
@@ -40,15 +46,61 @@ namespace ConsoleUI
             StringBuilder thisBoard = GenerateBoard(RandWords);
 
             Console.WriteLine(thisBoard.ToString());
-
-
-            Console.Write("\n\nPress <Enter> to Quit. . .");
-            Console.ReadLine();
         }
-        
+
         static void DrawMenuSystem()
         {
             Console.WriteLine($"Placeholder: Draws a menu system for user input.");
+            bool keepGoing = true;
+            while (keepGoing)
+            {
+                Console.WriteLine("\nChoose from the following options:\n");
+                Console.WriteLine("\t1. Add words to an existing category.");
+                Console.WriteLine("\t2. Add a new category.");
+                Console.WriteLine("\t9. Generate a board using default words.");
+                Console.WriteLine("\tX. Exit.");
+                Console.Write("\nYour choice: ");
+
+                string userOption = Console.ReadLine();
+                userOption = userOption.ToUpper();
+
+                switch (userOption)
+                {
+                    case "1":
+                        Console.WriteLine("\nPick a category to add words to:\n");
+                        Console.WriteLine("\t 1. AlphaPhonetics");
+                        Console.WriteLine("\t X. Return");
+                        Console.Write("\nYour choice: ");
+                        userOption = Console.ReadLine();
+                        break;
+
+                    case "2":
+                        Console.Write("\nEnter a new category name: ");
+                        userOption = Console.ReadLine();
+                        break;
+
+                    case "9":
+                        Console.WriteLine("\nPick a category of words for your board:\n");
+                        Console.WriteLine("\tAlphaPhonetics");
+                        //  Console.Write("\nYour choice: ");
+                        Console.Clear();
+                        DrawBoard(ListWords26);
+                        Console.Write("\n\nPress <Enter> to Return to Menu. . .");
+                        Console.ReadLine();
+                        Console.Clear();
+                        break;
+
+                    case "X":
+                        keepGoing = false;
+                        break;
+
+                    default:
+                        Console.WriteLine
+                            ("\nYour option {0} is not valid. Try again!\n",
+                            userOption);
+                        break;
+                }
+            }
         }
 
         public static int GetTileWidth(LingoGenerator words)
@@ -126,14 +178,11 @@ namespace ConsoleUI
                         { 
                             board.Append(space); 
                         }
-                        // col++; //this DOES NOT FIX the offset issue
                     }
                     else if (rowsWithWordsAndBars.Contains(row))
                     { // maxWordLenWithBuffer added... MINUS the current word length to fill tile space
                         if (barPositions.Contains(col) && lingoIndex < 25) // only 0-24 allowed on the board
                         {
-                            //lingoWord = Phrases[lingoIndex]; // TODO: after testing refactor this to be: board+=Phrases[lingoIndex]
-                            //board += $"| {lingoWord} ";
                             lingoWord = wordsForBoard[lingoIndex];
                             board.Append($"{ bar} { lingoWord } ");
                             col += (lingoWord.Length + 2);
@@ -142,7 +191,6 @@ namespace ConsoleUI
                         else { board.Append(space); }
                     }
                 }
-                //board += "\n"; // end of row add a newline
                 board.AppendLine();
             }
             return board;
