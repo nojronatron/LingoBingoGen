@@ -98,7 +98,8 @@ namespace LingoBingoGenerator.Tests
         {
             LingoGenerator lg = new LingoGenerator();
             lg.SetLingoWords(ArrayWords26);
-            List<string> randomizedList = lg.GetRandomizedList();
+            lg.RandomizeList();
+            List<string> randomizedList = lg.GetRandomList();
             List<string> originalList = ArrayWords26.ToList<string>();
             int countOfNonMatches = 0;
             int countOfMatches = 0;
@@ -119,10 +120,12 @@ namespace LingoBingoGenerator.Tests
         }
 
         [TestMethod()]
-        public void Test_GetRandomizedEmpty_Fails()
+        public void Test_RandomizeList_EmptyFails()
         {
             LingoGenerator lg = new LingoGenerator();
-            Assert.IsTrue(lg.GetRandomizedList().Count == 0);
+            bool actualResult = lg.RandomizeList();
+            Assert.IsFalse(actualResult);
         }
+
     }
 }

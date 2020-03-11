@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LingoBingoGenerator", "Ling
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileManagementHelper", "FileManagementHelper\FileManagementHelper.csproj", "{E209C750-65C6-48CE-8EF0-62FEFD7951FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTester", "UnitTester\UnitTester.csproj", "{AA37DCC1-86C0-40E5-B612-19027F590099}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneratorUnitTests", "UnitTester\GeneratorUnitTests.csproj", "{AA37DCC1-86C0-40E5-B612-19027F590099}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

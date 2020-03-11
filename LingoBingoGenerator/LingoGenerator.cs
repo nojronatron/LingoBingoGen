@@ -14,6 +14,7 @@ namespace LingoBingoGenerator
         //  basic capabilities: accept list; randomize list; return properties of the list of phrases
 
         private List<string> _lingoWords = null;
+        private List<string> _randomizedLingoWords = null;
 
         public LingoGenerator() { }
 
@@ -36,9 +37,14 @@ namespace LingoBingoGenerator
 
         public bool HasWords()
         {
-            return (this.Count >= 1);
+            return (this.Count >= 24);
         }
 
+        private bool HasRandomizedList()
+        {
+            return (this._randomizedLingoWords.Count >= 24);
+        }
+        
         public bool SetLingoWords(List<string> wordList)
         {
             //  takes input List<string> of phrases and stores them in this object instance
@@ -110,13 +116,13 @@ namespace LingoBingoGenerator
             }
             return string.Empty;
         }
-        
+
         public int GetLongestWordLen()
         {
             return this.LongestWordLen;
         }
 
-        public List<string> GetRandomizedList()
+        public bool RandomizeList()
         {
             //  uses field this._phrases as input, returns _phrases as reordered List<string>
             if (this.HasWords())
@@ -129,7 +135,16 @@ namespace LingoBingoGenerator
                     order[counter] = rand.NextDouble();
                 }
                 Array.Sort(order, arrResult);
-                return new List<string>(arrResult);
+                _randomizedLingoWords = new List<string>(arrResult);
+                return true;
+            }
+            return false;
+        }
+        public List<string> GetRandomList()
+        {
+            if (this.HasWords() && this.HasRandomizedList())
+            {
+                return _randomizedLingoWords;
             }
             return new List<string>(0);
         }
