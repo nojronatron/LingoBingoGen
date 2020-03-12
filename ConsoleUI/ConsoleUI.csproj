@@ -43,13 +43,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="LingoBingoConsole.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FileManagementHelper\FileManagementHelper.csproj">
+      <Project>{E209C750-65C6-48CE-8EF0-62FEFD7951FF}</Project>
+      <Name>FileManagementHelper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LingoBingoGenerator\LingoBingoGenerator.csproj">
       <Project>{e671cfb7-630f-404d-8b0e-a94d8be4f02d}</Project>
       <Name>LingoBingoGenerator</Name>

@@ -3,10 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29123.88
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LingoBingoGen", "LingoBingoGen\LingoBingoGen.csproj", "{5658B0CE-C003-4891-9550-F0154A341E23}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BingoBoardAppUI", "BingoBoardAppUI\BingoBoardAppUI.csproj", "{58E526A4-BC51-4433-9EAC-4E4BEB8243C0}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleUI", "ConsoleUI\ConsoleUI.csproj", "{90B166A6-DD63-421C-8375-8B2F370F20B9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsUI", "WindowsFormsUI\WindowsFormsUI.csproj", "{67EA50EA-7767-4234-B2EB-84B2A0F40CAC}"
@@ -23,14 +19,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5658B0CE-C003-4891-9550-F0154A341E23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5658B0CE-C003-4891-9550-F0154A341E23}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5658B0CE-C003-4891-9550-F0154A341E23}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5658B0CE-C003-4891-9550-F0154A341E23}.Release|Any CPU.Build.0 = Release|Any CPU
-		{58E526A4-BC51-4433-9EAC-4E4BEB8243C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{58E526A4-BC51-4433-9EAC-4E4BEB8243C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{58E526A4-BC51-4433-9EAC-4E4BEB8243C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{58E526A4-BC51-4433-9EAC-4E4BEB8243C0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{90B166A6-DD63-421C-8375-8B2F370F20B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{90B166A6-DD63-421C-8375-8B2F370F20B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90B166A6-DD63-421C-8375-8B2F370F20B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
