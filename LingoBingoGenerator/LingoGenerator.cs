@@ -127,8 +127,10 @@ namespace LingoBingoGenerator
             {
                 string[] arrResult = _lingoWords.ToArray();
                 Random rand = new Random(); // see: https://docs.microsoft.com/en-us/dotnet/api/system.random?view=netframework-4.8
-                double[] order = new double[24];
-                for (int counter = 0; counter < 24; counter++)
+                //double[] order = new double[24];
+                double[] order = new double[arrResult.Length];
+                //for (int counter = 0; counter < 24; counter++)
+                for (int counter = 0; counter < arrResult.Length; counter++)
                 {
                     order[counter] = rand.NextDouble();
                 }

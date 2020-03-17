@@ -1,136 +1,139 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<!--Init LingoWords.xml with cSharp lingo-->
 <Words>
   <Item>
+    <Category>CSharp</Category>
     <Word>method</Word>
-    <Category>CSharp</Category>
   </Item>
   <Item>
+    <Category>CSharp</Category>
     <Word>inheritance</Word>
-    <Category>CSharp</Category>
   </Item>
   <Item>
+    <Category>CSharp</Category>
     <Word>class</Word>
-    <Category>CSharp</Category>
   </Item>
   <Item>
+    <Category>CSharp</Category>
     <Word>object</Word>
-    <Category>CSharp</Category>
   </Item>
   <Item>
+    <Category>CSharp</Category>
     <Word>instance</Word>
-    <Category>CSharp</Category>
   </Item>
   <Item>
+    <Category>CSharp</Category>
     <Word>property</Word>
-    <Category>CSharp</Category>
   </Item>
   <Item>
+    <Category>CSharp</Category>
     <Word>field</Word>
-    <Category>CSharp</Category>
   </Item>
   <Item>
+    <Category>CSharp</Category>
     <Word>constructor</Word>
-    <Category>CSharp</Category>
   </Item>
   <Item>
+    <Category>CSharp</Category>
     <Word>dot net</Word>
-    <Category>CSharp</Category>
   </Item>
   <Item>
+    <Category>CSharp</Category>
     <Word>array</Word>
-    <Category>CSharp</Category>
   </Item>
   <Item>
+    <Category>CSharp</Category>
     <Word>main</Word>
-    <Category>CSharp</Category>
   </Item>
   <Item>
+    <Category>CSharp</Category>
     <Word>curly brace</Word>
-    <Category>CSharp</Category>
   </Item>
   <Item>
+    <Category>CSharp</Category>
     <Word>string</Word>
-    <Category>CSharp</Category>
   </Item>
   <Item>
+    <Category>CSharp</Category>
     <Word>boolean</Word>
-    <Category>CSharp</Category>
   </Item>
   <Item>
+    <Category>CSharp</Category>
     <Word>semicolon</Word>
-    <Category>CSharp</Category>
   </Item>
   <Item>
+    <Category>CSharp</Category>
     <Word>parse</Word>
-    <Category>CSharp</Category>
   </Item>
   <Item>
+    <Category>CSharp</Category>
     <Word>try catch</Word>
-    <Category>CSharp</Category>
   </Item>
   <Item>
+    <Category>CSharp</Category>
     <Word>partial</Word>
-    <Category>CSharp</Category>
   </Item>
   <Item>
+    <Category>CSharp</Category>
     <Word>return</Word>
-    <Category>CSharp</Category>
   </Item>
   <Item>
+    <Category>CSharp</Category>
     <Word>call</Word>
-    <Category>CSharp</Category>
   </Item>
   <Item>
+    <Category>CSharp</Category>
     <Word>override</Word>
-    <Category>CSharp</Category>
   </Item>
   <Item>
+    <Category>CSharp</Category>
     <Word>keyword</Word>
-    <Category>CSharp</Category>
   </Item>
   <Item>
+    <Category>CSharp</Category>
     <Word>get or set</Word>
-    <Category>CSharp</Category>
   </Item>
   <Item>
+    <Category>CSharp</Category>
     <Word>static</Word>
-    <Category>CSharp</Category>
   </Item>
   <Item>
+    <Category>CSharp</Category>
     <Word>interface</Word>
-    <Category>CSharp</Category>
   </Item>
   <Item>
+    <Category>CSharp</Category>
     <Word>base</Word>
-    <Category>CSharp</Category>
   </Item>
   <Item>
+    <Category>CSharp</Category>
     <Word>virtual</Word>
-    <Category>CSharp</Category>
   </Item>
   <Item>
-    <Word>object</Word>
     <Category>CSharp</Category>
-  </Item>
-  <Item>
     <Word>abstract</Word>
-    <Category>CSharp</Category>
   </Item>
   <Item>
+    <Category>CSharp</Category>
     <Word>tryparse</Word>
-    <Category>CSharp</Category>
   </Item>
   <Item>
+    <Category>CSharp</Category>
     <Word>encapsulation</Word>
-    <Category>CSharp</Category>
   </Item>
   <Item>
+    <Category>CSharp</Category>
     <Word>ADO.NET</Word>
-    <Category>CSharp</Category>
   </Item>
   <Item>
-    <Word>Entity Framework</Word>
     <Category>CSharp</Category>
+    <Word>Entity Framework</Word>
+  </Item>
+  <Item>
+    <Category>CSharp</Category>
+    <Word>Generic Collection</Word>
+  </Item>
+  <Item>
+    <Category>Merge</Category>
+    <Word>test</Word>
   </Item>
 </Words>

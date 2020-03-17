@@ -15,12 +15,16 @@ namespace ConsoleUI
         //  use an existing source of words
         //  use LingoGenerator to set words, GetRandomizedList, get LongestWordLen
         //  have an ability to generate multiple, randomized boards
-        //  properly set the FREE space at index 11
-        //  properly draw the ASCII board with one category (future: multiple categories)
+        //  properly set the FREE space at index 12
+        //  properly draw the ASCII board using one of least one category if not more to choose from
+        //  enable user to add a category and add words to it, saving it for use now or later
+        //  enable user to add words to an existing category for use now or later
+        //  generate an initial XML file that stores a default set of LingoWords so user can run-and-play immediately
+
         public static List<string> ListWords26 = new List<string>
             {
             "alpha", "bravo", "charlie", "delta", "echo", "foxtrot", "golf", "hotel", "india",
-            "juliet", "kilo", "lima", "mike", "november", "oscar", "papa", "quebec", "roger",
+            "juliet", "kilo", "lima", "mike", "november", "oscar", "papa", "quebec", "romeo",
             "sierra", "tango", "uniform", "victor", "whiskey", "xray", "yankee", "zulu"
             };
         private static char quote = (char)('"');
@@ -28,9 +32,6 @@ namespace ConsoleUI
         static void Main(string[] args)
         {
             DrawMenuSystem();
-
-            //Console.Write("\n\nPress <Enter> to Quit. . .");
-            //Console.ReadLine();
         }
         
         static void DrawBoard(List<string> listWords)
@@ -51,17 +52,23 @@ namespace ConsoleUI
 
         static void DrawMenuSystem()
         {
+            int startingWindowHeight = Console.WindowHeight;
+            int startingWindowWidth = Console.WindowWidth;
+            Console.WindowHeight=30;
+            Console.WindowWidth=130;
             Console.WriteLine($"Placeholder: Draws a menu system for user input.");
             bool keepGoing = true;
             while (keepGoing)
             {
+                //Console.WriteLine(Console.WindowHeight.ToString());
+                //Console.WriteLine(Console.WindowWidth.ToString());
                 Console.WriteLine("\nChoose from the following options:\n");
                 Console.WriteLine("\t1. Generate a board using default words.");
                 Console.WriteLine("\t2. Generate a board using words in existing category.");
                 Console.WriteLine("\t3. Add words to an existing category.");
                 Console.WriteLine("\t4. Add a new category of words.");
-                Console.WriteLine("\t8. ");
-                Console.WriteLine("\t9. ");
+                //  Console.WriteLine("\t8. ");
+                Console.WriteLine("\t9. Load a default category and word list to get started.");
                 Console.WriteLine("\tQ. Quit.");
                 Console.Write("\nYour choice: ");
 
@@ -71,86 +78,146 @@ namespace ConsoleUI
                 switch (userOption)
                 {
                     case "1":
-                        Console.Clear();
-                        DrawBoard(ListWords26);
-                        Console.Write("\n\nPress <Enter> to Return to Menu. . .");
-                        Console.ReadLine();
-                        Console.Clear();
-                        break;
+                        {
+                            //  User Selected: Generate a board using default words
+                            Console.Clear();
+                            DrawBoard(ListWords26);
+                            Console.Write("\n\nPress <Enter> to Return to Menu. . .");
+                            Console.ReadLine();
+                            Console.Clear();
+                            break;
+                        }
 
                     case "2":
-                        List<string> allCategories = new List<string>(XmlFileHelper.GetCategories());
-                        List<string> categoryList = new List<string>(allCategories.Distinct());
-                        Console.WriteLine("\nCategories to pick from:");
-                        foreach (string category in categoryList)
                         {
-                            Console.WriteLine($"\t{ category }");
-                        }
-                        Console.WriteLine();
-                        Console.Write("\nEnter the category name to generate a new board: ");
-                        userOption = Console.ReadLine();
+                            //  User Selected: Generate a board using words in an existing Category
+                            IEnumerable<string> categoryList = ShowExistingCategories();
 
-                        List<string> query = (from c in allCategories
-                                    where c == userOption
-                                    select c).ToList();
+                            Console.Write("\nEnter the category name to generate a new board: ");
+                            userOption = Console.ReadLine();
 
-                        List<string> wordsToUse = null;
-                        if (query.Count < 1 || string.IsNullOrEmpty(userOption))
-                        {
-                            Console.WriteLine($"\nError! Category { quote }{ userOption }{ quote } not found.\n");
+                            DrawBoardOrReturnError(userOption, categoryList);
+
+                            break;
                         }
-                        else
+
+                    case "3":
                         {
-                            wordsToUse = XmlFileHelper.GetWordsInCategory(userOption);
-                            if (wordsToUse == null)
+                            //  User Selected: Add words to existing category
+                            IEnumerable<string> categorylist = ShowExistingCategories();
+
+                            Console.WriteLine("\nPick a category to add word(s) to:\n");
+
+                            //  get user input on which category to add to
+                            Console.Write("\nYour choice: ");
+                            string userSelectedCategory = Console.ReadLine();
+
+                            //  get user input of list of words to add
+                            bool working = true;
+                            List<string> wordsToAdd = new List<string>();
+                            // string inputWord = string.Empty;
+
+                            while (working)
                             {
-                                Console.WriteLine($"\nError! Category { quote }{ userOption }{ quote } " +
-                                                  $"did not have any words to select.\n");
+                                string inputWord = string.Empty;
+                                Console.Write("\nWord to add (q to quit): ");
+                                inputWord = Console.ReadLine();
+                                if (string.IsNullOrEmpty(inputWord))
+                                {
+                                    //  skip it and tell the user then prompt for next word
+                                    Console.WriteLine();
+                                }
+                                else if (inputWord.Length > 1 && inputWord.Length < 45)
+                                {
+                                    //  Add the word to the category list
+                                    wordsToAdd.Add(inputWord);
+                                    Console.WriteLine($"\nAdded { inputWord } to category { userSelectedCategory }.");
+                                }
+                                else if (inputWord == "q")
+                                {
+                                    //  assume Enter key was pressed
+                                    Console.WriteLine($"\nAdding words to category.");
+                                    working = false;
+                                }
                             }
-                            else if (wordsToUse.Count < 24)
+
+                            //  call helper method to add words to the category including XML-file update/write
+                            if (
+                                FileManagementHelper.FileManagementHelper.AddWordsToCategoryList(wordsToAdd, userSelectedCategory)
+                                )
                             {
-                                Console.WriteLine($"\nError! Category { quote }{ userOption }{ quote } " +
-                                                  $"did not have at least 24 words.\n");
+                                Console.WriteLine($"Lingo Words in category { userSelectedCategory } added successfully!");
                             }
                             else
                             {
-                                Console.Clear();
-                                DrawBoard(wordsToUse);
-                                Console.Write("\n\nPress <Enter> to Return to Menu. . .");
-                                Console.ReadLine();
-                                Console.Clear();
+                                Console.WriteLine($"Unable to update words in new category { userSelectedCategory }.");
                             }
+
+                            Console.Write("\n\nPress <Enter> to Return to Menu. . .");
+                            Console.ReadLine();
+                            Console.Clear();
+                            break;
                         }
-                        break;
 
-                    case "7":
-                        Console.WriteLine("\nPick a category to add words to:\n");
-                        Console.WriteLine("\t 1. AlphaPhonetics");
-                        Console.WriteLine("\t X. Return");
-                        Console.Write("\nYour choice: ");
-                        userOption = Console.ReadLine();
-                        break;
+                    case "4":
+                        {
+                            //  display existing categories
+                            List<string> existingCategories = new List<string>(ShowExistingCategories());
 
+                            //  ask user for new category name
+                            Console.Write("\nEnter the title for a new category: ");
+                            string userNewCategory = Console.ReadLine();
 
-                    case "8":
-                        break;
+                            //  TODO: call helper method that will ensure topic is unique before adding it and writing to a file
+                            List<string> mergedCategories = new List<string>(existingCategories);
+                            mergedCategories.Add(userNewCategory);
+                            mergedCategories.Distinct();
+
+                            if (existingCategories.Count == mergedCategories.Count)
+                            {
+                                //  the category already existed
+                                Console.WriteLine($"Category { userNewCategory } not added because it already exists.");
+                            }
+                            else
+                            {
+                                Console.Write($"Enter the first word for new category { userNewCategory }: ");
+                                string firstWord = Console.ReadLine();
+
+                                if (FileManagementHelper.FileManagementHelper.AddNewCategory(userNewCategory, firstWord))
+                                {
+                                    Console.WriteLine("Operation completed.");
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Unable to update word list with new category and word.");
+                                }
+                            }
+                            Console.Write("\n\nPress <Enter> to Return to Menu. . .");
+                            Console.ReadLine();
+                            Console.Clear();
+                            break;
+                        }
 
                     case "9":
-                        Console.WriteLine("\nPick a category of words for your board:\n");
-                        Console.WriteLine("\tAlphaPhonetics");
-                        Console.Clear();
-                        DrawBoard(ListWords26);
-                        Console.Write("\n\nPress <Enter> to Return to Menu. . .");
-                        Console.ReadLine();
-                        Console.Clear();
-                        break;
+                        {
+                            Console.WriteLine("\nLoading default word list in category 'CSharp'. . .");
+                            if (FileManagementHelper.FileManagementHelper.DeployDefaultWordlistFile())
+                            {
+                                Console.WriteLine("Word list loaded successfully!");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Unable to load the default LingoWord file.");
+                            }
+                            break;
+                        }
 
                     case "Q":
-                        keepGoing = false;
-                        break;
 
                     case "X":
                         keepGoing = false;
+                        Console.WindowHeight = startingWindowHeight;
+                        Console.WindowWidth = startingWindowWidth;
                         break;
 
                     default:
@@ -162,5 +229,53 @@ namespace ConsoleUI
             }
         }
 
+        private static void DrawBoardOrReturnError(string userOption, IEnumerable<string> categoryList)
+        {
+            IEnumerable<string> query = from cat in categoryList
+                                        where cat == userOption
+                                        select cat;
+
+            List<string> wordsToUse = null;
+            if (query.Count() < 1 || string.IsNullOrEmpty(userOption))
+            {
+                Console.WriteLine($"\nError! Category { quote }{ userOption }{ quote } not found.\n");
+            }
+            else
+            {
+                wordsToUse = FileManagementHelper.FileManagementHelper.GetWordsInCategory(userOption);
+                if (wordsToUse == null)
+                {
+                    Console.WriteLine($"\nError! Category { quote }{ userOption }{ quote } " +
+                                      $"did not have any words to select.\n");
+                }
+                else if (wordsToUse.Count < 24)
+                {
+                    Console.WriteLine($"\nError! Category { quote }{ userOption }{ quote } " +
+                                      $"did not have at least 24 words.\n");
+                }
+                else
+                {
+                    Console.Clear();
+                    DrawBoard(wordsToUse);
+                    Console.Write("\n\nPress <Enter> to Return to Menu. . .");
+                    Console.ReadLine();
+                    Console.Clear();
+                }
+            }
+        }
+
+        private static IEnumerable<string> ShowExistingCategories()
+        {
+            List<string> allCategories = new List<string>(FileManagementHelper.FileManagementHelper.GetCategories());
+            IEnumerable<string> categoryList = allCategories.Distinct();
+
+            Console.WriteLine("\nCategories to pick from:");
+            foreach (string category in categoryList)
+            {
+                Console.WriteLine($"\t{ category }");
+            }
+            Console.WriteLine();
+            return categoryList;
+        }
     }
 }

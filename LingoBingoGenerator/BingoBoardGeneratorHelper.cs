@@ -40,17 +40,28 @@ namespace LingoBingoGenerator
             {
                 return new StringBuilder();
             }
-            List<string> wordsForBoard = SetFreeSpace(words); // insert the FREE space in the middle of the board
+            List<string> randomizedWords = new List<string>(words.GetLingoWords());
+            List<string> shortendWordList = new List<string>(24);
+            LingoGenerator words24 = new LingoGenerator();
+            if (randomizedWords.Count > 24)    //  truncate if more than 24 words
+            {
+                foreach(string word in randomizedWords)
+                {
+                    shortendWordList.Add(word);
+                }
+                words24.SetLingoWords(shortendWordList);
+            }
+            List<string> wordsForBoard = SetFreeSpace(words24); // insert the FREE space in the middle of the board
             StringBuilder board = new StringBuilder();
             string lingoWord; // NOTE: Unassigned until rowsWithWordsAndBars containment comparison is done
             int lingoIndex = 0; // manage indexing through the array of lingo terms
             int[] rowsWithAllDashes = { 1, 5, 9, 13, 17, 21 }; // rows with all horizontal dashes
             int[] rowsWithOnlyBars = { 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 }; // rows with vertical bars
             int[] rowsWithWordsAndBars = { 3, 7, 11, 15, 19 }; // rows with words but not dashes
-            int maxWordLenBuf = (1 + GetTileWidth(words));
+            int maxWordLenBuf = (1 + GetTileWidth(words24));
             int[] barPositions = { 1, (maxWordLenBuf +1), ((maxWordLenBuf * 2)+1),
                 ((maxWordLenBuf * 3)+1), ((maxWordLenBuf * 4)+1), ((maxWordLenBuf * 5)+1)};
-            int numCols = GetHorizontalFrameLength(words); // total cols to cycle thru for each row
+            int numCols = GetHorizontalFrameLength(words24); // total cols to cycle thru for each row
             int boardHeight = 21;
             char bar = '|';
             char dash = '-';

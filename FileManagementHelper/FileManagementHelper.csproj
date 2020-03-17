@@ -43,10 +43,10 @@
   <ItemGroup>
     <Compile Include="DbManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="XmlFileHelper.cs" />
+    <Compile Include="FileManagementHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DefaultLingoWords.xml" />
+    <Content Include="StaticDefaultWords.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LingoBingoGenerator\LingoBingoGenerator.csproj">
