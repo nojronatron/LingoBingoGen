@@ -95,16 +95,26 @@ namespace ConsoleUI
 
                             Console.Write("\nEnter the category name to generate a new board: ");
                             userOption = Console.ReadLine();
-
-                            DrawBoardOrReturnError(userOption, categoryList);
-
+                            
+                            //  fix case sensitivity bug
+                            var catFound = from c in categoryList
+                                           where (c.ToUpper() == userOption.ToUpper())
+                                           select c;
+                            if (UserSelectedValidCategory(userOption, categoryList))
+                            {
+                                DrawBoardOrReturnError(userOption, categoryList);
+                            }
+                            else
+                            {
+                                Console.WriteLine($"\nCategory \"{ userOption }\" not found.");
+                            }
                             break;
                         }
 
                     case "3":
                         {
                             //  User Selected: Add words to existing category
-                            IEnumerable<string> categorylist = ShowExistingCategories();
+                            IEnumerable<string> categoryList = ShowExistingCategories();
 
                             Console.WriteLine("\nPick a category to add word(s) to:\n");
 
@@ -112,45 +122,53 @@ namespace ConsoleUI
                             Console.Write("\nYour choice: ");
                             string userSelectedCategory = Console.ReadLine();
 
-                            //  get user input of list of words to add
-                            bool working = true;
-                            List<string> wordsToAdd = new List<string>();
-                            // string inputWord = string.Empty;
-
-                            while (working)
+                            //  validate category exists
+                            if (UserSelectedValidCategory(userSelectedCategory, categoryList))
                             {
-                                string inputWord = string.Empty;
-                                Console.Write("\nWord to add (q to quit): ");
-                                inputWord = Console.ReadLine();
-                                if (string.IsNullOrEmpty(inputWord))
-                                {
-                                    //  skip it and tell the user then prompt for next word
-                                    Console.WriteLine();
-                                }
-                                else if (inputWord.Length > 1 && inputWord.Length < 45)
-                                {
-                                    //  Add the word to the category list
-                                    wordsToAdd.Add(inputWord);
-                                    Console.WriteLine($"\nAdded { inputWord } to category { userSelectedCategory }.");
-                                }
-                                else if (inputWord == "q")
-                                {
-                                    //  assume Enter key was pressed
-                                    Console.WriteLine($"\nAdding words to category.");
-                                    working = false;
-                                }
-                            }
 
-                            //  call helper method to add words to the category including XML-file update/write
-                            if (
-                                FileManagementHelper.FileManagementHelper.AddWordsToCategoryList(wordsToAdd, userSelectedCategory)
-                                )
-                            {
-                                Console.WriteLine($"Lingo Words in category { userSelectedCategory } added successfully!");
+                                //  get user input of list of words to add
+                                bool working = true;
+                                List<string> wordsToAdd = new List<string>();
+                                // string inputWord = string.Empty;
+
+                                while (working)
+                                {
+                                    string inputWord = string.Empty;
+                                    Console.Write("\nWord to add (q to quit): ");
+                                    inputWord = Console.ReadLine();
+                                    if (string.IsNullOrEmpty(inputWord))
+                                    {
+                                        //  skip it and tell the user then prompt for next word
+                                        Console.WriteLine();
+                                    }
+                                    else if (inputWord.Length > 1 && inputWord.Length < 45)
+                                    {
+                                        //  Add the word to the category list
+                                        wordsToAdd.Add(inputWord);
+                                        Console.WriteLine($"\nAdded { inputWord } to category { userSelectedCategory }.");
+                                    }
+                                    else if (inputWord.ToLower() == "q")
+                                    {
+                                        Console.WriteLine($"\nDone adding words to category.");
+                                        working = false;
+                                    }
+                                }
+
+                                //  call helper method to add words to the category including XML-file update/write
+                                if (
+                                    FileManagementHelper.FileManagementHelper.AddWordsToCategoryList(wordsToAdd, userSelectedCategory)
+                                    )
+                                {
+                                    Console.WriteLine($"Lingo Words in category { userSelectedCategory } added successfully!");
+                                }
+                                else
+                                {
+                                    Console.WriteLine($"Unable to update words in new category { userSelectedCategory }.");
+                                }
                             }
                             else
                             {
-                                Console.WriteLine($"Unable to update words in new category { userSelectedCategory }.");
+                                Console.WriteLine($"\nCategory \"{ userSelectedCategory }\" not found.");
                             }
 
                             Console.Write("\n\nPress <Enter> to Return to Menu. . .");
@@ -169,28 +187,36 @@ namespace ConsoleUI
                             string userNewCategory = Console.ReadLine();
 
                             //  TODO: call helper method that will ensure topic is unique before adding it and writing to a file
-                            List<string> mergedCategories = new List<string>(existingCategories);
-                            mergedCategories.Add(userNewCategory);
-                            mergedCategories.Distinct();
 
-                            if (existingCategories.Count == mergedCategories.Count)
+                            if (UserSelectedValidCategory(userNewCategory, existingCategories))
                             {
-                                //  the category already existed
-                                Console.WriteLine($"Category { userNewCategory } not added because it already exists.");
+                                Console.WriteLine($"Category \"{ userNewCategory }\" exists.");
                             }
                             else
                             {
-                                Console.Write($"Enter the first word for new category { userNewCategory }: ");
-                                string firstWord = Console.ReadLine();
+                                List<string> mergedCategories = new List<string>(existingCategories);
+                                mergedCategories.Add(userNewCategory);
+                                mergedCategories.Distinct();
 
-                                if (FileManagementHelper.FileManagementHelper.AddNewCategory(userNewCategory, firstWord))
-                                {
-                                    Console.WriteLine("Operation completed.");
-                                }
-                                else
-                                {
-                                    Console.WriteLine("Unable to update word list with new category and word.");
-                                }
+                                //if (existingCategories.Count == mergedCategories.Count)
+                                //{
+                                //    //  the category already existed
+                                //    Console.WriteLine($"Category { userNewCategory } not added because it already exists.");
+                                //}
+                                //else
+                                //{
+                                    Console.Write($"Enter the first word for new category { userNewCategory }: ");
+                                    string firstWord = Console.ReadLine();
+
+                                    if (FileManagementHelper.FileManagementHelper.AddNewCategory(userNewCategory, firstWord))
+                                    {
+                                        Console.WriteLine("Operation completed.");
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("Unable to update word list with new category and word.");
+                                    }
+                                //}
                             }
                             Console.Write("\n\nPress <Enter> to Return to Menu. . .");
                             Console.ReadLine();
@@ -226,6 +252,22 @@ namespace ConsoleUI
                             userOption);
                         break;
                 }
+            }
+        }
+
+        private static bool UserSelectedValidCategory(string userInput, IEnumerable<string> categorylist)
+        {
+            //  fix case sensitivity bug
+            var catFound = from c in categorylist
+                           where (c.ToUpper() == userInput.ToUpper())
+                           select c;
+            if (catFound.Count() > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
