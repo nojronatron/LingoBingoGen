@@ -96,17 +96,13 @@ namespace ConsoleUI
                             Console.Write("\nEnter the category name to generate a new board: ");
                             userOption = Console.ReadLine();
                             
-                            //  fix case sensitivity bug
-                            var catFound = from c in categoryList
-                                           where (c.ToUpper() == userOption.ToUpper())
-                                           select c;
-                            if (UserSelectedValidCategory(userOption, categoryList))
+                            if (UserSelectedValidCategory(userOption, categoryList, out string mCategory))
                             {
-                                DrawBoardOrReturnError(userOption, categoryList);
+                                DrawBoardOrReturnError(mCategory, categoryList);
                             }
                             else
                             {
-                                Console.WriteLine($"\nCategory \"{ userOption }\" not found.");
+                                Console.WriteLine($"\nCategory { quote }{ mCategory }{ quote } not found.");
                             }
                             break;
                         }
@@ -123,7 +119,7 @@ namespace ConsoleUI
                             string userSelectedCategory = Console.ReadLine();
 
                             //  validate category exists
-                            if (UserSelectedValidCategory(userSelectedCategory, categoryList))
+                            if (UserSelectedValidCategory(userSelectedCategory, categoryList, out string mCategory))
                             {
 
                                 //  get user input of list of words to add
@@ -145,7 +141,7 @@ namespace ConsoleUI
                                     {
                                         //  Add the word to the category list
                                         wordsToAdd.Add(inputWord);
-                                        Console.WriteLine($"\nAdded { inputWord } to category { userSelectedCategory }.");
+                                        Console.WriteLine($"\nAdded { inputWord } to category { mCategory }.");
                                     }
                                     else if (inputWord.ToLower() == "q")
                                     {
@@ -156,19 +152,19 @@ namespace ConsoleUI
 
                                 //  call helper method to add words to the category including XML-file update/write
                                 if (
-                                    FileManagementHelper.FileManagementHelper.AddWordsToCategoryList(wordsToAdd, userSelectedCategory)
+                                    FileManagementHelper.FileManagementHelper.AddWordsToCategoryList(wordsToAdd, mCategory)
                                     )
                                 {
-                                    Console.WriteLine($"Lingo Words in category { userSelectedCategory } added successfully!");
+                                    Console.WriteLine($"Lingo Words in category { mCategory } added successfully!");
                                 }
                                 else
                                 {
-                                    Console.WriteLine($"Unable to update words in new category { userSelectedCategory }.");
+                                    Console.WriteLine($"Unable to update words in new category { mCategory }.");
                                 }
                             }
                             else
                             {
-                                Console.WriteLine($"\nCategory \"{ userSelectedCategory }\" not found.");
+                                Console.WriteLine($"\nCategory { quote }{ mCategory }{ quote } not found.");
                             }
 
                             Console.Write("\n\nPress <Enter> to Return to Menu. . .");
@@ -188,9 +184,9 @@ namespace ConsoleUI
 
                             //  TODO: call helper method that will ensure topic is unique before adding it and writing to a file
 
-                            if (UserSelectedValidCategory(userNewCategory, existingCategories))
+                            if (UserSelectedValidCategory(userNewCategory, existingCategories, out string mCategory))
                             {
-                                Console.WriteLine($"Category \"{ userNewCategory }\" exists.");
+                                Console.WriteLine($"Category { quote }{ mCategory }{ quote } exists.");
                             }
                             else
                             {
@@ -255,7 +251,7 @@ namespace ConsoleUI
             }
         }
 
-        private static bool UserSelectedValidCategory(string userInput, IEnumerable<string> categorylist)
+        private static bool UserSelectedValidCategory(string userInput, IEnumerable<string> categorylist, out string matchedCategory)
         {
             //  fix case sensitivity bug
             var catFound = from c in categorylist
@@ -263,28 +259,30 @@ namespace ConsoleUI
                            select c;
             if (catFound.Count() > 0)
             {
+                matchedCategory = catFound.First();
                 return true;
             }
             else
             {
+                matchedCategory = userInput;
                 return false;
             }
         }
 
         private static void DrawBoardOrReturnError(string userOption, IEnumerable<string> categoryList)
         {
-            IEnumerable<string> query = from cat in categoryList
-                                        where cat == userOption
-                                        select cat;
+            //IEnumerable<string> query = from cat in categoryList
+            //                            where cat == userOption
+            //                            select cat;
 
-            List<string> wordsToUse = null;
-            if (query.Count() < 1 || string.IsNullOrEmpty(userOption))
-            {
-                Console.WriteLine($"\nError! Category { quote }{ userOption }{ quote } not found.\n");
-            }
-            else
-            {
-                wordsToUse = FileManagementHelper.FileManagementHelper.GetWordsInCategory(userOption);
+            //List<string> wordsToUse = null;
+            //if (query.Count() < 1 || string.IsNullOrEmpty(userOption))
+            //{
+            //    Console.WriteLine($"\nError! Category { quote }{ userOption }{ quote } not found.\n");
+            //}
+            //else
+            //{
+            List<string> wordsToUse = FileManagementHelper.FileManagementHelper.GetWordsInCategory(userOption);
                 if (wordsToUse == null)
                 {
                     Console.WriteLine($"\nError! Category { quote }{ userOption }{ quote } " +
@@ -303,7 +301,7 @@ namespace ConsoleUI
                     Console.ReadLine();
                     Console.Clear();
                 }
-            }
+            //}
         }
 
         private static IEnumerable<string> ShowExistingCategories()
