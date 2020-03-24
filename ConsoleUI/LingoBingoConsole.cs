@@ -103,6 +103,9 @@ namespace ConsoleUI
                             else
                             {
                                 Console.WriteLine($"\nCategory { quote }{ mCategory }{ quote } not found.");
+                                Console.Write("\n\nPress <Enter> to Return to Menu. . .");
+                                Console.ReadLine();
+                                Console.Clear();
                             }
                             break;
                         }
@@ -177,9 +180,14 @@ namespace ConsoleUI
                             //  display existing categories
                             List<string> existingCategories = new List<string>(ShowExistingCategories());
 
-                            //  ask user for new category name
-                            Console.Write("\nEnter the title for a new category: ");
-                            string userNewCategory = Console.ReadLine();
+                            string userNewCategory = string.Empty;
+
+                            while (string.IsNullOrEmpty(userNewCategory))
+                            {
+                                //  ask user for new category name and do not accept a blank entry
+                                Console.Write("\nEnter the title for a new category: ");
+                                userNewCategory = Console.ReadLine();
+                            }
 
                             //  call helper method to ensure topic is unique before adding it and writing to a file
                             if (UserSelectedValidCategory(userNewCategory, existingCategories, out string mCategory))
@@ -192,8 +200,13 @@ namespace ConsoleUI
                                 mergedCategories.Add(userNewCategory);
                                 mergedCategories.Distinct();
 
-                                Console.Write($"Enter the first word for new category { userNewCategory }: ");
-                                string firstWord = Console.ReadLine();
+                                string firstWord = string.Empty;
+                                while (string.IsNullOrEmpty(firstWord))
+                                {
+                                    //  ask user for new category name and do not accept a blank entry
+                                    Console.Write($"Enter the first word for new category { userNewCategory }: ");
+                                    firstWord = Console.ReadLine();
+                                }
 
                                 if (FileManagementHelper.FileManagementHelper.AddNewCategory(userNewCategory, firstWord))
                                 {
@@ -203,7 +216,8 @@ namespace ConsoleUI
                                 {
                                     Console.WriteLine("Unable to update word list with new category and word.");
                                 }
-                            }                            Console.Write("\n\nPress <Enter> to Return to Menu. . .");
+                            }                            
+                            Console.Write("\n\nPress <Enter> to Return to Menu. . .");
                             Console.ReadLine();
                             Console.Clear();
                             break;
@@ -232,9 +246,9 @@ namespace ConsoleUI
                         break;
 
                     default:
-                        Console.WriteLine
-                            ("\nYour option {0} is not valid. Try again!\n",
-                            userOption);
+                        Console.WriteLine($"\nYour option { userOption } is not valid. Try again!\n");
+                        Console.ReadLine();
+                        Console.Clear();
                         break;
                 }
             }
