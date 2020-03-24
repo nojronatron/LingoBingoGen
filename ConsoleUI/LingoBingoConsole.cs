@@ -234,6 +234,9 @@ namespace ConsoleUI
                             {
                                 Console.WriteLine("Unable to load the file LingoWords.xml.");
                             }
+                            Console.Write("\n\nPress <Enter> to Return to Menu. . .");
+                            Console.ReadLine();
+                            Console.Clear();
                             break;
                         }
 
