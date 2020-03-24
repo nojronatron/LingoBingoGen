@@ -68,7 +68,7 @@ namespace ConsoleUI
                 Console.WriteLine("\t3. Add words to an existing category.");
                 Console.WriteLine("\t4. Add a new category of words.");
                 //  Console.WriteLine("\t8. ");
-                Console.WriteLine("\t9. Load a default category and word list to get started.");
+                Console.WriteLine("\t9. Load a custom category and word list (LingoWords.xml).");
                 Console.WriteLine("\tQ. Quit.");
                 Console.Write("\nYour choice: ");
 
@@ -125,7 +125,6 @@ namespace ConsoleUI
                                 //  get user input of list of words to add
                                 bool working = true;
                                 List<string> wordsToAdd = new List<string>();
-                                // string inputWord = string.Empty;
 
                                 while (working)
                                 {
@@ -182,8 +181,7 @@ namespace ConsoleUI
                             Console.Write("\nEnter the title for a new category: ");
                             string userNewCategory = Console.ReadLine();
 
-                            //  TODO: call helper method that will ensure topic is unique before adding it and writing to a file
-
+                            //  call helper method to ensure topic is unique before adding it and writing to a file
                             if (UserSelectedValidCategory(userNewCategory, existingCategories, out string mCategory))
                             {
                                 Console.WriteLine($"Category { quote }{ mCategory }{ quote } exists.");
@@ -194,27 +192,18 @@ namespace ConsoleUI
                                 mergedCategories.Add(userNewCategory);
                                 mergedCategories.Distinct();
 
-                                //if (existingCategories.Count == mergedCategories.Count)
-                                //{
-                                //    //  the category already existed
-                                //    Console.WriteLine($"Category { userNewCategory } not added because it already exists.");
-                                //}
-                                //else
-                                //{
-                                    Console.Write($"Enter the first word for new category { userNewCategory }: ");
-                                    string firstWord = Console.ReadLine();
+                                Console.Write($"Enter the first word for new category { userNewCategory }: ");
+                                string firstWord = Console.ReadLine();
 
-                                    if (FileManagementHelper.FileManagementHelper.AddNewCategory(userNewCategory, firstWord))
-                                    {
-                                        Console.WriteLine("Operation completed.");
-                                    }
-                                    else
-                                    {
-                                        Console.WriteLine("Unable to update word list with new category and word.");
-                                    }
-                                //}
-                            }
-                            Console.Write("\n\nPress <Enter> to Return to Menu. . .");
+                                if (FileManagementHelper.FileManagementHelper.AddNewCategory(userNewCategory, firstWord))
+                                {
+                                    Console.WriteLine("Operation completed.");
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Unable to update word list with new category and word.");
+                                }
+                            }                            Console.Write("\n\nPress <Enter> to Return to Menu. . .");
                             Console.ReadLine();
                             Console.Clear();
                             break;
@@ -222,14 +211,14 @@ namespace ConsoleUI
 
                     case "9":
                         {
-                            Console.WriteLine("\nLoading default word list in category 'CSharp'. . .");
+                            Console.WriteLine("\nLoading category and word list. . .");
                             if (FileManagementHelper.FileManagementHelper.DeployDefaultWordlistFile())
                             {
-                                Console.WriteLine("Word list loaded successfully!");
+                                Console.WriteLine("File loaded successfully!");
                             }
                             else
                             {
-                                Console.WriteLine("Unable to load the default LingoWord file.");
+                                Console.WriteLine("Unable to load the file LingoWords.xml.");
                             }
                             break;
                         }

@@ -244,13 +244,18 @@ namespace FileManagementHelper
             string sourceCWD = "";
             string sourceFile = "";
 
-            //  load the actual default xml file
-            //sourceCWD = @"..\..\..\FileManagementHelper";
+            //  kluge to fix issue with file rename between dev/debug and release
             sourceCWD = Directory.GetCurrentDirectory();
             sourceFile = "StaticDefaultWords.xml";
-            filename = Path.Combine(sourceCWD, sourceFile);
+            if (File.Exists(Path.Combine(sourceCWD, sourceCWD)))
+            {
+                filename = Path.Combine(sourceCWD, sourceFile);
+            }
+            else
+            {
+                filename = Path.Combine(sourceCWD, "LingoWords.xml");
+            }
 
-            //  setup destination filename and path if not set in method arguments (e.g. unittesting)
             string destCWD = Directory.GetCurrentDirectory();
             string destFile = "LingoWords.xml";
             string destFilename = Path.Combine(destCWD, destFile);
