@@ -61,11 +61,28 @@ namespace FileManagementHelper
         }
 
 
-        public static XElement MergeDocuments(XElement other)
+        public static XElement MergeDocuments(XElement xElements, XElement other)
         {
-            XElement xElements = new XElement(GetFileData());
-            xElements.Add(other);
-            return xElements;
+            //XElement xElements = new XElement(GetFileData());
+            //  final document must be single-rooted
+            //  strip the root elements from filedata and from arg other
+            IEnumerable<XElement> xeItems = xElements.Elements("Item");
+            IEnumerable<XElement> otherItems = other.Elements("Item");
+
+            //  merge the XElements wholesale e.x.: xElements.Add(other);
+
+            //  append the root element
+            XElement xeWords = new XElement("Words");
+            foreach (XElement xe in xeItems)
+            {
+                xeWords.Add(xe);
+            }
+            foreach (XElement xe in otherItems)
+            {
+                xeWords.Add(xe);
+            }
+
+            return xeWords;
         }
 
         public static List<LingoWordModel> MergeObjectLists(List<LingoWordModel> objList1, List<LingoWordModel> objList2)
@@ -93,9 +110,10 @@ namespace FileManagementHelper
 
         public static XElement ConvertToXElement(List<LingoWordModel> objectList)
         {
-            //  TODO: set back to private after unittesting
             //  Takes a list of LingoWordmodel objects (with data) and converts to an XDocument (ready to write to a file)
-            XElement xElement = new XElement("Root");
+            //  TODO: Fix issue where Root element is improperly inserted
+            XElement xElement = new XElement("Words");
+            
             for (int index = 0; index < objectList.Count; index++)
             {
                 xElement.Add(new XElement("Item",
@@ -146,7 +164,8 @@ namespace FileManagementHelper
             //  convert object list to XElement type
             XElement objWordsToAdd = ConvertToXElement(wordList);
             //  merge XElement LingoWords with existing LingoWords
-            XElement mergedXElements = MergeDocuments(objWordsToAdd);
+            XElement existingLingoWords = GetFileData();
+            XElement mergedXElements = MergeDocuments(existingLingoWords, objWordsToAdd);
             if (UpdateFileData(mergedXElements))
             {
                 //  xml file was updated with new list of words in new category

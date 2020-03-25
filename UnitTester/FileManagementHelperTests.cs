@@ -118,42 +118,49 @@ namespace FileManagementHelper.Tests
         [TestMethod()]
         public void Test_MergeDocuments()
         {
-            XElement expectedResult = XElement.Load("..\\..\\..\\UnitTester\\MergedXDocsFile.xml");
-            //  \source\repos\nojronatron\LingoBingoGen\UnitTester
-            //  XML elements to be merged-in:
-            //  <Item>
-            //    < Word > test </ Word >
-            //    < Category > Merge </ Category >
-            //  </ Item >
-
-            XElement other = new XElement(
-                new XElement("Root",
+            XElement expectedResult = new XElement("Words",
+                new XElement("Item",
                     new XElement("Category", "Merge"),
-                    new XElement("Word", "test")
-                    ));
+                    new XElement("Word", "one")),
+                new XElement("Item",
+                    new XElement("Category", "Merge"),
+                    new XElement("Word", "other"))
+                );
 
-            XElement actualResult = FileManagementHelper.MergeDocuments(other);
+            XElement inputOne = new XElement(
+                new XElement("Words",
+                    new XElement("Item",
+                        new XElement("Category", "Merge"),
+                        new XElement("Word", "one")
+                    )));
 
-            //  DONE: Try XElement.FirstNode vs FirstNode and XElement.LastNode vs LastNode
-            bool mergeSucceeded = false;
-            if (expectedResult.FirstNode.ToString() == expectedResult.LastNode.ToString())
+            XElement inputTwo = new XElement(
+                new XElement("Words",
+                    new XElement("Item",
+                        new XElement("Category", "Merge"),
+                        new XElement("Word", "other")
+                    )));
+
+            XElement actualResult = FileManagementHelper.MergeDocuments(inputOne, inputTwo);
+
+            if (actualResult.IsEmpty || null == actualResult)
             {
-                //  an error occurred so test should fail
-                mergeSucceeded = false;
+                Assert.Fail($"actualResult was null or empty. Merge failed.");
             }
-            else if (expectedResult.FirstNode.ToString() == actualResult.FirstNode.ToString())
-            {
-                if (expectedResult.LastNode.ToString() != actualResult.LastNode.ToString())
-                {
-                    if (expectedResult.LastNode.PreviousNode.ToString() == actualResult.LastNode.PreviousNode.ToString())
-                    {
-                        mergeSucceeded = true;
-                    }
-                }
-            }
-            //  TODO: Study Linq to get proper query to get correct result
-
-            Assert.IsTrue(mergeSucceeded);
+                //  only one input argument element was returned so fail the test
+                //    Assert.Fail($"First Node == Last Node. Merge failed.");
+                //}
+            Assert.AreEqual(true, XNode.DeepEquals(expectedResult, actualResult));
+                //else if (expectedResult.FirstNode.ToString() == actualResult.FirstNode.ToString())
+                //{
+                //    if (expectedResult.LastNode.ToString() != actualResult.LastNode.ToString())
+                //    {
+                //        if (expectedResult.LastNode.PreviousNode.ToString() == actualResult.LastNode.PreviousNode.ToString())
+                //        {
+                //            mergeSucceeded = true;
+                //        }
+                //    }
+                //}
         }
 
         [TestMethod()]
@@ -273,7 +280,7 @@ namespace FileManagementHelper.Tests
         public void Test_ConvertToXElement()
         {
             XElement expectedResult = new XElement(
-                new XElement("Root",
+                new XElement("Words",
                     new XElement("Item",
                         new XElement("Category", "ConvertToXEl 1"),
                         new XElement("Word", "Word 1")
@@ -305,12 +312,14 @@ namespace FileManagementHelper.Tests
 
             XElement actualResult = FileManagementHelper.ConvertToXElement(objectList);
 
-            Console.WriteLine($"Expected\n" +
-                  $"Output: { expectedResult.ToString() }\n" +
-                  $"Length: { expectedResult.ToString().Length }\n" +
-                  $"Actual:\n" +
-                  $"Output: { actualResult.ToString() }\n" +
-                  $"Length: { actualResult.ToString().Length }\n");
+            Console.WriteLine(
+                $"Expected\n" +
+                $"Output: \n{ expectedResult.ToString() }\n" +
+                $"Length: \n{ expectedResult.ToString().Length }\n" +
+                $"\nActual:\n" +
+                $"Output: \n{ actualResult.ToString() }\n" +
+                $"Length: \n{ actualResult.ToString().Length }\n"
+                );
 
             Assert.IsTrue(expectedResult.ToString().Length == actualResult.ToString().Length);
         }
