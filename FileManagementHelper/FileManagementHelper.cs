@@ -13,7 +13,11 @@ namespace FileManagementHelper
         {
             //  returns a list of existing categories in teh default XML file
             XElement xElements = new XElement(GetFileData());
-            //  TODO: check for an empty XML if so return empty List<string>
+            
+            if(string.IsNullOrEmpty(category) || !xElements.HasElements)
+            {
+                return new List<string>();
+            }
 
             List<LingoWordModel> everything = new List<LingoWordModel>(ConvertToObjectList(xElements));
             var query = from words in everything
@@ -23,14 +27,14 @@ namespace FileManagementHelper
             return categoricalWords;
         }
 
-        public static List<ValueTuple<string, string>> GetWordsAndCategories()
+        public static List<ValueTuple<string, string>> GetWordsAndCategories(string filename = "")
         {
             //  returns a tuple list containing values of category and word properties
             List<ValueTuple<string, string>> result = new List<ValueTuple<string, string>>();
-            //XDocument xDoc = new XDocument(GetFileData());
-            XElement xElements = new XElement(GetFileData());
-            //  TODO: check for empty XML if so return List<ValueTuple<string, string>> containing errors
+            //  GetFileData() can now accept a filename for testing or future feature
+            XElement xElements = new XElement(GetFileData(filename));
 
+            //  error message from GetFileData() will bubble-up to caller
             List<LingoWordModel> LingoWordFileList = ConvertToObjectList(xElements);
             foreach (LingoWordModel lwm in LingoWordFileList)
             {
@@ -44,18 +48,12 @@ namespace FileManagementHelper
             //  returns a list of categories stored in the XML file
             List<string> LingoCategories = new List<string>();
             XElement xElements = new XElement(GetFileData());
-            //  TODO: check for empty XML if so return List<string> containing error
-            if (xElements == null)
+
+            //  error message from GetFileData() will bubble-up to caller
+            List<LingoWordModel> LingoWordFileList = ConvertToObjectList(xElements);
+            foreach (LingoWordModel lwm in LingoWordFileList)
             {
-                LingoCategories.Add("Error: File empty or not found.");
-            }
-            else
-            {
-                List<LingoWordModel> LingoWordFileList = ConvertToObjectList(xElements);
-                foreach (LingoWordModel lwm in LingoWordFileList)
-                {
-                    LingoCategories.Add(lwm.Category);
-                }
+                LingoCategories.Add(lwm.Category);
             }
             return LingoCategories;
         }
@@ -63,16 +61,15 @@ namespace FileManagementHelper
 
         public static XElement MergeDocuments(XElement xElements, XElement other)
         {
-            //XElement xElements = new XElement(GetFileData());
             //  final document must be single-rooted
             //  strip the root elements from filedata and from arg other
             IEnumerable<XElement> xeItems = xElements.Elements("Item");
             IEnumerable<XElement> otherItems = other.Elements("Item");
 
-            //  merge the XElements wholesale e.x.: xElements.Add(other);
-
-            //  append the root element
+            //  create root element
             XElement xeWords = new XElement("Words");
+            
+            //  append the children from each XElement instance
             foreach (XElement xe in xeItems)
             {
                 xeWords.Add(xe);
@@ -87,7 +84,6 @@ namespace FileManagementHelper
 
         public static List<LingoWordModel> MergeObjectLists(List<LingoWordModel> objList1, List<LingoWordModel> objList2)
         {
-            //  TODO: set back to private after unittesting
             //  merge existing List of LingoWordModel instance data with another 
             //  List of LingoWordModels returning a new List of LingoWordModels
             if (objList1.Count < 1 && objList2.Count < 1)
@@ -111,7 +107,6 @@ namespace FileManagementHelper
         public static XElement ConvertToXElement(List<LingoWordModel> objectList)
         {
             //  Takes a list of LingoWordmodel objects (with data) and converts to an XDocument (ready to write to a file)
-            //  TODO: Fix issue where Root element is improperly inserted
             XElement xElement = new XElement("Words");
             
             for (int index = 0; index < objectList.Count; index++)
@@ -127,7 +122,6 @@ namespace FileManagementHelper
 
         public static List<LingoWordModel> ConvertToObjectList(XElement xElement)
         {
-            //  TODO: set back to private after unittesting
             //  takes XElement object and returns a List of LingoWordModel objects with data from input XDocument
             List<LingoWordModel> lingoWordObjects = new List<LingoWordModel>();
             LingoWordModel temp = null;
@@ -188,7 +182,6 @@ namespace FileManagementHelper
 
         public static XElement GetFileData(string filename = "")
         {
-            //  TODO: set to private after unittesting
             string targetCWD = Directory.GetCurrentDirectory();
 
             if (filename == "")
@@ -220,13 +213,13 @@ namespace FileManagementHelper
 
         public static bool UpdateFileData(XElement xElement, string filename = "")
         {
-            //  TODO: set back to private after unittesting
-            //  takes an XElement type and writes its contents to a file as XML, default suggested
+            //  takes an XElement type and writes its contents to a file as XML
             bool succeeded = false;
             string destCWD = Directory.GetCurrentDirectory();
 
             if (filename == "")
             {
+                //  select a default filename if not in args
                 filename = "LingoWords.xml";
             }
             string backupFilename = Path.Combine(destCWD, $"{ filename }.bak");

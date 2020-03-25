@@ -56,9 +56,28 @@ namespace FileManagementHelper.Tests
         }
 
         [TestMethod()]
+        public void Test_GetWordsAndCategories_EmptyReturnsBlank()
+        {
+            List<ValueTuple<string, string>> wordsAndCategories = FileManagementHelper.GetWordsAndCategories("emptyLingoWords.xml");
+            foreach (ValueTuple<string, string> vtwc in wordsAndCategories)
+            {
+                Assert.AreEqual(string.IsNullOrEmpty(vtwc.Item1), string.IsNullOrEmpty(vtwc.Item2));
+            }
+        }
+
+        [TestMethod()]
+        public void Test_GetWordsAndCategories_BadFilenameReturnsErrorCategory()
+        {
+            List<ValueTuple<string, string>> wordsAndCategories = FileManagementHelper.GetWordsAndCategories("nonExistingFile.xml");
+            foreach (ValueTuple<string, string> vtwc in wordsAndCategories)
+            {
+                Assert.IsTrue(vtwc.Item1.ToString().ToUpper() == "error".ToUpper());
+            }
+        }
+
+        [TestMethod()]
         public void Test_GetCategories()
         {
-            //  TODO: change this test so it actually tests that a list of "Category" was returned
             List<string> categories = FileManagementHelper.GetCategories();
             List<string> distinctCategories = null;
 
@@ -244,7 +263,7 @@ namespace FileManagementHelper.Tests
             /*
             new XElement("Words",             
                 new XElement("Item",
-                        new XElement("Category", $"while reading XML from the file { filename }. "),
+                        new XElement("Category", "Error"),
                         new XElement("Word", $"Maybe the file could not be found?")
                         ));
              */
