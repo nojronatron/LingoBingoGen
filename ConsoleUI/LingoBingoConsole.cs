@@ -60,8 +60,6 @@ namespace ConsoleUI
             bool keepGoing = true;
             while (keepGoing)
             {
-                //Console.WriteLine(Console.WindowHeight.ToString());
-                //Console.WriteLine(Console.WindowWidth.ToString());
                 Console.WriteLine("\nChoose from the following options:\n");
                 Console.WriteLine("\t1. Generate a board using default words.");
                 Console.WriteLine("\t2. Generate a board using words in existing category.");
@@ -277,17 +275,6 @@ namespace ConsoleUI
 
         private static void DrawBoardOrReturnError(string userOption, IEnumerable<string> categoryList)
         {
-            //IEnumerable<string> query = from cat in categoryList
-            //                            where cat == userOption
-            //                            select cat;
-
-            //List<string> wordsToUse = null;
-            //if (query.Count() < 1 || string.IsNullOrEmpty(userOption))
-            //{
-            //    Console.WriteLine($"\nError! Category { quote }{ userOption }{ quote } not found.\n");
-            //}
-            //else
-            //{
             List<string> wordsToUse = FileManagementHelper.FileManagementHelper.GetWordsInCategory(userOption);
                 if (wordsToUse == null)
                 {

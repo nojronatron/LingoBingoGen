@@ -393,24 +393,14 @@ namespace FileManagementHelper.Tests
             Assert.AreEqual(totalCount, matchCount);    //  if equal than all if conditionals returned true
         }
 
-        private static void DisplayGetWordsAndCategoriesResults(List<string> words, List<string> distinctWords, List<string> distictCategories)
+        [TestMethod()]
+        public void Test_ConvertToObjectList_EmptyReturnsEmpty()
         {
-            Console.WriteLine("W in Words:");
-            foreach (string w in words)
-            {
-                Console.Write($"{ w }, ");
-            }
-            Console.WriteLine("\nDW in DistinctWords:");
-            foreach (string dw in distinctWords)
-            {
-                Console.Write($"{ dw }, ");
-            }
-            Console.WriteLine("\nDC in DistinctCategories");
-            foreach (string dc in distictCategories)
-            {
-                Console.Write($"{ dc }, ");
-            }
-            Console.WriteLine();
+            XElement xe = null;
+            List<LingoWordModel> actualResult = FileManagementHelper.ConvertToObjectList(xe);
+            List<LingoWordModel> expectedResult = new List<LingoWordModel>();
+            Assert.AreEqual(expectedResult.Count, actualResult.Count);
+            Assert.AreEqual(0, actualResult.Count);
         }
 
         [TestMethod]
@@ -451,6 +441,26 @@ namespace FileManagementHelper.Tests
                 result = $"Fail Msg: { filetype } { filename } not found! { failMsg }.";
             }
             return result;
+        }
+
+        private static void DisplayGetWordsAndCategoriesResults(List<string> words, List<string> distinctWords, List<string> distictCategories)
+        {
+            Console.WriteLine("W in Words:");
+            foreach (string w in words)
+            {
+                Console.Write($"{ w }, ");
+            }
+            Console.WriteLine("\nDW in DistinctWords:");
+            foreach (string dw in distinctWords)
+            {
+                Console.Write($"{ dw }, ");
+            }
+            Console.WriteLine("\nDC in DistinctCategories");
+            foreach (string dc in distictCategories)
+            {
+                Console.Write($"{ dc }, ");
+            }
+            Console.WriteLine();
         }
     }
 }

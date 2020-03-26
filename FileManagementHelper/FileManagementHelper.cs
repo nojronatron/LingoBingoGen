@@ -31,6 +31,7 @@ namespace FileManagementHelper
         {
             //  returns a tuple list containing values of category and word properties
             List<ValueTuple<string, string>> result = new List<ValueTuple<string, string>>();
+            
             //  GetFileData() can now accept a filename for testing or future feature
             XElement xElements = new XElement(GetFileData(filename));
 
@@ -126,6 +127,12 @@ namespace FileManagementHelper
             List<LingoWordModel> lingoWordObjects = new List<LingoWordModel>();
             LingoWordModel temp = null;
 
+            if(null == xElement)
+            {
+                //  null in null out throw no exception
+                return new List<LingoWordModel>();
+            }
+
             IEnumerable<XElement> itemsXml = xElement.Descendants("Item");
 
             foreach (XElement xItem in itemsXml)
@@ -184,7 +191,7 @@ namespace FileManagementHelper
         {
             string targetCWD = Directory.GetCurrentDirectory();
 
-            if (filename == "")
+            if (string.IsNullOrEmpty(filename))
             {
                 filename = "LingoWords.xml";
             }
@@ -217,7 +224,7 @@ namespace FileManagementHelper
             bool succeeded = false;
             string destCWD = Directory.GetCurrentDirectory();
 
-            if (filename == "")
+            if (string.IsNullOrEmpty(filename))
             {
                 //  select a default filename if not in args
                 filename = "LingoWords.xml";
@@ -245,18 +252,14 @@ namespace FileManagementHelper
             return succeeded;
         }
 
-        //public static bool DeployDefaultWordlistFile(string filename="")
         public static bool DeployDefaultWordlistFile()
         {
             //  reads built-in (default) XML file for starter words 
             //  if a LingoWords file does not already exist
 
             bool succeeded = false;
-            string filename = "";
-            string sourceCWD = "";
-            string sourceFile = "";
+            string filename = "", sourceCWD = "", sourceFile = "";
 
-            //  kluge to fix issue with file rename between dev/debug and release
             sourceCWD = Directory.GetCurrentDirectory();
             sourceFile = "StaticDefaultWords.xml";
             if (File.Exists(Path.Combine(sourceCWD, sourceCWD)))
