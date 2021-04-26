@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using FileManagementHelper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +19,9 @@ namespace FileManagementHelper.Tests
             List<string> words = FileManagementHelper.GetWordsInCategory("CSharp");
             string keyWord = "method";
             bool expectedResult = true;
+            
             bool actualResult = words.Contains(keyWord);
+            
             Assert.AreEqual(expectedResult, actualResult);
         }
 
@@ -50,8 +51,10 @@ namespace FileManagementHelper.Tests
                         pass = true;
                     }
                 }
+
                 DisplayGetWordsAndCategoriesResults(words, distinctWords, distictCategories);
             }
+
             Assert.AreEqual(true, pass);
         }
 
@@ -59,6 +62,7 @@ namespace FileManagementHelper.Tests
         public void Test_GetWordsAndCategories_EmptyReturnsBlank()
         {
             List<ValueTuple<string, string>> wordsAndCategories = FileManagementHelper.GetWordsAndCategories("emptyLingoWords.xml");
+
             foreach (ValueTuple<string, string> vtwc in wordsAndCategories)
             {
                 Assert.AreEqual(string.IsNullOrEmpty(vtwc.Item1), string.IsNullOrEmpty(vtwc.Item2));
@@ -69,6 +73,7 @@ namespace FileManagementHelper.Tests
         public void Test_GetWordsAndCategories_BadFilenameReturnsErrorCategory()
         {
             List<ValueTuple<string, string>> wordsAndCategories = FileManagementHelper.GetWordsAndCategories("nonExistingFile.xml");
+
             foreach (ValueTuple<string, string> vtwc in wordsAndCategories)
             {
                 Assert.IsTrue(vtwc.Item1.ToString().ToUpper() == "error".ToUpper());
@@ -105,6 +110,7 @@ namespace FileManagementHelper.Tests
 
             XElement xElements = null;
             List<string> words = FileManagementHelper.GetWordsInCategory(category);
+
             using (StreamReader reader = File.OpenText(fullFilePath))
             {
                 xElements = XElement.Load(reader);
@@ -112,12 +118,14 @@ namespace FileManagementHelper.Tests
 
             IEnumerable<XElement> itemsXml = xElements.Descendants("Item");
             List<string> baseWords = new List<string>();
+
             foreach (XElement item in itemsXml)
             {
                 if (item.Element("Category").Value == "CSharp") { 
                     baseWords.Add(item.Element("Word").Value); 
                 }
             }
+
             var firstNotSecond = words.Except(baseWords).ToList();
             var secondNotFirst = baseWords.Except(words).ToList();
 
@@ -131,6 +139,7 @@ namespace FileManagementHelper.Tests
             words = FileManagementHelper.GetWordsInCategory("alskdh");
             int expectedResult = 0;
             int actualResult = words.Count;
+
             Assert.AreEqual(expectedResult, actualResult);
         }
 
@@ -166,20 +175,8 @@ namespace FileManagementHelper.Tests
             {
                 Assert.Fail($"actualResult was null or empty. Merge failed.");
             }
-                //  only one input argument element was returned so fail the test
-                //    Assert.Fail($"First Node == Last Node. Merge failed.");
-                //}
+
             Assert.AreEqual(true, XNode.DeepEquals(expectedResult, actualResult));
-                //else if (expectedResult.FirstNode.ToString() == actualResult.FirstNode.ToString())
-                //{
-                //    if (expectedResult.LastNode.ToString() != actualResult.LastNode.ToString())
-                //    {
-                //        if (expectedResult.LastNode.PreviousNode.ToString() == actualResult.LastNode.PreviousNode.ToString())
-                //        {
-                //            mergeSucceeded = true;
-                //        }
-                //    }
-                //}
         }
 
         [TestMethod()]
@@ -188,12 +185,6 @@ namespace FileManagementHelper.Tests
             LingoWordModel lwm = null;
             List<LingoWordModel> objList1 = new List<LingoWordModel>();
             List<LingoWordModel> objList2 = new List<LingoWordModel>();
-
-            //  Example:
-            //  Category 1, Word 1
-            //  Category 2, Word 2
-            //  Category 3, Word 3
-            //  Category 4, Word 4
 
             for (int count = 1; count <= 4; count++)
             {
@@ -223,11 +214,13 @@ namespace FileManagementHelper.Tests
             List<LingoWordModel> mergedLists = FileManagementHelper.MergeObjectLists(objList1, objList2);
 
             StringBuilder actualResult = new StringBuilder();
+
             foreach(LingoWordModel lwms in mergedLists)
             {
                 actualResult.Append($"{ lwms.Category }, ");
                 actualResult.AppendLine($"{ lwms.Word }");
             }
+
             Console.WriteLine($"Expected\n" +
                               $"Output: { expectedResult.ToString() }\n" +
                               $"Length: { expectedResult.ToString().Length }\n" +
@@ -241,7 +234,7 @@ namespace FileManagementHelper.Tests
         [TestMethod()]
         public void Test_GetFileData()
         {
-            //  TODO: Write a better test to actually discover if correct file, data were loaded
+            //  TODO: Write a better test to actually discover if correct file and data were loaded
             string cwd = Directory.GetCurrentDirectory();
             string filename = "LingoWords.xml";
             string fullFilePath = Path.Combine(cwd, filename);
@@ -281,18 +274,18 @@ namespace FileManagementHelper.Tests
 
             string dstFilename = "Test_UpdateFileData_LingoWords.xml";
             bool operationOutput = FileManagementHelper.UpdateFileData(document, dstFilename);
-            //                       document, filename: "..\\..\\..\\UnitTester\\UpdateFileDataOutput.xml");
-
             string cwd = Directory.GetCurrentDirectory();
             string dstFullFilePath = Path.Combine(cwd, dstFilename);
 
             if (File.Exists(dstFullFilePath))
             {
                 fileCreated = true;
-                Thread.Sleep(5000);
+                Thread.Sleep(1000);
                 File.Delete(dstFullFilePath);
             }
+
             Assert.IsTrue(fileCreated);
+            Assert.IsTrue(operationOutput);
         }
 
         [TestMethod()]
@@ -321,6 +314,7 @@ namespace FileManagementHelper.Tests
             LingoWordModel lwm = null;
 
             objectList = new List<LingoWordModel>();
+
             for(int index=1; index <= 4; index++)
             {
                 lwm = new LingoWordModel();
@@ -348,6 +342,7 @@ namespace FileManagementHelper.Tests
         {
             List<LingoWordModel> expectedResult = new List<LingoWordModel>(2);
             LingoWordModel lwm = null;
+
             for(int index=1; index<3; index++)
             {
                 lwm = new LingoWordModel();
@@ -372,6 +367,7 @@ namespace FileManagementHelper.Tests
             int totalCount = 0;
 
             List<LingoWordModel> actualResult = FileManagementHelper.ConvertToObjectList(xEl);
+
             if (actualResult.Count > 0)
             {
                 for (int jindex = 0; jindex < actualResult.Count; jindex++)
@@ -397,8 +393,10 @@ namespace FileManagementHelper.Tests
         public void Test_ConvertToObjectList_EmptyReturnsEmpty()
         {
             XElement xe = null;
+
             List<LingoWordModel> actualResult = FileManagementHelper.ConvertToObjectList(xe);
             List<LingoWordModel> expectedResult = new List<LingoWordModel>();
+
             Assert.AreEqual(expectedResult.Count, actualResult.Count);
             Assert.AreEqual(0, actualResult.Count);
         }
@@ -432,6 +430,7 @@ namespace FileManagementHelper.Tests
         private string CheckFileExists(string filetype, string filename, string passMsg, string failMsg)
         {
             string result = string.Empty;
+
             if (File.Exists(filename))
             {
                 result = $"Pass Msg: { filetype } { filename } exists. { passMsg }.";
@@ -440,26 +439,33 @@ namespace FileManagementHelper.Tests
             {
                 result = $"Fail Msg: { filetype } { filename } not found! { failMsg }.";
             }
+
             return result;
         }
 
         private static void DisplayGetWordsAndCategoriesResults(List<string> words, List<string> distinctWords, List<string> distictCategories)
         {
             Console.WriteLine("W in Words:");
+
             foreach (string w in words)
             {
                 Console.Write($"{ w }, ");
             }
+
             Console.WriteLine("\nDW in DistinctWords:");
+
             foreach (string dw in distinctWords)
             {
                 Console.Write($"{ dw }, ");
             }
+
             Console.WriteLine("\nDC in DistinctCategories");
+
             foreach (string dc in distictCategories)
             {
                 Console.Write($"{ dc }, ");
             }
+
             Console.WriteLine();
         }
     }

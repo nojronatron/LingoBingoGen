@@ -262,7 +262,7 @@ namespace FileManagementHelper
 
             sourceCWD = Directory.GetCurrentDirectory();
             sourceFile = "StaticDefaultWords.xml";
-            if (File.Exists(Path.Combine(sourceCWD, sourceCWD)))
+            if (File.Exists(Path.Combine(sourceCWD, sourceFile)))
             {
                 filename = Path.Combine(sourceCWD, sourceFile);
             }

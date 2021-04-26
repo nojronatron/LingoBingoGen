@@ -41,18 +41,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DbManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FileManagementHelper.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="StaticDefaultWords.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LingoBingoGenerator\LingoBingoGenerator.csproj">
       <Project>{E671CFB7-630F-404D-8B0E-A94D8BE4F02D}</Project>
       <Name>LingoBingoGenerator</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="StaticDefaultWords.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
