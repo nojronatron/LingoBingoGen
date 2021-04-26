@@ -20,10 +20,13 @@ namespace FileManagementHelper
             }
 
             List<LingoWordModel> everything = new List<LingoWordModel>(ConvertToObjectList(xElements));
+            
             var query = from words in everything
                         where words.Category == category
                         select words.Word;
+            
             List<string> categoricalWords = query.ToList();
+            
             return categoricalWords;
         }
 
@@ -37,10 +40,12 @@ namespace FileManagementHelper
 
             //  error message from GetFileData() will bubble-up to caller
             List<LingoWordModel> LingoWordFileList = ConvertToObjectList(xElements);
+            
             foreach (LingoWordModel lwm in LingoWordFileList)
             {
                 result.Add(new ValueTuple<string, string>(lwm.Category, lwm.Word));
             }
+            
             return result;
         }
 
@@ -52,10 +57,12 @@ namespace FileManagementHelper
 
             //  error message from GetFileData() will bubble-up to caller
             List<LingoWordModel> LingoWordFileList = ConvertToObjectList(xElements);
+            
             foreach (LingoWordModel lwm in LingoWordFileList)
             {
                 LingoCategories.Add(lwm.Category);
             }
+            
             return LingoCategories;
         }
 
@@ -75,6 +82,7 @@ namespace FileManagementHelper
             {
                 xeWords.Add(xe);
             }
+            
             foreach (XElement xe in otherItems)
             {
                 xeWords.Add(xe);
@@ -91,10 +99,12 @@ namespace FileManagementHelper
             {
                 return new List<LingoWordModel>();
             }
+            
             if (objList1.Count < 1) { return objList2; }
             if (objList2.Count < 1) { return objList1; }
 
             LingoWordModel newItem = null;
+
             foreach (LingoWordModel lwm in objList2)
             {
                 newItem = new LingoWordModel();
@@ -102,6 +112,7 @@ namespace FileManagementHelper
                 newItem.Category = lwm.Category;
                 objList1.Add(newItem);
             }
+            
             return objList1;
         }
 
@@ -142,6 +153,7 @@ namespace FileManagementHelper
                 temp.Word = xItem.Element("Word").Value;
                 lingoWordObjects.Add(temp);
             }
+            
             return lingoWordObjects;
         }
 
@@ -152,6 +164,7 @@ namespace FileManagementHelper
             { 
                 return false; 
             }
+            
             LingoWordModel temp = null;
             List<LingoWordModel> wordList = new List<LingoWordModel>();
 
@@ -162,17 +175,20 @@ namespace FileManagementHelper
                 temp.Word = word;
                 wordList.Add(temp);
             }
+            
             //  convert object list to XElement type
             XElement objWordsToAdd = ConvertToXElement(wordList);
             //  merge XElement LingoWords with existing LingoWords
             XElement existingLingoWords = GetFileData();
             XElement mergedXElements = MergeDocuments(existingLingoWords, objWordsToAdd);
+            
             if (UpdateFileData(mergedXElements))
             {
                 //  xml file was updated with new list of words in new category
                 //  caller can then use the updated xml file to select a category and create a new LingoBingo board
                 return true;
             }
+            
             return false;
         }
 
@@ -180,10 +196,12 @@ namespace FileManagementHelper
         {
             List<string> newWord = new List<string>();
             newWord.Add(firstWord);
+            
             if (FileManagementHelper.AddWordsToCategoryList(newWord, newCategory))
             {
                 return true;
             }
+            
             return false;
         }
 
@@ -195,9 +213,10 @@ namespace FileManagementHelper
             {
                 filename = "LingoWords.xml";
             }
+            
             string destFilename = Path.Combine(targetCWD, filename);
-
             XElement xElements = null;
+            
             try
             {
                 // Load data from an XML file
@@ -215,6 +234,7 @@ namespace FileManagementHelper
                             new XElement("Word", $"Maybe the file could not be found?")
                     )));
             }
+
             return xElements;
         }
 
@@ -229,6 +249,7 @@ namespace FileManagementHelper
                 //  select a default filename if not in args
                 filename = "LingoWords.xml";
             }
+            
             string backupFilename = Path.Combine(destCWD, $"{ filename }.bak");
             string destFilename = Path.Combine(destCWD, filename);
 
@@ -242,6 +263,7 @@ namespace FileManagementHelper
                 {
                     File.Move(destFilename, backupFilename);
                 }
+            
                 xElement.Save(destFilename);
                 succeeded = true;
             }
@@ -249,6 +271,7 @@ namespace FileManagementHelper
             {
                 succeeded = false;
             }
+
             return succeeded;
         }
 
@@ -262,6 +285,7 @@ namespace FileManagementHelper
 
             sourceCWD = Directory.GetCurrentDirectory();
             sourceFile = "StaticDefaultWords.xml";
+            
             if (File.Exists(Path.Combine(sourceCWD, sourceFile)))
             {
                 filename = Path.Combine(sourceCWD, sourceFile);
@@ -279,6 +303,7 @@ namespace FileManagementHelper
             {
                 string backupFilename = Path.Combine(destCWD, $"{ destFile }.bak");
                 XElement xEl = XElement.Load(filename);
+                
                 if (File.Exists(destFilename))
                 {
                     if (File.Exists(backupFilename))
@@ -287,6 +312,7 @@ namespace FileManagementHelper
                     }
                     File.Move(destFilename, backupFilename);
                 }
+            
                 xEl.Save(destFilename);
                 succeeded = true;
             }
@@ -294,6 +320,7 @@ namespace FileManagementHelper
             {
                 succeeded = false;
             }
+
             return succeeded;
         }
     }
