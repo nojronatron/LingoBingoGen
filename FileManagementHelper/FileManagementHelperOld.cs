@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace FileManagementHelper
 {
-    public static class FileManagementHelper
+    public static class FileManagementHelperOld
     {
         public static List<string> GetWordsInCategory(string category)
         {
@@ -197,7 +197,7 @@ namespace FileManagementHelper
             List<string> newWord = new List<string>();
             newWord.Add(firstWord);
             
-            if (FileManagementHelper.AddWordsToCategoryList(newWord, newCategory))
+            if (FileManagementHelperOld.AddWordsToCategoryList(newWord, newCategory))
             {
                 return true;
             }

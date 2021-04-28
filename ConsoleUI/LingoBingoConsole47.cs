@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using FileManagementHelper;
 using LingoBingoGenerator;
 
 namespace ConsoleUI
 {
-    class LingoBingoConsole
+    class LingoBingoConsole47
     {
         //  run this exe to display a bingo board using ASCII characters
         //  must:
@@ -152,7 +151,7 @@ namespace ConsoleUI
 
                                 //  call helper method to add words to the category including XML-file update/write
                                 if (
-                                    FileManagementHelper.FileManagementHelper.AddWordsToCategoryList(wordsToAdd, mCategory)
+                                    FileManagementHelper.FileManagementHelperOld.AddWordsToCategoryList(wordsToAdd, mCategory)
                                     )
                                 {
                                     Console.WriteLine($"Lingo Words in category { mCategory } added successfully!");
@@ -206,7 +205,7 @@ namespace ConsoleUI
                                     firstWord = Console.ReadLine();
                                 }
 
-                                if (FileManagementHelper.FileManagementHelper.AddNewCategory(userNewCategory, firstWord))
+                                if (FileManagementHelper.FileManagementHelperOld.AddNewCategory(userNewCategory, firstWord))
                                 {
                                     Console.WriteLine("Operation completed.");
                                 }
@@ -224,7 +223,7 @@ namespace ConsoleUI
                     case "9":
                         {
                             Console.WriteLine("\nLoading category and word list. . .");
-                            if (FileManagementHelper.FileManagementHelper.DeployDefaultWordlistFile())
+                            if (FileManagementHelper.FileManagementHelperOld.DeployDefaultWordlistFile())
                             {
                                 Console.WriteLine("File loaded successfully!");
                             }
@@ -275,7 +274,7 @@ namespace ConsoleUI
 
         private static void DrawBoardOrReturnError(string userOption, IEnumerable<string> categoryList)
         {
-            List<string> wordsToUse = FileManagementHelper.FileManagementHelper.GetWordsInCategory(userOption);
+            List<string> wordsToUse = FileManagementHelper.FileManagementHelperOld.GetWordsInCategory(userOption);
                 if (wordsToUse == null)
                 {
                     Console.WriteLine($"\nError! Category { quote }{ userOption }{ quote } " +
@@ -299,7 +298,7 @@ namespace ConsoleUI
 
         private static IEnumerable<string> ShowExistingCategories()
         {
-            List<string> allCategories = new List<string>(FileManagementHelper.FileManagementHelper.GetCategories());
+            List<string> allCategories = new List<string>(FileManagementHelper.FileManagementHelperOld.GetCategories());
             IEnumerable<string> categoryList = allCategories.Distinct();
 
             Console.WriteLine("\nCategories to pick from:");

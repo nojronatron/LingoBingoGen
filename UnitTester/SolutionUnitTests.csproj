@@ -59,9 +59,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FileManagementHelper\FileManagementHelper.csproj">
+    <ProjectReference Include="..\FileManagementHelper\FileManagementHelper47.csproj">
       <Project>{E209C750-65C6-48CE-8EF0-62FEFD7951FF}</Project>
-      <Name>FileManagementHelper</Name>
+      <Name>FileManagementHelper47</Name>
     </ProjectReference>
     <ProjectReference Include="..\LingoBingoGenerator\LingoBingoGenerator.csproj">
       <Project>{E671CFB7-630F-404D-8B0E-A94D8BE4F02D}</Project>

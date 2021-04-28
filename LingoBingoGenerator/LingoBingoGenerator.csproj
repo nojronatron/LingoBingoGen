@@ -45,7 +45,6 @@
     <Compile Include="BingoBoardGeneratorHelper.cs" />
     <Compile Include="LingoGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="LingoWordModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

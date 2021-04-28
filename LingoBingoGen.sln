@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29123.88
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleUI", "ConsoleUI\ConsoleUI.csproj", "{90B166A6-DD63-421C-8375-8B2F370F20B9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleUI47", "ConsoleUI\ConsoleUI47.csproj", "{90B166A6-DD63-421C-8375-8B2F370F20B9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LingoBingoGenerator", "LingoBingoGenerator\LingoBingoGenerator.csproj", "{E671CFB7-630F-404D-8B0E-A94D8BE4F02D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileManagementHelper", "FileManagementHelper\FileManagementHelper.csproj", "{E209C750-65C6-48CE-8EF0-62FEFD7951FF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileManagementHelper47", "FileManagementHelper\FileManagementHelper47.csproj", "{E209C750-65C6-48CE-8EF0-62FEFD7951FF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolutionUnitTests", "UnitTester\SolutionUnitTests.csproj", "{AA37DCC1-86C0-40E5-B612-19027F590099}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LingoBingoLibrary", "LingoBingoLibrary\LingoBingoLibrary.csproj", "{5DFAD4F6-1558-45E1-9452-66C9BE3490DD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{AA37DCC1-86C0-40E5-B612-19027F590099}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA37DCC1-86C0-40E5-B612-19027F590099}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA37DCC1-86C0-40E5-B612-19027F590099}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DFAD4F6-1558-45E1-9452-66C9BE3490DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DFAD4F6-1558-45E1-9452-66C9BE3490DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DFAD4F6-1558-45E1-9452-66C9BE3490DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DFAD4F6-1558-45E1-9452-66C9BE3490DD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
