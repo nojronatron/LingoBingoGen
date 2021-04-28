@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace LingoBingoLibrary.Collections
 {
-    class LingoWords : IEnumerable<LingoWord>
+    public class LingoWords : IEnumerable<LingoWord>
     {
         private List<LingoWord> _lingoList;
         public LingoWords() 
