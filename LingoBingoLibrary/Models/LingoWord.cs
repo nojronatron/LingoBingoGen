@@ -4,7 +4,7 @@ using System;
 
 namespace LingoBingoLibrary.Models
 {
-    internal class LingoWord : IEquatable<LingoWord>
+    public class LingoWord : IEquatable<LingoWord>
     {
         [Key]
         internal int ID { get; set; }
