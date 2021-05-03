@@ -12,15 +12,15 @@ namespace LingoBingoLibrary.Helpers
 {
     public static class FileManagerXML
     {
-        internal static FileInfo xmlStorageFile => new FileInfo("LingoWords.xml");
+        internal static FileInfo xmlStorageFile { get; private set; } //=> new FileInfo("LingoWords.xml");
         internal static FileInfo xmlBackupFile => new FileInfo("LingoWords.xml.bak");
 
         /// <summary>
-        /// Returns the full path to the XML file defined in xmlStorageFile property.
-        /// If not found, returns an empty string.
+        /// Returns the full path to an XML file with the filename argument in the current path.
+        /// If not found, returns an empty string. An XML file extension is assumed.
         /// </summary>
         /// <returns></returns>
-        internal static string FindFilename()
+        internal static string FindFilename(string filename)
         {
             DirectoryInfo rootDirectory;
 
@@ -34,22 +34,35 @@ namespace LingoBingoLibrary.Helpers
             }
 
             string result = string.Empty;
-            FileInfo[] files = rootDirectory.GetFiles(xmlStorageFile.Extension);
+            var xmlFilename = new FileInfo($"{ filename }.xml");
+            FileInfo[] files = rootDirectory.GetFiles("*.xml");  //    xmlStorageFile.Extension);
 
-            if (files.Length < 1)
+            if (files.Count() < 1)
             {
                 return result;
             }
 
             foreach (FileInfo file in files)
             {
-                if (file.Name == xmlStorageFile.Name)
+                if (file.Name == xmlFilename.Name)
                 {
                     result = file.FullName;
+                    break;
                 }
             }
             
             return result;
+        }
+
+        /// <summary>
+        /// Returns the full path to a default XML filename in the current path.
+        /// If not found, returns an empty string.
+        /// </summary>
+        /// <returns></returns>
+        internal static string FindDefaultFilename()
+        {
+            xmlStorageFile = new FileInfo("LingoWords");
+            return FindFilename(xmlStorageFile.Name);
         }
 
         /// <summary>
@@ -120,7 +133,7 @@ namespace LingoBingoLibrary.Helpers
         internal static bool SaveToFile(XElement xElement)
         {
             bool succeeded = false;
-            string saveFileFullname = FindFilename();
+            string saveFileFullname = FileManagerXML.xmlStorageFile.FullName;
             var sffn = new FileInfo(saveFileFullname);
             string backupFileFullname = Path.Combine(sffn.DirectoryName, xmlBackupFile.Name);
                                     

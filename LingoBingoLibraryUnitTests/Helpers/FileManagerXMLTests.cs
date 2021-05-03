@@ -1,10 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using LingoBingoLibrary.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 
 namespace LingoBingoLibrary.Helpers.UnitTests
 {
@@ -14,7 +9,24 @@ namespace LingoBingoLibrary.Helpers.UnitTests
         [TestMethod()]
         public void FindFilenameTest()
         {
-            Assert.Fail();
+            var expected = 
+                @"testLingoWords.xml";
+            var result = FileManagerXML.FindFilename("testLingoWords");
+
+            var longFilename = new FileInfo(result);
+            var actual = longFilename.Name;
+
+            Assert.AreEqual(expected, actual);
+        }
+        [TestMethod()]
+        public void FindDefaultFilenameTest()
+        {
+            var expected ="LingoWords.xml";
+            var longFilename = FileManagerXML.FindDefaultFilename();
+            var filename = new FileInfo(longFilename);
+            var actual = filename.Name;
+
+            Assert.AreEqual(expected, actual);
         }
 
         [TestMethod()]

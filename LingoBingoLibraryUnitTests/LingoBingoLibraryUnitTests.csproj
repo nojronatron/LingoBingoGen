@@ -17,4 +17,13 @@
     <ProjectReference Include="..\LingoBingoLibrary\LingoBingoLibrary.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="LingoWords.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="testLingoWords.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
