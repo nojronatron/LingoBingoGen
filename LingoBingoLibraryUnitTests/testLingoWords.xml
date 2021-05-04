@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Words>
+  <Item>
+    <Category>Category1</Category>
+    <Word>alpha</Word>
+  </Item>
+  <Item>
+    <Category>Category1</Category>
+    <Word>bravo</Word>
+  </Item>
+  <Item>
+    <Category>Category2</Category>
+    <Word>charlie</Word>
+  </Item>
+  <Item>
+    <Category>Category1</Category>
+    <Word>delta</Word>
+  </Item>
+  <Item>
+    <Category>Category2</Category>
+    <Word>echo</Word>
+  </Item>
+</Words>

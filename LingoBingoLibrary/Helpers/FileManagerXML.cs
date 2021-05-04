@@ -10,10 +10,27 @@ using System.Xml.Linq;
 
 namespace LingoBingoLibrary.Helpers
 {
-    public static class FileManagerXML
+    public class FileManagerXML
     {
-        internal static FileInfo xmlStorageFile { get; private set; } //=> new FileInfo("LingoWords.xml");
-        internal static FileInfo xmlBackupFile => new FileInfo("LingoWords.xml.bak");
+        internal static FileInfo XmlStorageFile { get; private set; } 
+        internal static FileInfo XmlBackupFile { get; private set; }
+
+        public FileManagerXML()
+        {
+            XmlStorageFile = new FileInfo("LingoWords.xml");
+            XmlBackupFile = new FileInfo("LingoWords.xml.bak");
+        }
+
+        public FileManagerXML(string filename)
+        {
+            XmlStorageFile = new FileInfo(filename);
+            XmlBackupFile = new FileInfo($"{ XmlStorageFile.FullName }.bak");
+        }
+
+        public FileManagerXML(string filename, string backupFilename) : this (filename)
+        {
+            XmlBackupFile = new FileInfo(backupFilename);
+        }
 
         /// <summary>
         /// Returns the full path to an XML file with the filename argument in the current path.
@@ -61,8 +78,8 @@ namespace LingoBingoLibrary.Helpers
         /// <returns></returns>
         internal static string FindDefaultFilename()
         {
-            xmlStorageFile = new FileInfo("LingoWords");
-            return FindFilename(xmlStorageFile.Name);
+            XmlStorageFile = new FileInfo("LingoWords");
+            return FindFilename(XmlStorageFile.Name);
         }
 
         /// <summary>
@@ -72,34 +89,48 @@ namespace LingoBingoLibrary.Helpers
         /// <returns></returns>
         internal static IEnumerable<LingoWord> LoadLingoWords(string filepath)
         {
-            FileInfo sourceFilepath = new FileInfo(filepath);
-            XElement xe = null;
+            XElement xe = new XElement(
+                        new XElement("Words",
+                            new XElement("Item",
+                                new XElement("Category", "Error"),
+                                new XElement("Word", "Maybe the file could not be found?")
+                        )));
+            IEnumerable<LingoWord> result = null;
 
-            try
+            if (string.IsNullOrEmpty(filepath) || string.IsNullOrWhiteSpace(filepath))
             {
-                using (StreamReader sr = File.OpenText(sourceFilepath.FullName))
+                //  xe is already set to an error output
+                ;
+            }
+            else
+            {
+                FileInfo sourceFilepath = null;
+
+                sourceFilepath = new FileInfo(filepath);
+
+                try
                 {
-                    xe = XElement.Load(sr);
+                    using (StreamReader sr = File.OpenText(sourceFilepath.FullName))
+                    {
+                        xe = XElement.Load(sr);
+                    }
+                }
+                catch
+                {
+                    //  xe is already set to an error output
+                    ;
                 }
             }
-            catch
-            {
-                xe = new XElement(
-                    new XElement("Words",
-                        new XElement("Item",
-                            new XElement("Category", "Error"),
-                            new XElement("Word", $"Maybe the file could not be found?")
-                    )));
-            }
-
+            
             IEnumerable<XElement> itemsXml = xe.Descendants("Item");
 
-            IEnumerable<LingoWord> result = (from ix in itemsXml
-                                             select new LingoWord()
-                                             {
-                                                 Category = ix.Element("Category").Value,
-                                                 Word = ix.Element("Word").Value
-                                             }).ToList();
+            result = (from ix in itemsXml
+                      select new LingoWord()
+                      {
+                          Category = ix.Element("Category").Value,
+                          Word = ix.Element("Word").Value
+                      }
+                      ).ToList();
 
             return result;
         }
@@ -132,10 +163,15 @@ namespace LingoBingoLibrary.Helpers
         /// <returns></returns>
         internal static bool SaveToFile(XElement xElement)
         {
+            if (FileManagerXML.XmlStorageFile == null)
+            {
+                return false;
+            }
+
             bool succeeded = false;
-            string saveFileFullname = FileManagerXML.xmlStorageFile.FullName;
+            string saveFileFullname = FileManagerXML.XmlStorageFile.FullName;
             var sffn = new FileInfo(saveFileFullname);
-            string backupFileFullname = Path.Combine(sffn.DirectoryName, xmlBackupFile.Name);
+            string backupFileFullname = Path.Combine(sffn.DirectoryName, XmlBackupFile.Name);
                                     
             try
             {
