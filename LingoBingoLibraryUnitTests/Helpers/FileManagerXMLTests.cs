@@ -1,4 +1,5 @@
-﻿using LingoBingoLibrary.Models;
+﻿using LingoBingoLibrary.Collections;
+using LingoBingoLibrary.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.IO;
@@ -9,6 +10,46 @@ namespace LingoBingoLibrary.Helpers.UnitTests
     [TestClass()]
     public class FileManagerXMLTests
     {
+        internal List<LingoWord> TestSmallListLingoWords { get; private set; }
+        internal XElement TestSmallXeLingoWords { get; private set; }
+
+        [TestInitialize()]
+        public void Setup()
+        {
+            TestSmallListLingoWords = new List<LingoWord>()
+            {
+                new LingoWord("foxtrot", "Category1"),
+                new LingoWord("golf", "Category1"),
+                new LingoWord("hotel", "Category2"),
+                new LingoWord("india", "Category1"),
+                new LingoWord("juliet", "Category2")
+            };
+
+            TestSmallXeLingoWords = new XElement(
+                new XElement("Words",
+                    new XElement("Item",
+                        new XElement("Category", "Category1"),
+                        new XElement("Word", "foxtrot")
+                        ),
+                    new XElement("Item",
+                        new XElement("Category", "Category1"),
+                        new XElement("Word", "golf")
+                        ),
+                    new XElement("Item",
+                        new XElement("Category", "Category2"),
+                        new XElement("Word", "hotel")
+                        ),
+                    new XElement("Item",
+                        new XElement("Category", "Category1"),
+                        new XElement("Word", "india")
+                        ),
+                    new XElement("Item",
+                        new XElement("Category", "Category2"),
+                        new XElement("Word", "juliet")
+                        )
+                    ));
+        }
+
         [TestMethod()]
         public void DefaultCtorTest()
         {
@@ -42,11 +83,10 @@ namespace LingoBingoLibrary.Helpers.UnitTests
         [TestMethod()]
         public void FindFilenameTest()
         {
-            var expected = 
-                @"testLingoWords.xml";
+            var expected = @"testLingoWords.xml";
             var result = FileManagerXML.FindFilename("testLingoWords");
-
             var longFilename = new FileInfo(result);
+
             var actual = longFilename.Name;
 
             Assert.AreEqual(expected, actual);
@@ -58,6 +98,7 @@ namespace LingoBingoLibrary.Helpers.UnitTests
             var expected ="LingoWords.xml";
             var longFilename = FileManagerXML.FindDefaultFilename();
             var filename = new FileInfo(longFilename);
+
             var actual = filename.Name;
 
             Assert.AreEqual(expected, actual);
@@ -79,7 +120,6 @@ namespace LingoBingoLibrary.Helpers.UnitTests
             };
 
             IEnumerable<LingoWord> actualResult = FileManagerXML.LoadLingoWords(filepath);
-
             var actualResultList = new List<LingoWord>(actualResult);
 
             for (int idx=0; idx < actualResultList.Count; idx++)
@@ -100,7 +140,6 @@ namespace LingoBingoLibrary.Helpers.UnitTests
             };
 
             IEnumerable<LingoWord> actualResult = FileManagerXML.LoadLingoWords(filepath);
-
             var actualResultList = new List<LingoWord>(actualResult);
 
             for (int idx=0; idx < actualResultList.Count; idx++)
@@ -139,19 +178,18 @@ namespace LingoBingoLibrary.Helpers.UnitTests
         {
             //  Complete this test after fully testing Collections/LingoWords.cs
             //  XElement actualResult = FileManagerXML.ConvertToXML();
-            Assert.Fail();
+            var testCollection = new LingoWords(TestSmallListLingoWords);
+            var fmx = new FileManagerXML();
+            XElement actualResult = FileManagerXML.ConvertToXML(testCollection);
+
+            System.Console.WriteLine(actualResult.ToString());
+            System.Console.WriteLine(TestSmallXeLingoWords.ToString());
+
+            Assert.AreEqual(TestSmallXeLingoWords, actualResult);
         }
 
         [TestMethod()]
-        public void SaveToFileTest()
-        {
-            //  Complete this test after fully testing Collections/Lingowords.cs
-            //  var thingy = FileManagerXML.SaveToFile();
-            Assert.Fail();
-        }
-
-        [TestMethod()]
-        public void SaveToFileTest1()
+        public void SaveToFileCollectionTest()
         {
             string[] files = null;
             string currSearchDirectory = Directory.GetCurrentDirectory();
@@ -163,16 +201,64 @@ namespace LingoBingoLibrary.Helpers.UnitTests
             do
             {
                 files = Directory.GetFiles(currSearchDirectory, "LingoWords.xml");
+                
                 if (files.Length > 0)
                 {
                     found = true;
                 }
+                
                 prevDirectory = currSearchDirectory;
                 currSearchDirectory = Directory.GetParent(prevDirectory).FullName;
+                
                 if (currSearchDirectory == @"C:\")
                 {
                     Assert.Fail();
                 }
+
+            } while (!found);
+
+            var sourceFilePath = files[0];
+            var targetFilePath = Path.Join(targetDirectory, "LingoWords.xml");
+            var fmx = new FileManagerXML("LingoWords.xml");
+            var testCollection = new LingoWords(TestSmallListLingoWords);
+            var actualResult = FileManagerXML.SaveToFile(testCollection);
+
+            if (actualResult)
+            {
+                var overwrite = true;
+                File.Copy(sourceFilePath, targetFilePath, overwrite);
+            }
+
+            Assert.IsTrue(actualResult);
+        }
+
+        [TestMethod()]
+        public void SaveToFileXMLTest()
+        {
+            string[] files = null;
+            string currSearchDirectory = Directory.GetCurrentDirectory();
+            currSearchDirectory = Directory.GetParent(currSearchDirectory).FullName;
+            string targetDirectory = Directory.GetCurrentDirectory();
+            string prevDirectory = string.Empty;
+            bool found = false;
+
+            do
+            {
+                files = Directory.GetFiles(currSearchDirectory, "LingoWords.xml");
+                
+                if (files.Length > 0)
+                {
+                    found = true;
+                }
+                
+                prevDirectory = currSearchDirectory;
+                currSearchDirectory = Directory.GetParent(prevDirectory).FullName;
+                
+                if (currSearchDirectory == @"C:\")
+                {
+                    Assert.Fail();
+                }
+
             } while (!found);
 
             var sourceFilePath = files[0];
