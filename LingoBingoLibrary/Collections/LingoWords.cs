@@ -67,7 +67,7 @@ namespace LingoBingoLibrary.Collections
 
             foreach (var item in this)
             {
-                if (item.Category == category.ToLowerInvariant())
+                if (item.Category.ToLowerInvariant() == category.ToLowerInvariant())
                 {
                     categoryWords.Add(item.Word);
                 }
@@ -99,8 +99,16 @@ namespace LingoBingoLibrary.Collections
                 return false;
             }
 
+            var startCount = this.Count;
             _lingoList.Add(new LingoWord(word, category));
-            return false;
+            var endCount = this.Count;
+
+            if (startCount + 1 != endCount)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         /// <summary>
@@ -111,13 +119,38 @@ namespace LingoBingoLibrary.Collections
         /// <returns></returns>
         public bool AddLingoWord(string category, string word)
         {
+            category = category.Trim();
+            word = word.Trim();
+
             if (string.IsNullOrEmpty(category) || string.IsNullOrWhiteSpace(category) ||
                 string.IsNullOrEmpty(word) || string.IsNullOrWhiteSpace(word))
             {
                 return false;
             }
 
-            return false;
+            var result = false;
+
+            if (!this.Categories.Contains(category.ToLowerInvariant()))
+            {
+                return this.AddCategory(category, word);
+            }
+            else
+            {
+                var startCount = this.Count;
+                _lingoList.Add(new LingoWord(word, category));
+                var endCount = this.Count;
+
+                if (startCount + 1 != endCount)
+                {
+                    result = false;
+                }
+                else
+                {
+                    result = true;
+                }
+            }
+            
+            return result;
         }
 
         /// <summary>
