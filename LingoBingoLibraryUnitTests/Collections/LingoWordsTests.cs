@@ -11,6 +11,7 @@ namespace LingoBingoLibrary.Collections.UnitTests
     {
         internal List<LingoWord> TestSmallListLingoWords { get; private set; }
         internal List<LingoWord> TestLargeListLingoWords { get; private set; }
+        internal int TestBoardSize => 25;
 
         [TestInitialize()]
         public void Setup()
@@ -253,7 +254,7 @@ namespace LingoBingoLibrary.Collections.UnitTests
                 Assert.Fail();
             }
 
-            var actualResults = lwCollection.GetRandomWords("Category1");
+            var actualResults = lwCollection.GetRandomWords("Category1", TestBoardSize - 1);
             var actualResultsCount = actualResults.Count;
 
             Assert.IsTrue(actualResultsCount > 0);

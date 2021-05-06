@@ -154,16 +154,16 @@ namespace LingoBingoLibrary.Collections
         }
 
         /// <summary>
-        /// Returns a randomized list of words from a given category with 24 or more words.
+        /// Returns a randomized list of words from a given category with at least arg howMany or more words.
         /// Returns an empty list if no such category is in this collection or the category has less than 25 words.
         /// </summary>
         /// <param name="category"></param>
         /// <returns></returns>
-        public List<string> GetRandomWords(string category)
+        public List<string> GetRandomWords(string category, int howMany)
         {
             var categoryWords = GetWordsInCategory(category);
 
-            if (categoryWords.Count < 24)
+            if (categoryWords.Count < howMany)
             {
                 return new List<string>();
             }
@@ -178,7 +178,8 @@ namespace LingoBingoLibrary.Collections
             }
 
             Array.Sort(order, wordlist);
-            return new List<string>(wordlist);
+            
+            return new List<string>(wordlist.Take(howMany));
         }
 
         /// <summary>
