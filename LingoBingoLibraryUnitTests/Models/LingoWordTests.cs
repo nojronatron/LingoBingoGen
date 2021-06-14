@@ -8,7 +8,7 @@ namespace LingoBingoLibrary.Models.UnitTests
         [TestMethod()]
         public void CTOR_Blank_Test()
         {
-            var lw = new LingoWord();
+            var lw = new BasicLingoWord();
             var expectedTypeName = "LingoBingoLibrary.Models.LingoWord";
             var expectedWord = string.Empty;
             var expectedCategory = string.Empty;
@@ -25,7 +25,7 @@ namespace LingoBingoLibrary.Models.UnitTests
         [TestMethod()]
         public void CTOR_Full_Test()
         {
-            var lw = new LingoWord("alpha", "test");
+            var lw = new BasicLingoWord("alpha", "test");
             var expectedTypeName = "LingoBingoLibrary.Models.LingoWord";
             var expectedWord = "alpha";
             var expectedCategory = "test";
@@ -42,10 +42,10 @@ namespace LingoBingoLibrary.Models.UnitTests
         [TestMethod()]
         public void EqualsTest()
         {
-            var a = new LingoWord("alpha", "test");
-            var b = new LingoWord("bravo", "test");
-            var c = new LingoWord("alpha", "toast");
-            var d = new LingoWord("alpha", "test");
+            var a = new BasicLingoWord("alpha", "test");
+            var b = new BasicLingoWord("bravo", "test");
+            var c = new BasicLingoWord("alpha", "toast");
+            var d = new BasicLingoWord("alpha", "test");
 
             var expected = true;
             var actual = a.Equals(a);
@@ -67,7 +67,7 @@ namespace LingoBingoLibrary.Models.UnitTests
         [TestMethod()]
         public void GetHashCodeTest()
         {
-            var lw = new LingoWord("alpha", "test");
+            var lw = new BasicLingoWord("alpha", "test");
             var expected = true;
             var hc = lw.GetHashCode();
             var hcs = $"{ hc }";
@@ -82,7 +82,7 @@ namespace LingoBingoLibrary.Models.UnitTests
         [TestMethod()]
         public void ToStringTest()
         {
-            var lw = new LingoWord("alpha", "test");
+            var lw = new BasicLingoWord("alpha", "test");
             var expected = "test: alpha";
 
             var actual = lw.ToString();

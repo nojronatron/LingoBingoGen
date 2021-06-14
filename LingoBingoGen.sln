@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.29123.88
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LingoBingoLibrary", "LingoBingoLibrary\LingoBingoLibrary.csproj", "{5DFAD4F6-1558-45E1-9452-66C9BE3490DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LingoBingoLibraryUnitTests", "LingoBingoLibraryUnitTests\LingoBingoLibraryUnitTests.csproj", "{92B59915-0939-48C0-8E67-095FBA39D71B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LingoBingoLibraryUnitTests", "LingoBingoLibraryUnitTests\LingoBingoLibraryUnitTests.csproj", "{92B59915-0939-48C0-8E67-095FBA39D71B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LingoBingoWebApp", "LingoBingoWebApp\LingoBingoWebApp.csproj", "{4DA2A5B0-BF4A-43BA-8C53-0E86816F45AA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{92B59915-0939-48C0-8E67-095FBA39D71B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{92B59915-0939-48C0-8E67-095FBA39D71B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{92B59915-0939-48C0-8E67-095FBA39D71B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DA2A5B0-BF4A-43BA-8C53-0E86816F45AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DA2A5B0-BF4A-43BA-8C53-0E86816F45AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DA2A5B0-BF4A-43BA-8C53-0E86816F45AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DA2A5B0-BF4A-43BA-8C53-0E86816F45AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

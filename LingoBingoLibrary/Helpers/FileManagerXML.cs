@@ -87,7 +87,7 @@ namespace LingoBingoLibrary.Helpers
         /// Always returns an IEnumerable of type LingoWord but output should be checked for errors!
         /// </summary>
         /// <returns></returns>
-        internal static IEnumerable<LingoWord> LoadLingoWords(string filepath)
+        internal static IEnumerable<BasicLingoWord> LoadLingoWords(string filepath)
         {
             XElement xe = new XElement(
                         new XElement("Words",
@@ -95,7 +95,7 @@ namespace LingoBingoLibrary.Helpers
                                 new XElement("Category", "Error"),
                                 new XElement("Word", "Maybe the file could not be found?")
                         )));
-            IEnumerable<LingoWord> result = null;
+            IEnumerable<BasicLingoWord> result = null;
 
             if (string.IsNullOrEmpty(filepath) || string.IsNullOrWhiteSpace(filepath))
             {
@@ -125,7 +125,7 @@ namespace LingoBingoLibrary.Helpers
             IEnumerable<XElement> itemsXml = xe.Descendants("Item");
 
             result = (from ix in itemsXml
-                      select new LingoWord()
+                      select new BasicLingoWord()
                       {
                           Category = ix.Element("Category").Value,
                           Word = ix.Element("Word").Value
@@ -140,7 +140,7 @@ namespace LingoBingoLibrary.Helpers
         /// </summary>
         /// <param name="collection"></param>
         /// <returns></returns>
-        internal static XElement ConvertToXML(LingoWords collection)
+        internal static XElement ConvertToXML(LingoWordsCollection collection)
         {
             XElement xe = new XElement("Words");
 
@@ -202,7 +202,7 @@ namespace LingoBingoLibrary.Helpers
         /// </summary>
         /// <param name="collection"></param>
         /// <returns></returns>
-        internal static bool SaveToFile(LingoWords collection)
+        internal static bool SaveToFile(LingoWordsCollection collection)
         {
             if (collection.Count < 1)
             {

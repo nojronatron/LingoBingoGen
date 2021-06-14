@@ -6,26 +6,26 @@ using System.Linq;
 
 namespace LingoBingoLibrary.Collections
 {
-    public class LingoWords : IEnumerable<LingoWord>
+    public class LingoWordsCollection : IEnumerable<BasicLingoWord>
     {
-        private List<LingoWord> _lingoList;
-        public LingoWords() 
+        private List<BasicLingoWord> _lingoList;
+        public LingoWordsCollection() 
         {
-            _lingoList = new List<LingoWord>();
+            _lingoList = new List<BasicLingoWord>();
         }
-        public LingoWords(IEnumerable<LingoWord> lingoWords)
+        public LingoWordsCollection(IEnumerable<BasicLingoWord> lingoWords)
         {
-            _lingoList = new List<LingoWord>(lingoWords);
+            _lingoList = new List<BasicLingoWord>(lingoWords);
         }
 
         public int Count => _lingoList.Count;
         public int CategoryCount => (from lw in _lingoList select lw.Category).Distinct().Count();
         public IEnumerable<string> Categories => (from lw in _lingoList select lw.Category.ToLowerInvariant()).Distinct().ToList();
-        public LingoWord this[int idx]
+        public BasicLingoWord this[int idx]
         {
             get
             {
-                LingoWord result = default;
+                BasicLingoWord result = default;
                 if (idx < _lingoList.Count)
                 {
                     result = _lingoList[idx];
@@ -38,9 +38,9 @@ namespace LingoBingoLibrary.Collections
             }
         }
 
-        IEnumerator<LingoWord> IEnumerable<LingoWord>.GetEnumerator()
+        IEnumerator<BasicLingoWord> IEnumerable<BasicLingoWord>.GetEnumerator()
         {
-            foreach (LingoWord result in _lingoList)
+            foreach (BasicLingoWord result in _lingoList)
             {
                 yield return result;
             }
@@ -52,7 +52,7 @@ namespace LingoBingoLibrary.Collections
         /// <returns></returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return ((IEnumerable<LingoWord>)_lingoList).GetEnumerator();
+            return ((IEnumerable<BasicLingoWord>)_lingoList).GetEnumerator();
         }
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace LingoBingoLibrary.Collections
             }
 
             var startCount = this.Count;
-            _lingoList.Add(new LingoWord(word, category));
+            _lingoList.Add(new BasicLingoWord(word, category));
             var endCount = this.Count;
 
             if (startCount + 1 != endCount)
@@ -137,7 +137,7 @@ namespace LingoBingoLibrary.Collections
             else
             {
                 var startCount = this.Count;
-                _lingoList.Add(new LingoWord(word, category));
+                _lingoList.Add(new BasicLingoWord(word, category));
                 var endCount = this.Count;
 
                 if (startCount + 1 != endCount)

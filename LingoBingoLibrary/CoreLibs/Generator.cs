@@ -12,11 +12,11 @@ namespace LingoBingoLibrary.CoreLibs
     public class Generator
     {
         internal int DefaultBoardSize { get; private set; }
-        internal LingoWords lingoWords { get; private set; }
+        internal LingoWordsCollection lingoWords { get; private set; }
         internal FileManagerXML fileManagerXml { get; private set; }
         public Generator()
         {
-            lingoWords = new LingoWords();
+            lingoWords = new LingoWordsCollection();
             fileManagerXml = new FileManagerXML();
             DefaultBoardSize = 25;
         }
@@ -29,7 +29,7 @@ namespace LingoBingoLibrary.CoreLibs
         {
             FileInfo filename = FileManagerXML.XmlStorageFile;
             var collection = FileManagerXML.LoadLingoWords(filename.FullName);
-            lingoWords = new LingoWords(collection);
+            lingoWords = new LingoWordsCollection(collection);
 
             if (lingoWords.Count > 0)
             {
@@ -44,7 +44,7 @@ namespace LingoBingoLibrary.CoreLibs
         /// </summary>
         /// <param name="collection"></param>
         /// <returns></returns>
-        public bool SaveWordPools(LingoWords collection)
+        public bool SaveWordPools(LingoWordsCollection collection)
         {
             FileInfo filename = FileManagerXML.XmlStorageFile;
             return FileManagerXML.SaveToFile(collection);
