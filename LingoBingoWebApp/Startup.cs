@@ -1,17 +1,10 @@
-using LingoBingoWebApp.Data;
-using LingoBingoLibrary.DataAccess;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using LingoBingoLibrary.DataAccess;
 
 namespace LingoBingoWebApp
 {
@@ -25,13 +18,10 @@ namespace LingoBingoWebApp
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
-            services.AddServerSideBlazor();
-            services.AddSingleton<WeatherForecastService>();
-            services.AddDbContext<LingoWordsContext>(options => 
+            services.AddDbContext<LingoWordsContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Default")));
         }
 
@@ -54,10 +44,11 @@ namespace LingoBingoWebApp
 
             app.UseRouting();
 
+            app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapBlazorHub();
-                endpoints.MapFallbackToPage("/_Host");
+                endpoints.MapRazorPages();
             });
         }
     }

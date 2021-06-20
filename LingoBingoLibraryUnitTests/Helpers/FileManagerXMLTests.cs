@@ -1,5 +1,5 @@
 ﻿using LingoBingoLibrary.Collections;
-using LingoBingoLibrary.Models;
+using LingoBingoLibrary.DataAccess;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.IO;
@@ -10,19 +10,53 @@ namespace LingoBingoLibrary.Helpers.UnitTests
     [TestClass()]
     public class FileManagerXMLTests
     {
-        internal List<BasicLingoWord> TestSmallListLingoWords { get; private set; }
+        internal List<LingoWord> TestSmallListLingoWords { get; private set; }
         internal XElement TestSmallXeLingoWords { get; private set; }
 
         [TestInitialize()]
         public void Setup()
         {
-            TestSmallListLingoWords = new List<BasicLingoWord>()
+            TestSmallListLingoWords = new List<LingoWord>()
             {
-                new BasicLingoWord("foxtrot", "Category1"),
-                new BasicLingoWord("golf", "Category1"),
-                new BasicLingoWord("hotel", "Category2"),
-                new BasicLingoWord("india", "Category1"),
-                new BasicLingoWord("juliet", "Category2")
+                new LingoWord
+                {
+                    Word = "foxtrot",
+                    LingoCategory = new LingoCategory{
+                        Category ="Category1"
+                    }
+                },
+                new LingoWord
+                {
+                    Word = "golf",
+                    LingoCategory = new LingoCategory
+                    {
+                        Category ="Category1"
+                    }
+                },
+                new LingoWord
+                {
+                    Word = "hotel",
+                    LingoCategory = new LingoCategory
+                    {
+                        Category ="Category2"
+                    }
+                },
+                new LingoWord
+                {
+                    Word = "india",
+                    LingoCategory = new LingoCategory
+                    {
+                        Category = "Category1"
+                    }
+                },
+                new LingoWord
+                {
+                    Word = "juliet",
+                    LingoCategory = new LingoCategory
+                    {
+                        Category = "Category2"
+                    }
+                }
             };
 
             TestSmallXeLingoWords = new XElement(
@@ -110,17 +144,48 @@ namespace LingoBingoLibrary.Helpers.UnitTests
             string currDirectory = Directory.GetCurrentDirectory();
             var filepath = Path.Join(currDirectory, "testLingoWords.xml");
 
-            var expectedResult = new List<BasicLingoWord>()
+            var expectedResult = new List<LingoWord>()
             {
-                new BasicLingoWord("alpha", "Category1"),
-                new BasicLingoWord("bravo", "Category1"),
-                new BasicLingoWord("charlie", "Category2"),
-                new BasicLingoWord("delta", "Category1"),
-                new BasicLingoWord("echo", "Category2")
+                new LingoWord
+                {
+                    Word = "alpha",
+                    LingoCategory = new LingoCategory
+                    {
+                        Category = "Category1"
+                    }
+                },                new LingoWord
+                {
+                    Word = "bravo",
+                    LingoCategory = new LingoCategory
+                    {
+                        Category = "Category1"
+                    }
+                },                new LingoWord
+                {
+                    Word = "charlie",
+                    LingoCategory = new LingoCategory
+                    {
+                        Category = "Category2"
+                    }
+                },                new LingoWord
+                {
+                    Word = "delta",
+                    LingoCategory = new LingoCategory
+                    {
+                        Category = "Category1"
+                    }
+                },                new LingoWord
+                {
+                    Word = "echo",
+                    LingoCategory = new LingoCategory
+                    {
+                        Category = "Category2"
+                    }
+                }
             };
 
-            IEnumerable<BasicLingoWord> actualResult = FileManagerXML.LoadLingoWords(filepath);
-            var actualResultList = new List<BasicLingoWord>(actualResult);
+            IEnumerable<LingoWord> actualResult = FileManagerXML.LoadLingoWords(filepath);
+            var actualResultList = new List<LingoWord>(actualResult);
 
             for (int idx=0; idx < actualResultList.Count; idx++)
             {
@@ -134,13 +199,19 @@ namespace LingoBingoLibrary.Helpers.UnitTests
         public void LoadLingoWordsEmptyTest()
         {
             var filepath = " ";
-            var expectedErrorResult = new List<BasicLingoWord>()
+            var expectedErrorResult = new List<LingoWord>()
             {
-                new BasicLingoWord("Maybe the file could not be found?", "Error")
+                new LingoWord
+                {
+                    Word = "Maybe the file could not be found?",
+                    LingoCategory = new LingoCategory{
+                        Category = "Error"
+                    }
+                }
             };
 
-            IEnumerable<BasicLingoWord> actualResult = FileManagerXML.LoadLingoWords(filepath);
-            var actualResultList = new List<BasicLingoWord>(actualResult);
+            IEnumerable<LingoWord> actualResult = FileManagerXML.LoadLingoWords(filepath);
+            var actualResultList = new List<LingoWord>(actualResult);
 
             for (int idx=0; idx < actualResultList.Count; idx++)
             {
@@ -156,14 +227,21 @@ namespace LingoBingoLibrary.Helpers.UnitTests
             string currDirectory = Directory.GetCurrentDirectory();
             var filepath = Path.Join(currDirectory, "NoSuchWords.xml");
 
-            var expectedErrorResult = new List<BasicLingoWord>()
+            var expectedErrorResult = new List<LingoWord>()
             {
-                new BasicLingoWord("Maybe the file could not be found?", "Error")
+                new LingoWord
+                {
+                    Word = "Maybe the file could not be found?",
+                    LingoCategory = new LingoCategory
+                    {
+                        Category = "Error"
+                    }
+                }
             };
 
-            IEnumerable<BasicLingoWord> actualResult = FileManagerXML.LoadLingoWords(filepath);
+            IEnumerable<LingoWord> actualResult = FileManagerXML.LoadLingoWords(filepath);
 
-            var actualResultList = new List<BasicLingoWord>(actualResult);
+            var actualResultList = new List<LingoWord>(actualResult);
 
             for (int idx = 0; idx < actualResultList.Count; idx++)
             {

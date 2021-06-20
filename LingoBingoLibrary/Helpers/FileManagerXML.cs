@@ -1,5 +1,5 @@
 ﻿using LingoBingoLibrary.Collections;
-using LingoBingoLibrary.Models;
+using LingoBingoLibrary.DataAccess;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -53,8 +53,8 @@ namespace LingoBingoLibrary.Helpers
             string result = string.Empty;
             var xmlFilename = new FileInfo($"{ filename }.xml");
             FileInfo[] files = rootDirectory.GetFiles("*.xml");  //    xmlStorageFile.Extension);
-
-            if (files.Count() < 1)
+            
+            if (files.Length < 1)
             {
                 return result;
             }
@@ -87,7 +87,7 @@ namespace LingoBingoLibrary.Helpers
         /// Always returns an IEnumerable of type LingoWord but output should be checked for errors!
         /// </summary>
         /// <returns></returns>
-        internal static IEnumerable<BasicLingoWord> LoadLingoWords(string filepath)
+        internal static IEnumerable<LingoWord> LoadLingoWords(string filepath)
         {
             XElement xe = new XElement(
                         new XElement("Words",
@@ -95,7 +95,7 @@ namespace LingoBingoLibrary.Helpers
                                 new XElement("Category", "Error"),
                                 new XElement("Word", "Maybe the file could not be found?")
                         )));
-            IEnumerable<BasicLingoWord> result = null;
+            IEnumerable<LingoWord> result = null;
 
             if (string.IsNullOrEmpty(filepath) || string.IsNullOrWhiteSpace(filepath))
             {
@@ -110,10 +110,8 @@ namespace LingoBingoLibrary.Helpers
 
                 try
                 {
-                    using (StreamReader sr = File.OpenText(sourceFilepath.FullName))
-                    {
-                        xe = XElement.Load(sr);
-                    }
+                    using StreamReader sr = File.OpenText(sourceFilepath.FullName);
+                    xe = XElement.Load(sr);
                 }
                 catch
                 {
@@ -125,9 +123,12 @@ namespace LingoBingoLibrary.Helpers
             IEnumerable<XElement> itemsXml = xe.Descendants("Item");
 
             result = (from ix in itemsXml
-                      select new BasicLingoWord()
+                      select new LingoWord()
                       {
-                          Category = ix.Element("Category").Value,
+                          LingoCategory = new LingoCategory
+                          {
+                              Category = ix.Element("Category").Value
+                          },
                           Word = ix.Element("Word").Value
                       }
                       ).ToList();
@@ -147,7 +148,7 @@ namespace LingoBingoLibrary.Helpers
             for (int idx=0; idx < collection.Count; idx++)
             {
                 xe.Add(new XElement("Item",
-                    new XElement("Category", collection[idx].Category),
+                    new XElement("Category", collection[idx].LingoCategory.Category),
                     new XElement("Word", collection[idx].Word)
                     ));
             }

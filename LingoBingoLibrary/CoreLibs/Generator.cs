@@ -12,12 +12,12 @@ namespace LingoBingoLibrary.CoreLibs
     public class Generator
     {
         internal int DefaultBoardSize { get; private set; }
-        internal LingoWordsCollection lingoWords { get; private set; }
-        internal FileManagerXML fileManagerXml { get; private set; }
+        //internal LingoWordsCollection lingoWords { get; private set; }
+        internal FileManagerXML FileManagerXml { get; private set; }
         public Generator()
         {
-            lingoWords = new LingoWordsCollection();
-            fileManagerXml = new FileManagerXML();
+            //lingoWords = new LingoWordsCollection();
+            FileManagerXml = new FileManagerXML();
             DefaultBoardSize = 25;
         }
 
@@ -25,18 +25,19 @@ namespace LingoBingoLibrary.CoreLibs
         /// Loads existing words and categories from a file into a collection.
         /// </summary>
         /// <returns></returns>
-        public bool LoadWordPools()
+        public LingoWordsCollection LoadWordPools()
         {
             FileInfo filename = FileManagerXML.XmlStorageFile;
             var collection = FileManagerXML.LoadLingoWords(filename.FullName);
-            lingoWords = new LingoWordsCollection(collection);
+            //lingoWords = new LingoWordsCollection(collection);
 
-            if (lingoWords.Count > 0)
-            {
-                return true;
-            }
+            //if (lingoWords.Count > 0)
+            //{
+            //    return true;
+            //}
 
-            return false;
+            //return false;
+            return new LingoWordsCollection(collection);
         }
 
         /// <summary>
@@ -55,11 +56,13 @@ namespace LingoBingoLibrary.CoreLibs
         /// </summary>
         /// <param name="category"></param>
         /// <returns></returns>
-        public List<string> GetNewBingoBoard(string category)
+        public List<string> GetNewBingoBoard(LingoWordsCollection lwc, string category)
         {
-            var randomizedList = lingoWords.GetRandomWords(category, DefaultBoardSize - 1);
-
-            if (lingoWords.GetListWithFreeSpace(ref randomizedList))
+            //var randomizedList = lingoWords.GetRandomWords(category, DefaultBoardSize - 1);
+            var randomizedList = lwc.GetRandomWords(category, DefaultBoardSize - 1);
+            
+            //if (lingoWords.GetListWithFreeSpace(ref randomizedList))
+            if (lwc.GetListWithFreeSpace(ref randomizedList))
             {
                 return randomizedList;
             }

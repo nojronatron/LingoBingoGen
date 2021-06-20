@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LingoBingoLibrary", "LingoB
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LingoBingoLibraryUnitTests", "LingoBingoLibraryUnitTests\LingoBingoLibraryUnitTests.csproj", "{92B59915-0939-48C0-8E67-095FBA39D71B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LingoBingoWebApp", "LingoBingoWebApp\LingoBingoWebApp.csproj", "{4DA2A5B0-BF4A-43BA-8C53-0E86816F45AA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LingoBingoWebApp", "LingoBingoWebApp\LingoBingoWebApp.csproj", "{71A52877-7989-4D2B-9E53-90CD67A5811D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LBAdminConsole", "LBAdminConsole\LBAdminConsole.csproj", "{DA34DE75-3C12-4B93-BB9E-1C02B00D04FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +25,14 @@ Global
 		{92B59915-0939-48C0-8E67-095FBA39D71B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{92B59915-0939-48C0-8E67-095FBA39D71B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{92B59915-0939-48C0-8E67-095FBA39D71B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4DA2A5B0-BF4A-43BA-8C53-0E86816F45AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4DA2A5B0-BF4A-43BA-8C53-0E86816F45AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4DA2A5B0-BF4A-43BA-8C53-0E86816F45AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4DA2A5B0-BF4A-43BA-8C53-0E86816F45AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71A52877-7989-4D2B-9E53-90CD67A5811D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71A52877-7989-4D2B-9E53-90CD67A5811D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71A52877-7989-4D2B-9E53-90CD67A5811D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71A52877-7989-4D2B-9E53-90CD67A5811D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA34DE75-3C12-4B93-BB9E-1C02B00D04FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA34DE75-3C12-4B93-BB9E-1C02B00D04FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA34DE75-3C12-4B93-BB9E-1C02B00D04FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA34DE75-3C12-4B93-BB9E-1C02B00D04FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

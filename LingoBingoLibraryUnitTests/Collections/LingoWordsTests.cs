@@ -3,53 +3,73 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using LingoBingoLibrary.Models;
+using LingoBingoLibrary.DataAccess;
 
 namespace LingoBingoLibrary.Collections.UnitTests
 {
     [TestClass()]
     public class LingoWordsTests
     {
-        internal List<BasicLingoWord> TestSmallListLingoWords { get; private set; }
-        internal List<BasicLingoWord> TestLargeListLingoWords { get; private set; }
+        internal List<LingoWord> TestSmallListLingoWords { get; private set; }
+        internal List<LingoWord> TestLargeListLingoWords { get; private set; }
         internal int TestBoardSize => 25;
 
         [TestInitialize()]
         public void Setup()
         {
-            TestSmallListLingoWords = new List<BasicLingoWord>()
+            TestSmallListLingoWords = new List<LingoWord>()
             {
-                new BasicLingoWord("alpha", "Category1"),
-                new BasicLingoWord("bravo", "Category1"),
-                new BasicLingoWord("charlie", "Category2"),
-                new BasicLingoWord("delta", "Category1"),
-                new BasicLingoWord("echo", "Category2")
+                new LingoWord
+                {
+                    Word = "alpha",
+                    LingoCategory = new LingoCategory
+                    {
+                        Category = "Category1"
+                    }
+                },
+                new LingoWord{
+                    Word = "bravo",
+                    LingoCategory = new LingoCategory
+                    {
+                        Category ="Category1"
+                    }
+                },
+                new LingoWord
+                { Word= "charlie",
+                    LingoCategory = new LingoCategory
+                    {
+                        Category ="Category2"
+                    }
+                },                
+                new LingoWord{ Word = "delta", LingoCategory = new LingoCategory { Category = "Category1" } },
+                new LingoWord{ Word = "echo", LingoCategory = new LingoCategory { Category = "Category2" } }
             };
-            TestLargeListLingoWords = new List<BasicLingoWord>()
+            TestLargeListLingoWords = new List<LingoWord>()
             {
-                new BasicLingoWord("alpha", "Category1"),
-                new BasicLingoWord("bravo", "Category1"),
-                new BasicLingoWord("charlie", "Category1"),
-                new BasicLingoWord("delta", "Category1"),
-                new BasicLingoWord("echo", "Category1"),
-                new BasicLingoWord("foxtrot", "Category1"),
-                new BasicLingoWord("golf", "Category1"),
-                new BasicLingoWord("hotel", "Category1"),
-                new BasicLingoWord("india", "Category1"),
-                new BasicLingoWord("juliet", "Category1"),
-                new BasicLingoWord("kilo", "Category1"),
-                new BasicLingoWord("lima", "Category1"),
-                new BasicLingoWord("mike", "Category1"),
-                new BasicLingoWord("november", "Category1"),
-                new BasicLingoWord("oscar", "Category1"),
-                new BasicLingoWord("papa", "Category1"),
-                new BasicLingoWord("quebec", "Category1"),
-                new BasicLingoWord("romeo", "Category1"),
-                new BasicLingoWord("sierra", "Category1"),
-                new BasicLingoWord("tango", "Category1"),
-                new BasicLingoWord("uniform", "Category1"),
-                new BasicLingoWord("victor", "Category1"),
-                new BasicLingoWord("whiskey", "Category1"),
-                new BasicLingoWord("xray", "Category1")
+                new LingoWord{ Word = "alpha", LingoCategory = new LingoCategory { Category = "Category1" } },
+                new LingoWord{ Word = "bravo", LingoCategory = new LingoCategory { Category = "Category1" } },
+                new LingoWord{ Word = "charlie", LingoCategory = new LingoCategory { Category = "Category1" } },
+                new LingoWord{ Word = "delta", LingoCategory = new LingoCategory { Category = "Category1" } },
+                new LingoWord{ Word = "echo", LingoCategory = new LingoCategory { Category = "Category1" } },
+                new LingoWord{ Word = "foxtrot", LingoCategory = new LingoCategory { Category = "Category1" } },
+                new LingoWord{ Word = "golf", LingoCategory = new LingoCategory { Category = "Category1" } },
+                new LingoWord{ Word = "hotel", LingoCategory = new LingoCategory { Category = "Category1" } },
+                new LingoWord{ Word = "india", LingoCategory = new LingoCategory { Category = "Category1" } },
+                new LingoWord{ Word = "juliet", LingoCategory = new LingoCategory { Category = "Category1" } },
+                new LingoWord{ Word = "kilo", LingoCategory = new LingoCategory { Category = "Category1" } },
+                new LingoWord{ Word = "lima", LingoCategory = new LingoCategory { Category = "Category1" } },
+                new LingoWord{ Word = "mike", LingoCategory = new LingoCategory { Category = "Category1" } },
+                new LingoWord{ Word = "november", LingoCategory = new LingoCategory { Category = "Category1" } },
+                new LingoWord{ Word = "oscar", LingoCategory = new LingoCategory { Category = "Category1" } },
+                new LingoWord{ Word = "papa", LingoCategory = new LingoCategory { Category = "Category1" } },
+                new LingoWord{ Word = "quebec", LingoCategory = new LingoCategory { Category = "Category1" } },
+                new LingoWord{ Word = "romeo", LingoCategory = new LingoCategory { Category = "Category1" } },
+                new LingoWord{ Word = "sierra", LingoCategory = new LingoCategory { Category = "Category1" } },
+                new LingoWord{ Word = "tango", LingoCategory = new LingoCategory { Category = "Category1" } },
+                new LingoWord{ Word = "uniform", LingoCategory = new LingoCategory { Category = "Category1" } },
+                new LingoWord{ Word = "victor", LingoCategory = new LingoCategory { Category = "Category1" } },
+                new LingoWord{ Word = "whiskey", LingoCategory = new LingoCategory { Category = "Category1" } },
+                new LingoWord{ Word = "xray", LingoCategory = new LingoCategory { Category = "Category1" } }
             };
         }
 
@@ -68,9 +88,9 @@ namespace LingoBingoLibrary.Collections.UnitTests
         public void LingoWordsCtorArgsTest()
         {
             var expectedCount = 1;
-            var expectedLingoWord = new BasicLingoWord("args", "ctor");
+            var expectedLingoWord = new LingoWord{ Word = "args", LingoCategory = new LingoCategory { Category = "ctor" } };
 
-            var lwCollection = new LingoWordsCollection(new List<BasicLingoWord> { expectedLingoWord });
+            var lwCollection = new LingoWordsCollection(new List<LingoWord> { expectedLingoWord });
             var actualCount = lwCollection.Count;
 
             Assert.IsTrue(expectedCount == actualCount);
@@ -126,7 +146,7 @@ namespace LingoBingoLibrary.Collections.UnitTests
 
             var lwCollection = new LingoWordsCollection(TestSmallListLingoWords);
             var actualResult = (from actualLw in lwCollection
-                                where actualLw.Category.ToLowerInvariant() == category.ToLowerInvariant()
+                                where actualLw.LingoCategory.Category.ToLowerInvariant() == category.ToLowerInvariant()
                                 select actualLw)
                                 .ToList();
 
@@ -196,7 +216,7 @@ namespace LingoBingoLibrary.Collections.UnitTests
 
             var lwCollection = new LingoWordsCollection(TestSmallListLingoWords);
             var startingWords = (from lwc in lwCollection
-                                 where lwc.Category == existingCategory
+                                 where lwc.LingoCategory.Category == existingCategory
                                  select lwc.Word)
                                  .ToList();
 
@@ -206,7 +226,7 @@ namespace LingoBingoLibrary.Collections.UnitTests
             Assert.IsTrue(addWordActualResult);
 
             var endingWords = (from lwc in lwCollection
-                               where lwc.Category == existingCategory
+                               where lwc.LingoCategory.Category == existingCategory
                                select lwc.Word)
                                .ToList();
 
@@ -278,7 +298,7 @@ namespace LingoBingoLibrary.Collections.UnitTests
 
             var lwCollection = new LingoWordsCollection(TestLargeListLingoWords);
             var category1words = (from lw in lwCollection
-                                  where lw.Category == "Category1"
+                                  where lw.LingoCategory.Category == "Category1"
                                   select lw.Word)
                                   .ToList();
 
