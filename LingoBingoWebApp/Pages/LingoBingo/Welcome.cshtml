@@ -1,0 +1,35 @@
+﻿@page 
+
+@model LingoBingoWebApp.Pages.LingoBingo.WelcomeModel
+@{
+    ViewData["Title"] = "Welcome";
+}
+
+<h1>Lingo Bingo Development Page</h1>
+
+<table class="table" border="1">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Lingocategories[0].Category)
+            </th>
+            <th>
+                Pick a category to start a game!
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var category in Model.Lingocategories)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelCategory => category.Category)
+                </td>
+                <td>
+                    <a asp-page="./BingoBoard" asp-route-id="@category.Id">Select this category</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

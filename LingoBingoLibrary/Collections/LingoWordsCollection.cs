@@ -8,6 +8,7 @@ namespace LingoBingoLibrary.Collections
 {
     public class LingoWordsCollection : IEnumerable<LingoWord>
     {
+        const int DEFAULT_BOARD_SIZE = 25;
         private List<LingoWord> _lingoList;
         public LingoWordsCollection() 
         {
@@ -53,6 +54,23 @@ namespace LingoBingoLibrary.Collections
         IEnumerator IEnumerable.GetEnumerator()
         {
             return ((IEnumerable<LingoWord>)_lingoList).GetEnumerator();
+        }
+
+        /// <summary>
+        /// Gets a randomly generated list of squares that a caller can use. Includes FREE space in middle index.
+        /// </summary>
+        /// <param name="category"></param>
+        /// <returns></returns>
+        public List<string> GetNewBingoBoard(string category)
+        {
+            var randomizedList = this.GetRandomWords(category, DEFAULT_BOARD_SIZE - 1);
+
+            if (this.GetListWithFreeSpace(ref randomizedList))
+            {
+                return randomizedList;
+            }
+
+            return new List<string>();
         }
 
         /// <summary>
@@ -194,7 +212,6 @@ namespace LingoBingoLibrary.Collections
             }
 
             Array.Sort(order, wordlist);
-            
             return new List<string>(wordlist.Take(howMany));
         }
 

@@ -1,0 +1,37 @@
+﻿@page "{id:int?}"
+
+@model LingoBingoWebApp.Pages.LingoBingo.BingoBoardModel
+@{
+    ViewData["Title"] = "BingoBoard";
+}
+
+<h1>Play Bingo!</h1>
+
+@while (Model.BingoBoardWords.Count() < 25)
+{
+    <p>Loading. . .</p>
+}
+<table class="table" border="1">
+    <tbody>
+        @for (var idx = 0; idx < Model.BingoBoardWords.Count(); idx += 5)
+        {
+        <tr>
+            <td align="center">
+                @Html.DisplayFor(modelItem => Model.BingoBoardWords[idx])
+            </td>
+            <td align="center">
+                @Html.DisplayFor(modelItem => Model.BingoBoardWords[idx + 1])
+            </td>
+            <td align="center">
+                @Html.DisplayFor(modelItem => Model.BingoBoardWords[idx + 2])
+            </td>
+            <td align="center">
+                @Html.DisplayFor(modelItem => Model.BingoBoardWords[idx + 3])
+            </td>
+            <td align="center">
+                @Html.DisplayFor(modelItem => Model.BingoBoardWords[idx + 4])
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
