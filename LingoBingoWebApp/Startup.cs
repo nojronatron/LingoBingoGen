@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using LingoBingoLibrary.DataAccess;
+using LingoBingoLibrary.Collections;
 
 namespace LingoBingoWebApp
 {
@@ -23,6 +24,11 @@ namespace LingoBingoWebApp
             services.AddRazorPages();
             services.AddDbContext<LingoWordsContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Default")));
+
+            ////  register singleton instance of LingoWordsCollection with Container lifetime and implementors can utilize across the app
+            //services.AddSingleton<ILingoWordsCollection>(sp => new LingoWordsCollection());
+            //  register transient instance of LingoWordsCollection to gain its functionality but might lose storage capability
+            //services.AddTransient<ILingoWordsCollection, LingoWordsCollection>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

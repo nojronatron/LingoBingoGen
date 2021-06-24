@@ -6,11 +6,11 @@ using System.Linq;
 
 namespace LingoBingoLibrary.Collections
 {
-    public class LingoWordsCollection : IEnumerable<LingoWord>
+    public class LingoWordsCollection : IEnumerable<LingoWord>, ICollection<LingoWord>, ILingoWordsCollection
     {
         const int DEFAULT_BOARD_SIZE = 25;
         private List<LingoWord> _lingoList;
-        public LingoWordsCollection() 
+        public LingoWordsCollection()
         {
             _lingoList = new List<LingoWord>();
         }
@@ -19,9 +19,15 @@ namespace LingoBingoLibrary.Collections
             _lingoList = new List<LingoWord>(lingoWords);
         }
 
-        public int Count => _lingoList.Count;
-        public int CategoryCount => (from lw in _lingoList select lw.LingoCategory.Category).Distinct().Count();
-        public IEnumerable<string> Categories => (from lw in _lingoList select lw.LingoCategory.Category.ToLowerInvariant()).Distinct().ToList();
+        //public int Count => _lingoList.Count;
+        public int CategoryCount => this.Categories.Count();
+        public IList<string> Categories => (from lw in _lingoList select lw.LingoCategory.Category.ToLowerInvariant()).Distinct().ToList();
+        public IList<LingoCategory> LingoCategories => (from lw in _lingoList select lw.LingoCategory).Distinct().ToList();
+
+        int ICollection<LingoWord>.Count => _lingoList.Count;
+
+        bool ICollection<LingoWord>.IsReadOnly => false;
+
         public LingoWord this[int idx]
         {
             get
@@ -101,40 +107,69 @@ namespace LingoBingoLibrary.Collections
         /// </summary>
         /// <param name="category"></param>
         /// <returns></returns>
-        public bool AddCategory(string category, string word)
+        //public bool AddCategory(string category, string word)
+        //{
+        //    category = category.Trim();
+        //    word = word.Trim();
+
+        //    if (string.IsNullOrEmpty(category) || string.IsNullOrWhiteSpace(category) ||
+        //        string.IsNullOrEmpty(word) || string.IsNullOrWhiteSpace(word))
+        //    {
+        //        return false;
+        //    }
+
+        //    if (this.Categories.Contains(category.ToLowerInvariant()))
+        //    {
+        //        return false;
+        //    }
+
+        //    var startCount = this.Count<LingoWord>();
+        //    _lingoList.Add(new LingoWord
+        //    {
+        //        Word = word,
+        //        LingoCategory = new LingoCategory
+        //        {
+        //            Category = category
+        //        }
+        //    });
+
+        //    var endCount = this.Count<LingoWord>();
+
+        //    if (startCount + 1 != endCount)
+        //    {
+        //        return false;
+        //    }
+
+        //    return true;
+        //}
+
+        public bool Add(LingoWord item)
         {
-            category = category.Trim();
-            word = word.Trim();
+            var preCount = this.Count<LingoWord>();
+            this.Add(item);
+            var postCount = this.Count<LingoWord>();
 
-            if (string.IsNullOrEmpty(category) || string.IsNullOrWhiteSpace(category) ||
-                string.IsNullOrEmpty(word) || string.IsNullOrWhiteSpace(word))
+            if (preCount < postCount)
             {
-                return false;
+                return true;
             }
 
-            if (this.Categories.Contains(category.ToLowerInvariant()))
+            return false;
+        }
+
+        void ICollection<LingoWord>.Add(LingoWord item)
+        {
+            if (item == null)
             {
-                return false;
+                return;
             }
 
-            var startCount = this.Count;
-            _lingoList.Add(new LingoWord
+            if (!this.Contains<LingoWord>(item))
             {
-                Word = word,
-                LingoCategory = new LingoCategory
-                {
-                    Category = category
-                }
-            });
-
-            var endCount = this.Count;
-
-            if (startCount + 1 != endCount)
-            {
-                return false;
+                return;
             }
 
-            return true;
+            _lingoList.Add(item);
         }
 
         /// <summary>
@@ -156,14 +191,15 @@ namespace LingoBingoLibrary.Collections
 
             var result = false;
 
-            if (!this.Categories.Contains(category.ToLowerInvariant()))
-            {
-                return this.AddCategory(category, word);
-            }
-            else
-            {
-                var startCount = this.Count;
-                _lingoList.Add(new LingoWord
+            //if (!this.Categories.Contains(category.ToLowerInvariant()))
+            //{
+            //    return this.AddCategory(category, word);
+            //}
+            //else
+            //{
+                result = this.Add(new LingoWord
+                //var startCount = this.Count<LingoWord>();
+                //_lingoList.Add(new LingoWord
                 {
                     Word = word,
                     LingoCategory = new LingoCategory
@@ -172,18 +208,18 @@ namespace LingoBingoLibrary.Collections
                     }
                 });
 
-                var endCount = this.Count;
+                //var endCount = this.Count<LingoWord>();
 
-                if (startCount + 1 != endCount)
-                {
-                    result = false;
-                }
-                else
-                {
-                    result = true;
-                }
-            }
-            
+                //if (startCount + 1 != endCount)
+                //{
+                //    result = false;
+                //}
+                //else
+                //{
+                //    result = true;
+                //}
+            //}
+
             return result;
         }
 
@@ -206,7 +242,7 @@ namespace LingoBingoLibrary.Collections
             double[] order = new double[wordlist.Length];
             var rand = new Random();
 
-            for (int counter=0; counter < wordlist.Length; counter++)
+            for (int counter = 0; counter < wordlist.Length; counter++)
             {
                 order[counter] = rand.NextDouble();
             }
@@ -243,5 +279,65 @@ namespace LingoBingoLibrary.Collections
             return result;
         }
 
+        void ICollection<LingoWord>.Clear()
+        {
+            _lingoList.Clear();
+            _lingoList = new List<LingoWord>();
+        }
+
+        bool ICollection<LingoWord>.Contains(LingoWord item)
+        {
+            bool found = false;
+
+            foreach (LingoWord lw in _lingoList)
+            {
+                if (lw.Equals(item))
+                {
+                    found = true;
+                }
+            }
+
+            return found;
+        }
+
+        void ICollection<LingoWord>.CopyTo(LingoWord[] array, int arrayIndex)
+        {
+            if (array == null)
+            {
+                throw new ArgumentNullException("The array cannot be null.");
+            }
+            if (arrayIndex < 0)
+            {
+                throw new ArgumentOutOfRangeException("The starting array index cannot be negative.");
+            }
+            if (this.Count<LingoWord>() > array.Length - arrayIndex + 1)
+            {
+                throw new ArgumentException("The destination array has fewer elements than the collection.");
+            }
+
+            for (int idx = 0; idx < this.Count<LingoWord>(); idx++)
+            {
+                array[idx + arrayIndex] = this[idx];
+            }
+        }
+
+        bool ICollection<LingoWord>.Remove(LingoWord item)
+        {
+            bool result = false;
+
+            for (int idx = 0; idx < this.Count<LingoWord>(); idx++)
+            {
+                LingoWord currentLingoWord = (LingoWord)_lingoList[idx];
+
+                if (currentLingoWord.Equals(item))
+                {
+                    _lingoList.RemoveAt(idx);
+                    result = true;
+                    break;
+                }
+            }
+
+            return result;
+        }
     }
 }

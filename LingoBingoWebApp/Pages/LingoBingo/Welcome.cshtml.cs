@@ -15,7 +15,6 @@ namespace LingoBingoWebApp.Pages.LingoBingo
     {
         private readonly ILogger<WelcomeModel> _logger;
         private string _message;
-        private LingoWordsCollection _lingoWordsCollection;
         private readonly LingoWordsContext _context;
         public IList<string> Categories { get; set; }
         public IList<LingoCategory> Lingocategories { get; set; }

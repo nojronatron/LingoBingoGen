@@ -14,18 +14,18 @@ namespace LingoBingoWebApp.Pages.LingoBingo
 {
     public class BingoBoardModel : PageModel
     {
+        private readonly int _boardsize = 24;
         private readonly ILogger<BingoBoardModel> _logger;
+        private string _category { get; set; }
         private string _message;
         public LingoWordsContext LingoContext { get; set; }
-
-        public IList<string> BingoBoardWords { get; set;}
+        public IList<LingoWord> BingoBoardWords { get; set; }
         public List<LingoWord> Lingowords { get; set; }
-        public LingoWordsCollection LingoWordsCollection { get; set; }
         public BingoBoardModel(LingoWordsContext context, ILogger<BingoBoardModel> logger)
         {
             LingoContext = context;
-            Lingowords = new List<LingoWord>();
             _logger = logger;
+            Lingowords = new List<LingoWord>();
         }
 
         public async Task<IActionResult> OnGetAsync(int? id)
@@ -38,41 +38,37 @@ namespace LingoBingoWebApp.Pages.LingoBingo
                 return NotFound();
             }
 
-            string category = "csharp";
             Lingowords = await LingoContext.LingoWords.Where(lw => lw.LingoCategory.Id == id).Include(x => x.LingoCategory).ToListAsync();
-            await StuffLWCollection();
-            await BuildBingoBoard(category);
+            _category = Lingowords[0].LingoCategory.Category;
+
+            await CreateBingoBoard();
             return Page();
         }
 
-        private async Task BuildBingoBoard(string category)
+        private async Task CreateBingoBoard()
         {
-            _message = "BingoBoard page BuildBingoBoard() called.";
+            _message = "BingoBoard page RandomizeList() called.";
             _logger.LogInformation(_message);
 
-            Task<IList<string>> task = new Task<IList<string>>(
-                () =>
-                {
-                    return LingoWordsCollection.GetNewBingoBoard(category);
-                });
+            Task<List<LingoWord>> task = new Task<List<LingoWord>>(() =>
+           {
+               LingoWord[] wordlist = Lingowords.ToArray();
+               double[] order = new double[wordlist.Length];
+               var rand = new Random();
+
+               for (int counter = 0; counter < wordlist.Length; counter++)
+               {
+                   order[counter] = rand.NextDouble();
+               }
+
+               Array.Sort(order, wordlist);
+               List<LingoWord> tempList = wordlist.Take(_boardsize).ToList();
+               tempList.Insert(12, new LingoWord { Word = "FREE", LingoCategory = new LingoCategory { Category = _category } });
+               return tempList;
+           });
 
             task.Start();
             BingoBoardWords = await task;
-        }
-
-        private async Task StuffLWCollection()
-        {
-            _message = "BingoBoard page StuffLWCollection() called.";
-            _logger.LogInformation(_message);
-
-            Task<LingoWordsCollection> task = new Task<LingoWordsCollection>(
-                () =>
-                {
-                    return new LingoWordsCollection(Lingowords);
-                });
-
-            task.Start();
-            LingoWordsCollection = await task;
         }
     }
 }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace LingoBingoLibrary.DataAccess
 {
-    public class LingoWord
+    public partial class LingoWord
     {
         [Key]
         public int Id { get; set; }

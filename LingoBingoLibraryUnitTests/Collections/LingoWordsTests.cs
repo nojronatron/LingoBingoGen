@@ -91,7 +91,7 @@ namespace LingoBingoLibrary.Collections.UnitTests
             var expectedLingoWord = new LingoWord{ Word = "args", LingoCategory = new LingoCategory { Category = "ctor" } };
 
             var lwCollection = new LingoWordsCollection(new List<LingoWord> { expectedLingoWord });
-            var actualCount = lwCollection.Count;
+            var actualCount = lwCollection.Count<LingoWord>();
 
             Assert.IsTrue(expectedCount == actualCount);
 
@@ -153,55 +153,55 @@ namespace LingoBingoLibrary.Collections.UnitTests
             Assert.IsTrue(actualResult.Count == expectedCount);
         }
 
-        [TestMethod()]
-        public void AddCategoryTest()
-        {
-            if (TestSmallListLingoWords.Count < 1)
-            {
-                Assert.Fail();
-            }
+        //[TestMethod()]
+        //public void AddCategoryTest()
+        //{
+        //    if (TestSmallListLingoWords.Count < 1)
+        //    {
+        //        Assert.Fail();
+        //    }
 
-            var newCategory = "Category3";
-            var newWord = "addCategoryTest";
+        //    var newCategory = "Category3";
+        //    var newWord = "addCategoryTest";
 
-            var lwCollection = new LingoWordsCollection(TestSmallListLingoWords);
-            var startingCategories = lwCollection.Categories;
-            var startingCategoriesCount = lwCollection.CategoryCount;
+        //    var lwCollection = new LingoWordsCollection(TestSmallListLingoWords);
+        //    var startingCategories = lwCollection.Categories;
+        //    var startingCategoriesCount = lwCollection.CategoryCount;
 
-            var addCatActualResult = lwCollection.AddCategory(newCategory, newWord);
+        //    var addCatActualResult = lwCollection.AddCategory(newCategory, newWord);
 
-            Assert.IsTrue(addCatActualResult);
+        //    Assert.IsTrue(addCatActualResult);
 
-            var endingCategories = lwCollection.Categories;
-            var endingCategoriesCount = lwCollection.CategoryCount;
+        //    var endingCategories = lwCollection.Categories;
+        //    var endingCategoriesCount = lwCollection.CategoryCount;
 
-            bool newCategoryAdded = false;
-            var actualCategoryDiff = new List<string>();
+        //    bool newCategoryAdded = false;
+        //    var actualCategoryDiff = new List<string>();
 
-            if (startingCategoriesCount > 0 && startingCategoriesCount + 1 == endingCategoriesCount)
-            {
-                newCategoryAdded = true;
-                foreach(var item in endingCategories)
-                {
-                    if (startingCategories.Contains(item))
-                    {
-                        ;   //  pass
-                    }
-                    else
-                    {
-                        actualCategoryDiff.Add(item);
-                        Console.WriteLine($"Lonely ending category item: { item }");
-                    }
-                }
-            }
-            else
-            {
-                newCategoryAdded = false;
-            }
+        //    if (startingCategoriesCount > 0 && startingCategoriesCount + 1 == endingCategoriesCount)
+        //    {
+        //        newCategoryAdded = true;
+        //        foreach(var item in endingCategories)
+        //        {
+        //            if (startingCategories.Contains(item))
+        //            {
+        //                ;   //  pass
+        //            }
+        //            else
+        //            {
+        //                actualCategoryDiff.Add(item);
+        //                Console.WriteLine($"Lonely ending category item: { item }");
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        newCategoryAdded = false;
+        //    }
 
-            Assert.IsTrue(newCategoryAdded);
-            Assert.IsTrue(actualCategoryDiff.Count == 1);
-        }
+        //    Assert.IsTrue(newCategoryAdded);
+        //    Assert.IsTrue(actualCategoryDiff.Count == 1);
+        //}
 
         [TestMethod()]
         public void AddLingoWordTest()
@@ -267,7 +267,7 @@ namespace LingoBingoLibrary.Collections.UnitTests
             var diffCount = 0;  //  maintain a count of all words that do not match
 
             var lwCollection = new LingoWordsCollection(TestLargeListLingoWords);
-            var startCount = lwCollection.Count;
+            var startCount = lwCollection.Count<LingoWord>();
 
             if (lwCollection.CategoryCount != 1 && startCount < 24)
             {

@@ -102,7 +102,7 @@ namespace LBAdminConsole
 
         private bool CheckCollection()
         {
-            if (LWCollection == null && LWCollection.Count < 1)
+            if (LWCollection == null && LWCollection.Count<LingoWord>() < 1)
             {
                 string msg = "No records in database. Load new records first.";
                 _log.LogInformation(msg);

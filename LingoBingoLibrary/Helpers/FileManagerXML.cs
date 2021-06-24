@@ -145,7 +145,7 @@ namespace LingoBingoLibrary.Helpers
         {
             XElement xe = new XElement("Words");
 
-            for (int idx=0; idx < collection.Count; idx++)
+            for (int idx=0; idx < collection.Count<LingoWord>(); idx++)
             {
                 xe.Add(new XElement("Item",
                     new XElement("Category", collection[idx].LingoCategory.Category),
@@ -205,7 +205,7 @@ namespace LingoBingoLibrary.Helpers
         /// <returns></returns>
         internal static bool SaveToFile(LingoWordsCollection collection)
         {
-            if (collection.Count < 1)
+            if (collection.Count<LingoWord>() < 1)
             {
                 return false;
             }
