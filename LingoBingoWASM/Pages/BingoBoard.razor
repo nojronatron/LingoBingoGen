@@ -1,0 +1,166 @@
+﻿@page "/bingoboard"
+@using Library
+
+<h3>Welcome @Player.Name!</h3>
+
+@if(BingoTiles == null)
+{
+    <p>Creating Lingo-Bingo Board. Please stand by...</p>
+}
+else 
+{ 
+    <div class="table table-responsive">
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    @if (IsBingoed)
+                    {
+                        <td class="font-weight-bolder" colspan="5">B I N G O !</td>
+                    }
+                    else
+                    {
+                        <td class="text-lg-center" colspan="5">Lingo Bingo Board</td>
+                    }
+                </tr>
+                <tr>
+                    <td>
+                        <BingoTile TileWord="BingoTiles[0]" />
+                    </td>
+                    <td>
+                        <BingoTile TileWord="BingoTiles[1]" />
+                    </td>
+                    <td>
+                        <BingoTile TileWord="BingoTiles[2]" />
+                    </td>
+                    <td>
+                        <BingoTile TileWord="BingoTiles[3]" />
+                    </td>
+                    <td>
+                        <BingoTile TileWord="BingoTiles[4]" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <BingoTile TileWord="BingoTiles[5]" />
+                    </td>
+                    <td>
+                        <BingoTile TileWord="BingoTiles[6]" />
+                    </td>
+                    <td>
+                        <BingoTile TileWord="BingoTiles[7]" />
+                    </td>
+                    <td>
+                        <BingoTile TileWord="BingoTiles[8]" />
+                    </td>
+                    <td>
+                        <BingoTile TileWord="BingoTiles[9]" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <BingoTile TileWord="BingoTiles[10]" />
+                    </td>
+                    <td>
+                        <BingoTile TileWord="BingoTiles[11]" />
+                    </td>
+                    <td>
+                        <BingoTile TileWord="BingoTiles[12]" />
+                    </td>
+                    <td>
+                        <BingoTile TileWord="BingoTiles[13]" />
+                    </td>
+                    <td>
+                        <BingoTile TileWord="BingoTiles[14]" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <BingoTile TileWord="BingoTiles[15]" />
+                    </td>
+                    <td>
+                        <BingoTile TileWord="BingoTiles[16]" />
+                    </td>
+                    <td>
+                        <BingoTile TileWord="BingoTiles[17]" />
+                    </td>
+                    <td>
+                        <BingoTile TileWord="BingoTiles[18]" />
+                    </td>
+                    <td>
+                        <BingoTile TileWord="BingoTiles[19]" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <BingoTile TileWord="BingoTiles[20]" />
+                    </td>
+                    <td>
+                        <BingoTile TileWord="BingoTiles[21]" />
+                    </td>
+                    <td>
+                        <BingoTile TileWord="BingoTiles[22]" />
+                    </td>
+                    <td>
+                        <BingoTile TileWord="BingoTiles[23]" />
+                    </td>
+                    <td>
+                        <BingoTile TileWord="BingoTiles[24]" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public BingoPlayer Player { get; set; } = new BingoPlayer();
+    [Parameter]
+    public List<string> Words { get; set; } = new List<string>();
+
+    public string Category { get; set; }
+    private List<BingoTileModel> BingoTiles { get; set; }
+    private bool IsBingoed { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Run(() =>
+        {
+            RandomizeWords();
+        });
+        await Task.Run(() =>
+        {
+            GenerateBoard();
+        });
+    }
+
+    private void GenerateBoard()
+    {
+        BingoTiles = new List<BingoTileModel>();
+        for (int idx = 0; idx < 25; idx++)
+        {
+            if (idx == 12)
+            {
+                BingoTiles.Add(new BingoTileModel { Word = "FREE" });
+            }
+            else
+            {
+                BingoTiles.Add(new BingoTileModel { Word = Words[idx] });
+            }
+        }
+    }
+
+    private void RandomizeWords()
+    {
+        Random Rand = new Random();
+        int n = Words.Count;
+
+        while (n > 1)
+        {
+            int k = Rand.Next(n--);
+            string temp = Words[n];
+            Words[n] = Words[k];
+            Words[k] = temp;
+        }
+    }
+}

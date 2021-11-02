@@ -1,0 +1,45 @@
+﻿@page "/"
+@using Library
+@inject HttpClient Http
+
+<h1>Lingo Bingo</h1>
+<h4>A simple game by Jon Rumsey</h4>
+
+@if (!ShowBingoBoard)
+{
+    <EditForm Model="@Player" OnValidSubmit="@HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <label for="userName">Your name or pseudonym</label>
+        <InputText id="userName" @bind-Value="@Player.Name" />
+        <button type="submit">Submit</button>
+    </EditForm>
+}
+else
+{
+    //SelectedCategory = "Default";
+    <BingoBoard Player="Player" Words="LoadedWords" />
+}
+
+@code
+{
+    private bool ShowBingoBoard = false;
+    private string SelectedCategory { get; set; }
+    private string[] JsonWords { get; set; }
+    public List<string> LoadedWords { get; set; } = new List<string>();
+    public BingoPlayer Player = new BingoPlayer();
+
+    protected override async Task OnInitializedAsync()
+    {
+        JsonWords = await Http.GetFromJsonAsync<string[]>("sample-data/default_word_list.json");
+        await Task.Run(() =>
+        {
+            LoadedWords = new List<string>(JsonWords.ToList());
+        });
+    }
+
+    public void HandleValidSubmit()
+    {
+        ShowBingoBoard = true;
+    }
+}
