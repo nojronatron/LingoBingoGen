@@ -1,109 +1,108 @@
 ﻿@page "/bingoboard"
 @using Library
 
-<h3>Welcome @Player.Name!</h3>
-
-@if(BingoTiles == null)
+@if (BingoTiles == null)
 {
+    <h3>Welcome @Player.Name!</h3>
     <p>Creating Lingo-Bingo Board. Please stand by...</p>
 }
-else 
-{ 
+else
+{
     <div class="table table-responsive">
         <table class="table table-bordered">
             <tbody>
                 <tr>
                     @if (IsBingoed)
                     {
-                        <td class="font-weight-bolder" colspan="5">B I N G O !</td>
+                        <td class="font-weight-bolder align-content-center" colspan="5">B I N G O !</td>
                     }
                     else
                     {
-                        <td class="text-lg-center" colspan="5">Lingo Bingo Board</td>
+                        <td colspan="5"><h3 class="align-content-center">Lingo Bingo Board</h3></td>
                     }
                 </tr>
                 <tr>
-                    <td>
+                    <td style="text-align:center" @onclick="@(() => OnClickBingoTile(BingoTiles[0]))">
                         <BingoTile TileWord="BingoTiles[0]" />
                     </td>
-                    <td>
+                    <td style="text-align:center" @onclick="@(() => OnClickBingoTile(BingoTiles[1]))">
                         <BingoTile TileWord="BingoTiles[1]" />
                     </td>
-                    <td>
+                    <td style="text-align:center" @onclick="@(() => OnClickBingoTile(BingoTiles[2]))">
                         <BingoTile TileWord="BingoTiles[2]" />
                     </td>
-                    <td>
+                    <td style="text-align:center" @onclick="@(() => OnClickBingoTile(BingoTiles[3]))">
                         <BingoTile TileWord="BingoTiles[3]" />
                     </td>
-                    <td>
+                    <td style="text-align:center" @onclick="@(() => OnClickBingoTile(BingoTiles[4]))">
                         <BingoTile TileWord="BingoTiles[4]" />
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td style="text-align:center" @onclick="@(() => OnClickBingoTile(BingoTiles[5]))">
                         <BingoTile TileWord="BingoTiles[5]" />
                     </td>
-                    <td>
+                    <td style="text-align:center" @onclick="@(() => OnClickBingoTile(BingoTiles[6]))">
                         <BingoTile TileWord="BingoTiles[6]" />
                     </td>
-                    <td>
+                    <td style="text-align:center" @onclick="@(() => OnClickBingoTile(BingoTiles[7]))">
                         <BingoTile TileWord="BingoTiles[7]" />
                     </td>
-                    <td>
+                    <td style="text-align:center" @onclick="@(() => OnClickBingoTile(BingoTiles[8]))">
                         <BingoTile TileWord="BingoTiles[8]" />
                     </td>
-                    <td>
+                    <td style="text-align:center" @onclick="@(() => OnClickBingoTile(BingoTiles[9]))">
                         <BingoTile TileWord="BingoTiles[9]" />
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td style="text-align:center" @onclick="@(() => OnClickBingoTile(BingoTiles[10]))">
                         <BingoTile TileWord="BingoTiles[10]" />
                     </td>
-                    <td>
+                    <td style="text-align:center" @onclick="@(() => OnClickBingoTile(BingoTiles[11]))">
                         <BingoTile TileWord="BingoTiles[11]" />
                     </td>
-                    <td>
+                    <td style="text-align:center" @onclick="@(() => OnClickBingoTile(BingoTiles[12]))">
                         <BingoTile TileWord="BingoTiles[12]" />
                     </td>
-                    <td>
+                    <td style="text-align:center" @onclick="@(() => OnClickBingoTile(BingoTiles[13]))">
                         <BingoTile TileWord="BingoTiles[13]" />
                     </td>
-                    <td>
+                    <td style="text-align:center" @onclick="@(() => OnClickBingoTile(BingoTiles[14]))">
                         <BingoTile TileWord="BingoTiles[14]" />
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td style="text-align:center" @onclick="@(() => OnClickBingoTile(BingoTiles[15]))">
                         <BingoTile TileWord="BingoTiles[15]" />
                     </td>
-                    <td>
+                    <td style="text-align:center" @onclick="@(() => OnClickBingoTile(BingoTiles[16]))">
                         <BingoTile TileWord="BingoTiles[16]" />
                     </td>
-                    <td>
+                    <td style="text-align:center" @onclick="@(() => OnClickBingoTile(BingoTiles[17]))">
                         <BingoTile TileWord="BingoTiles[17]" />
                     </td>
-                    <td>
+                    <td style="text-align:center" @onclick="@(() => OnClickBingoTile(BingoTiles[18]))">
                         <BingoTile TileWord="BingoTiles[18]" />
                     </td>
-                    <td>
+                    <td style="text-align:center" @onclick="@(() => OnClickBingoTile(BingoTiles[19]))">
                         <BingoTile TileWord="BingoTiles[19]" />
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td style="text-align:center" @onclick="@(() => OnClickBingoTile(BingoTiles[20]))">
                         <BingoTile TileWord="BingoTiles[20]" />
                     </td>
-                    <td>
+                    <td style="text-align:center" @onclick="@(() => OnClickBingoTile(BingoTiles[21]))">
                         <BingoTile TileWord="BingoTiles[21]" />
                     </td>
-                    <td>
+                    <td style="text-align:center" @onclick="@(() => OnClickBingoTile(BingoTiles[22]))">
                         <BingoTile TileWord="BingoTiles[22]" />
                     </td>
-                    <td>
+                    <td style="text-align:center" @onclick="@(() => OnClickBingoTile(BingoTiles[23]))">
                         <BingoTile TileWord="BingoTiles[23]" />
                     </td>
-                    <td>
+                    <td style="text-align:center" @onclick="@(() => OnClickBingoTile(BingoTiles[24]))">
                         <BingoTile TileWord="BingoTiles[24]" />
                     </td>
                 </tr>
@@ -122,6 +121,13 @@ else
     private List<BingoTileModel> BingoTiles { get; set; }
     private bool IsBingoed { get; set; }
 
+    public int ColCount { get; set; }
+    private List<int> _selectedTileIDs = new List<int>();
+    private List<int[]> rows;
+    private List<int[]> cols;
+    private int[] tlbr = { 0, 6, 12, 18, 24 };
+    private int[] bltr = { 4, 8, 12, 16, 20 };
+
     protected override async Task OnInitializedAsync()
     {
         await Task.Run(() =>
@@ -132,6 +138,79 @@ else
         {
             GenerateBoard();
         });
+        await Task.Run(() =>
+        {
+            GenerateBingoPatterns();
+        });
+    }
+
+    private async Task OnClickBingoTile(BingoTileModel tile)
+    {
+        await Task.Run(() =>
+        {
+            _selectedTileIDs.Add(tile.Id);
+            tile.IsDaubered = true;
+            CheckForBingo();
+        });
+    }
+
+    private bool CheckForBingo()
+    {
+        IsBingoed = false;
+        int[] selectedIDs = _selectedTileIDs.ToArray();
+
+        foreach(var row in rows)
+        {
+            if ((row.Intersect(selectedIDs)).Count() == 5)
+            {
+                IsBingoed = true;
+                return IsBingoed;
+            }
+        }
+
+        foreach(var col in cols)
+        {
+            if((col.Intersect(selectedIDs)).Count() == 5)
+            {
+                IsBingoed = true;
+                return IsBingoed;
+            }
+        }
+
+        if((tlbr.Intersect(selectedIDs)).Count()==5)
+        {
+            IsBingoed = true;
+            return IsBingoed;
+        }
+
+        if((bltr.Intersect(selectedIDs)).Count()==5)
+        {
+            IsBingoed = true;
+            return IsBingoed;
+        }
+
+        return false;
+    }
+
+    private void GenerateBingoPatterns()
+    {
+        rows = new List<int[]>
+        {
+            new int[]{0,1,2,3,4},
+            new int[]{5,6,7,8,9},
+            new int[]{10,11,12,13,14,15},
+            new int[]{16,17,18,19,20},
+            new int[]{21,22,23,24,25}
+        };
+
+        cols = new List<int[]>
+        {
+            new int[]{0,5,10,15,20},
+            new int[]{1,6,11,16,21},
+            new int[]{2,7,12,17,22},
+            new int[]{3,8,13,18,23},
+            new int[]{4,9,14,19,24}
+        };
     }
 
     private void GenerateBoard()
@@ -141,11 +220,11 @@ else
         {
             if (idx == 12)
             {
-                BingoTiles.Add(new BingoTileModel { Word = "FREE" });
+                BingoTiles.Add(new BingoTileModel { Id=idx, Word = "FREE" });
             }
             else
             {
-                BingoTiles.Add(new BingoTileModel { Word = Words[idx] });
+                BingoTiles.Add(new BingoTileModel { Id=idx, Word = Words[idx] });
             }
         }
     }

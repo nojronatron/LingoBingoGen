@@ -7,6 +7,7 @@ namespace LingoBingoWASM.Library
 {
     public class BingoTileModel
     {
+        public int Id { get; set; }
         public string Word { get; set; }
         public bool IsDaubered { get; set; } = false;
         public BingoTileModel() {}
