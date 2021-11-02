@@ -1,0 +1,22 @@
+﻿@using Library
+
+@if (TileWord != null)
+{
+    @if (TileWord.IsDaubered)
+    {
+        <button class="btn btn-warning">@TileWord.Word</button>
+    }
+    else
+    {
+        <button class="btn btn-primary">@TileWord.Word</button>
+    }
+}
+else
+{
+    <div class="btn btn-outline-warning">(null)</div>
+}
+
+@code {
+    [Parameter]
+    public BingoTileModel TileWord { get; set; }
+}

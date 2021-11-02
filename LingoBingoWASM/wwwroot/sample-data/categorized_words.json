@@ -1,0 +1,30 @@
+{
+  "default": [
+    "asp.net",
+    "inheritance",
+    "string",
+    "integer",
+    "private",
+    "public",
+    "list",
+    "collection",
+    "generics",
+    "parameter",
+    "var",
+    "object",
+    "class",
+    "namespace",
+    "override",
+    "tryparse",
+    "async-await",
+    "return",
+    "out",
+    "if-else",
+    "try-catch",
+    "parallel",
+    "property",
+    "inject",
+    "double",
+    "long"
+  ]
+}
