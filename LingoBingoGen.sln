@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileManagementHelper", "Fil
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolutionUnitTests", "UnitTester\SolutionUnitTests.csproj", "{AA37DCC1-86C0-40E5-B612-19027F590099}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LingoBingoWASM", "LingoBingoWASM\LingoBingoWASM.csproj", "{A657E904-0185-4DDE-9B50-A8D94958E944}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LingoBingoWASM", "LingoBingoWASM\LingoBingoWASM.csproj", "{A657E904-0185-4DDE-9B50-A8D94958E944}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -9,7 +9,8 @@ namespace LingoBingoWASM.Library
     public class BingoPlayer
     {
         [Required]
-        [StringLength(40, ErrorMessage = "Name is too long.")]
+        [StringLength(40, ErrorMessage = "Name is too long, max 45 characters.")]
+        [MinLength(2, ErrorMessage = "Please enter at least 2 characters.")]
         public string Name { get; set; }
     }
 }

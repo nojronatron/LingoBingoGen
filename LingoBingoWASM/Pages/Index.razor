@@ -2,18 +2,16 @@
 @using Library
 @inject HttpClient Http
 
-<h1>Lingo Bingo</h1>
-<h4>A simple game by Jon Rumsey</h4>
-
 @if (!ShowBingoBoard)
 {
-    <EditForm Model="@Player" OnValidSubmit="@HandleValidSubmit">
-        <DataAnnotationsValidator />
-        <ValidationSummary />
-        <label for="userName">Your name or pseudonym</label>
-        <InputText id="userName" @bind-Value="@Player.Name" />
-        <button type="submit">Submit</button>
-    </EditForm>
+<EditForm Model="@Player" OnValidSubmit="@HandleValidSubmit">
+    <h1>Welcome to LingoBingo!</h1>
+    <label for="userName">Your name or pseudonym</label>
+    <InputText id="userName" @bind-Value="@Player.Name" />
+    <button type="submit">Submit</button>
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+</EditForm>
 }
 else
 {

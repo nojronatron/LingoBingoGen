@@ -14,11 +14,11 @@ else
                 <tr>
                     @if (IsBingoed)
                     {
-                        <td class="font-weight-bolder align-content-center" colspan="5">B I N G O !</td>
+                        <td colspan="5"><h1 style="text-align: center">B I N G O !</h1></td>
                     }
                     else
                     {
-                        <td colspan="5"><h3 class="align-content-center">Lingo Bingo Board</h3></td>
+                        <td colspan="5"><h2 style="text-align: center">Good luck, @Player.Name!</h2></td>
                     }
                 </tr>
                 <tr>
@@ -194,13 +194,14 @@ else
 
     private void GenerateBingoPatterns()
     {
+        int[] newRange = Enumerable.Range(0, 5).ToArray();
         rows = new List<int[]>
         {
-            new int[]{0,1,2,3,4},
-            new int[]{5,6,7,8,9},
-            new int[]{10,11,12,13,14,15},
-            new int[]{16,17,18,19,20},
-            new int[]{21,22,23,24,25}
+            Enumerable.Range(0,5).ToArray(),
+            Enumerable.Range(5,5).ToArray(),
+            Enumerable.Range(10,5).ToArray(),
+            Enumerable.Range(15,5).ToArray(),
+            Enumerable.Range(20,5).ToArray()
         };
 
         cols = new List<int[]>
