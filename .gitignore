@@ -338,3 +338,4 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+/LingoBingoWASM/Properties/ServiceDependencies/LingoBingoWASM20220117151832 - Web Deploy/profile.arm.json
