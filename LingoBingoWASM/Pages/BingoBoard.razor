@@ -117,6 +117,7 @@ else
     [Parameter]
     public List<string> Words { get; set; } = new List<string>();
 
+    private string Freeword = "SAFETY";
     public string Category { get; set; }
     private List<BingoTileModel> BingoTiles { get; set; }
     private bool IsBingoed { get; set; }
@@ -221,7 +222,7 @@ else
         {
             if (idx == 12)
             {
-                BingoTiles.Add(new BingoTileModel { Id=idx, Word = "FREE" });
+                BingoTiles.Add(new BingoTileModel { Id=idx, Word = Freeword });
             }
             else
             {
